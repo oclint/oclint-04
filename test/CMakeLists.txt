@@ -9,9 +9,9 @@ add_executable(mo_test
 
 target_link_libraries(mo_test
   MORule
-  ${MO_COMMON_LINK_LIB}
   gtest
   gtest_main
+  ${MO_COMMON_LINK_LIB}
   dl
   )
   
