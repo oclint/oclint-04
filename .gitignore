@@ -1,0 +1,13 @@
+*.o
+*.so
+*.dylib
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+.DS_Store
+Icon?
