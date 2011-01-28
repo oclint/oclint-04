@@ -1,16 +1,12 @@
-include_directories(${GTEST_SRC_DIR}/include)
-
-link_directories(${GTEST_BINARY_DIR})
+include_directories(${MO_SOURCE_DIR}/third-party/cxxtest)
+include_directories(${MO_SOURCE_DIR})
 
 add_executable(mo_test 
-  CanaryTest.cpp
-  rule/ASTVisitorTest.cpp
+  mo_test.cpp
   )
 
 target_link_libraries(mo_test
   MORule
-  gtest
-  gtest_main
   ${MO_COMMON_LINK_LIB}
   dl
   )
