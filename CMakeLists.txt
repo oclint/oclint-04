@@ -12,6 +12,8 @@ add_definitions(
   -fno-common
   -Woverloaded-virtual
   -Wcast-qual
+  -fno-rtti
+  -fPIC
   )
 
 include_directories(${MO_SOURCE_DIR}/include)

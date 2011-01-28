@@ -1,7 +1,3 @@
-add_definitions(
-  -fno-rtti
-  )
-
 include_directories(${MO_SOURCE_DIR}/third-party/cxxtest)
 include_directories(${MO_SOURCE_DIR})
 

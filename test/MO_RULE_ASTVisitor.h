@@ -52,6 +52,6 @@ public:
   }
   
   void testVisitorTraverseDecl() {
-    TS_ASSERT(!visitor->traverse(new TestDecl()));
+    TS_ASSERT(visitor->traverse(new TestDecl()));
   }
 };

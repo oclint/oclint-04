@@ -1,8 +1,3 @@
-add_definitions(
-  -fno-rtti
-  -fPIC
-  )
-
 IF(CMAKE_COMPILER_IS_GNUCXX)
 add_definitions(
   -fprofile-arcs 
