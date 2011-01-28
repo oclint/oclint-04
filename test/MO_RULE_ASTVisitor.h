@@ -2,7 +2,7 @@
 #include "mo/rule/ASTVisitor.h"
 
 #include <clang/AST/Stmt.h>
-#include <clang/AST/DeclBase.h>
+#include <clang/AST/Decl.h>
 
 using namespace clang;
 
@@ -29,9 +29,9 @@ public:
   TestDeclContext() : DeclContext(Decl::Var) {}
 };
 
-class TestDecl : public Decl {
+class TestDecl : public BlockDecl {
 public:
-  TestDecl() : Decl(Var, new TestDeclContext(), SourceLocation()) {}
+  TestDecl() : BlockDecl(new TestDeclContext(), SourceLocation()) {}
 };
 
 class ASTVisitorTest : public CxxTest::TestSuite { 
