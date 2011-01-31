@@ -1,38 +1,9 @@
 #include <cxxtest/TestSuite.h>
 #include "mo/rule/ASTVisitor.h"
-
-#include <clang/AST/Stmt.h>
-#include <clang/AST/Decl.h>
+#include "test/mock/MockStmt.h"
+#include "test/mock/MockDecl.h"
 
 using namespace clang;
-
-class TestStmt : public Stmt {
-public:
-  TestStmt() : Stmt(NullStmtClass) {}
-
-public:  
-  child_iterator child_begin() {
-    return StmtIterator();
-  }
-  
-  child_iterator child_end() {
-    return StmtIterator();
-  }
-  
-  SourceRange getSourceRange() const {
-    return SourceRange(SourceLocation(), SourceLocation());
-  }
-};
-
-class TestDeclContext : public DeclContext {
-public:
-  TestDeclContext() : DeclContext(Decl::Var) {}
-};
-
-class TestDecl : public BlockDecl {
-public:
-  TestDecl() : BlockDecl(new TestDeclContext(), SourceLocation()) {}
-};
 
 class ASTVisitorTest : public CxxTest::TestSuite { 
 private:
@@ -47,11 +18,11 @@ public:
   }
   
   void testVisitorTraverseStmt() {
-    TestStmt stmt;
+    MockStmt stmt;
     TS_ASSERT(visitor->traverse(&stmt));
   }
   
   void testVisitorTraverseDecl() {
-    TS_ASSERT(visitor->traverse(new TestDecl()));
+    TS_ASSERT(visitor->traverse(new MockDecl()));
   }
 };
