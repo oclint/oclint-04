@@ -1,3 +1,6 @@
+#ifndef TEST_MOCK_MOCKVIOLATION_H
+#define TEST_MOCK_MOCKVIOLATION_H
+
 #include "mo/rule/Violation.h"
 
 class MockViolation : public Violation {
@@ -6,3 +9,5 @@ public:
     return indexWithinViolationRange(index);
   }
 };
+
+#endif

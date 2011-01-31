@@ -1,6 +1,8 @@
 #include <cxxtest/TestSuite.h>
 #include "test/mock/MockRule.h"
 #include "test/mock/MockViolation.h"
+#include "test/mock/MockStmt.h"
+#include "test/mock/MockDecl.h"
 
 using namespace clang;
 
@@ -75,6 +77,29 @@ public:
   void testIndexOutOfRangeExceptionWithNoViolation() {
     TS_ASSERT_THROWS_EQUALS(violation->violation(0), MessageBasedException &ex, 
       ex.getExceptionMessage(), "Index out of range when trying to get a certain RuleViolation!");
+  }
+  
+  void testViolatingStmtByApplyingRule() {
+    MockStmt stmt;
+    MockRule *applyingRule = new MockRule();
+    applyingRule->applyStmt(&stmt, *violation);
+    TS_ASSERT_EQUALS(violation->numberOfViolations(), 1);
+    RuleViolation *addedViolation = violation->violation(0);
+    TS_ASSERT_EQUALS(addedViolation->getMessage(), "violate statement when applying mock rule");
+    AbstractRule *violatedRule = addedViolation->getRule();
+    TS_ASSERT_EQUALS(violatedRule->name(), "MockRule");
+    TS_ASSERT_EQUALS(violatedRule->priority(), 99);
+  }
+  
+  void testViolatingDeclByApplyingRule() {
+    MockRule *applyingRule = new MockRule();
+    applyingRule->applyDecl(new MockDecl(), *violation);
+    TS_ASSERT_EQUALS(violation->numberOfViolations(), 1);
+    RuleViolation *addedViolation = violation->violation(0);
+    TS_ASSERT_EQUALS(addedViolation->getMessage(), "violate declaration when applying mock rule");
+    AbstractRule *violatedRule = addedViolation->getRule();
+    TS_ASSERT_EQUALS(violatedRule->name(), "MockRule");
+    TS_ASSERT_EQUALS(violatedRule->priority(), 99);
   }
   
 private:

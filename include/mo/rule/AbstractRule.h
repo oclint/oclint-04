@@ -17,12 +17,16 @@ using namespace std;
 #include <clang/AST/ExprCXX.h>
 #include <clang/AST/ExprObjC.h>
 
+using namespace clang;
+
+class Violation;
+
 class AbstractRule {
 public:
   virtual ~AbstractRule() {}
   
-  virtual void applyStmt(Stmt *stmt) {}
-  virtual void applyDecl(Decl *decl) {}
+  virtual void applyStmt(Stmt *stmt, Violation &violation) {}
+  virtual void applyDecl(Decl *decl, Violation &violation) {}
 
   virtual string name() = 0;
   virtual int priority() = 0;

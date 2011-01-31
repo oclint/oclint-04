@@ -13,7 +13,8 @@ using namespace clang;
 
 #include "mo/exception/MessageBasedException.h"
 #include "mo/rule/RuleViolation.h"
-#include "mo/rule/AbstractRule.h"
+
+class AbstractRule;
 
 class Violation {
 private:

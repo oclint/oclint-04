@@ -1,3 +1,6 @@
+#ifndef TEST_MOCK_MOCKSTMT_H
+#define TEST_MOCK_MOCKSTMT_H
+
 #include <clang/AST/Stmt.h>
 
 using namespace clang;
@@ -19,3 +22,5 @@ public:
     return SourceRange(SourceLocation(), SourceLocation());
   }
 };
+
+#endif
