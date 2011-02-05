@@ -82,7 +82,7 @@ public:
   void testViolatingStmtByApplyingRule() {
     MockStmt stmt;
     MockRule *applyingRule = new MockRule();
-    applyingRule->applyStmt(&stmt, *violation);
+    applyingRule->applyStmt(&stmt, violation);
     TS_ASSERT_EQUALS(violation->numberOfViolations(), 1);
     RuleViolation *addedViolation = violation->violation(0);
     TS_ASSERT_EQUALS(addedViolation->getMessage(), "violate statement when applying mock rule");
@@ -93,7 +93,7 @@ public:
   
   void testViolatingDeclByApplyingRule() {
     MockRule *applyingRule = new MockRule();
-    applyingRule->applyDecl(new MockDecl(), *violation);
+    applyingRule->applyDecl(new MockDecl(), violation);
     TS_ASSERT_EQUALS(violation->numberOfViolations(), 1);
     RuleViolation *addedViolation = violation->violation(0);
     TS_ASSERT_EQUALS(addedViolation->getMessage(), "violate declaration when applying mock rule");

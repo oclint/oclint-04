@@ -6,12 +6,12 @@
 
 class MockRule : public AbstractRule {
 public:
-  void applyStmt(Stmt *stmt, Violation &violation) {
-    violation.addViolation(createRuleViolation("statement"));
+  void applyStmt(Stmt *stmt, Violation *violation) {
+    violation->addViolation(createRuleViolation("statement"));
   }
   
-  void applyDecl(Decl *decl, Violation &violation) {
-    violation.addViolation(createRuleViolation("declaration"));
+  void applyDecl(Decl *decl, Violation *violation) {
+    violation->addViolation(createRuleViolation("declaration"));
   }
 
   string name() {

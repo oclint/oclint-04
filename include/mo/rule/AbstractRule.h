@@ -25,8 +25,8 @@ class AbstractRule {
 public:
   virtual ~AbstractRule() {}
   
-  virtual void applyStmt(Stmt *stmt, Violation &violation) {}
-  virtual void applyDecl(Decl *decl, Violation &violation) {}
+  virtual void applyStmt(Stmt *stmt, Violation *violation) {}
+  virtual void applyDecl(Decl *decl, Violation *violation) {}
 
   virtual string name() = 0;
   virtual int priority() = 0;
