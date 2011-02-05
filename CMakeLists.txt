@@ -16,7 +16,7 @@ add_definitions(
   -fPIC
   )
 
-include_directories(${MO_SOURCE_DIR}/include)
+include_directories(${MO_SOURCE_DIR}/src/include)
 include_directories(${LLVM_SRC_DIR}/include)
 include_directories(${LLVM_BINARY_DIR}/include)
 include_directories(${LLVM_SRC_DIR}/tools/clang/include)
@@ -50,5 +50,12 @@ SET(MO_COMMON_LINK_LIB
   pthread
   )
 
-add_subdirectory(lib)
+IF(CMAKE_COMPILER_IS_GNUCXX)
+add_definitions(
+  -fprofile-arcs 
+  -ftest-coverage
+  )
+ENDIF()
+
+add_subdirectory(src)
 add_subdirectory(test)

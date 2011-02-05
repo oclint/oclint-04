@@ -5,10 +5,7 @@
 
 using namespace clang;
 
-class MockDeclContext : public DeclContext {
-public:
-  MockDeclContext() : DeclContext(Decl::Var) {}
-};
+#include "test/mock/MockDeclContext.h"
 
 class MockDecl : public BlockDecl {
 public:
