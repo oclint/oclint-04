@@ -1,6 +1,10 @@
+add_library(MOCore
+  SmellFinder.cpp
+  )
+
 add_executable(mo main.cpp)
 target_link_libraries(mo 
-  MORule
+  MOCore
   ${MO_COMMON_LINK_LIB}
   dl
   )
@@ -10,5 +14,3 @@ target_link_libraries(mo
   gcov
   )
 ENDIF()
-
-add_subdirectory(rule)

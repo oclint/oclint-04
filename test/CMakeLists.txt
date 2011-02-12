@@ -6,7 +6,7 @@ add_executable(mo_test
   )
 
 target_link_libraries(mo_test
-  MORule
+  MOCore
   ${MO_COMMON_LINK_LIB}
   dl
   )

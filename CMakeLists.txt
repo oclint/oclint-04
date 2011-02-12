@@ -17,10 +17,7 @@ add_definitions(
   )
 
 include_directories(${MO_SOURCE_DIR}/src/include)
-include_directories(${LLVM_SRC_DIR}/include)
-include_directories(${LLVM_BINARY_DIR}/include)
 include_directories(${LLVM_SRC_DIR}/tools/clang/include)
-include_directories(${LLVM_BINARY_DIR}/tools/clang/include)
 
 link_directories(${LLVM_BINARY_DIR}/lib)
 
@@ -29,24 +26,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 SET(MO_COMMON_LINK_LIB
-  clangFrontendTool
-  clangFrontend
-  clangDriver
-  clangSerialization
-  clangCodeGen
-  clangParse
-  clangSema
-  clangStaticAnalyzerCheckers
-  clangStaticAnalyzerCore
-  clangAnalysis
-  clangIndex
-  clangRewrite
-  clangAST
-  clangLex
-  clangBasic  
-  LLVMCore
-  LLVMMC
-  LLVMSupport
+  clang
   pthread
   )
 
