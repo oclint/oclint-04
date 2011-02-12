@@ -6,7 +6,7 @@ private:
   SmellFinder *finder;
 public:
   void setUp() {
-    finder = new SmellFinder("");
+    finder = new SmellFinder("test/resource/HelloWorld.m");
   }
   
   void tearDown() {
@@ -15,5 +15,9 @@ public:
   
   void testHasNoSmell() {
     TS_ASSERT(!finder->hasSmell());
+  }
+  
+  void testCodeCompilationFailException() {
+    TS_ASSERT_THROWS_ANYTHING(new SmellFinder(""));
   }
 };

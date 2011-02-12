@@ -10,9 +10,14 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   string src(argv[1]);
-  SmellFinder smellFinder(src);
-  if (!smellFinder.hasSmell()) {
-    cout << "No Smell Detected!" << endl;
+  try {
+    SmellFinder smellFinder(src);
+    if (!smellFinder.hasSmell()) {
+      cout << "No Smell Detected!" << endl;
+    }
+  }
+  catch (char *ex) {
+    cout << "Exception: " << ex << endl;
   }
   return 0;
 }
