@@ -9,8 +9,15 @@ using namespace std;
 #include <clang-c/Index.h>
 
 class SmellFinder {
+private:
+  CXIndex _index;
+  CXTranslationUnit _translationUnit;
+  
 public:
-  bool hasSmell(string src);
+  SmellFinder(string src);
+  ~SmellFinder();
+  
+  bool hasSmell();
 };
 
 #endif

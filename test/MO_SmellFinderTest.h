@@ -6,7 +6,7 @@ private:
   SmellFinder *finder;
 public:
   void setUp() {
-    finder = new SmellFinder();
+    finder = new SmellFinder("");
   }
   
   void tearDown() {
@@ -14,6 +14,6 @@ public:
   }
   
   void testHasNoSmell() {
-    TS_ASSERT(!finder->hasSmell(""));
+    TS_ASSERT(!finder->hasSmell());
   }
 };
