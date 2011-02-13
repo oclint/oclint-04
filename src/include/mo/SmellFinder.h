@@ -1,5 +1,5 @@
-#ifndef MO_RULE_ASTVISITOR_H
-#define MO_RULE_ASTVISITOR_H
+#ifndef MO_SMELLFINDER_H
+#define MO_SMELLFINDER_H
 
 #include <string>
 #include <vector>

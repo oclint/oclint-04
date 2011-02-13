@@ -1,4 +1,5 @@
 #include "mo/SmellFinder.h"
+#include "mo/TraverseAST.h"
 
 SmellFinder::SmellFinder(string src) {
   _index = clang_createIndex(0, 0);
@@ -18,5 +19,6 @@ SmellFinder::~SmellFinder() {
 }
 
 bool SmellFinder::hasSmell() {
+  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, 0);
   return false;
 }

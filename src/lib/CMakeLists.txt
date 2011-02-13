@@ -1,5 +1,6 @@
 add_library(MOCore
   SmellFinder.cpp
+  TraverseAST.cpp
   )
 
 add_executable(mo main.cpp)
