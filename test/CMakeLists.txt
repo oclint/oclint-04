@@ -4,6 +4,7 @@ include_directories(${MO_SOURCE_DIR})
 add_library(MOTest
   CanaryTest.cpp
   MO_SmellFinderTest.cpp
+  MO_UTIL_FileUtilTest.cpp
   )
 
 add_executable(mo_test 

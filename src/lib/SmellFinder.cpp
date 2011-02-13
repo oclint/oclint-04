@@ -1,11 +1,17 @@
 #include "mo/SmellFinder.h"
 #include "mo/TraverseAST.h"
+#include "mo/util/FileUtil.h"
 
 SmellFinder::SmellFinder(string src) {
-  _index = clang_createIndex(0, 0);
-  _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
-  if (!_translationUnit) {
-    throw "Code compilation fails!";
+  if (FileUtil::isSrcExists(src)) {
+    _index = clang_createIndex(0, 0);
+    _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+    if (!_translationUnit) {
+      throw "Code compilation fails!";
+    }
+  }
+  else {
+    throw "File doesn't exist!";
   }
 }
 
