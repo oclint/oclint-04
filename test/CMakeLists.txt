@@ -11,9 +11,9 @@ add_executable(mo_test
   mo_test.cpp
   )
 
-target_link_libraries(mo_test
-  MOCore
+target_link_libraries(mo_test  
   MOTest
+  MOCore
   ${MO_COMMON_LINK_LIB}
   dl
   )
