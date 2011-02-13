@@ -14,8 +14,17 @@ void SmellFinderTest::testHasNoSmell() {
 
 void SmellFinderTest::testCodeCompilationFailException() {
   try {
+    new SmellFinder("test/samples/CompilationFail.txt");
+    TS_FAIL("compilation error exception expected");
+  } catch (...) {
+    //
+  }
+}
+
+void SmellFinderTest::testSourceDoesntExistException() {
+  try {
     new SmellFinder("");
-    TS_FAIL("SmellFinder should throws an exception here");
+    TS_FAIL("source file doesn't exist exception expected");
   } catch (...) {
     //
   }
