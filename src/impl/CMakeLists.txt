@@ -2,6 +2,7 @@ add_library(MOCore
   SmellFinder.cpp
   TraverseAST.cpp
   FileUtil.cpp
+  MessageBasedException.cpp
   )
 
 add_executable(mo main.cpp)
