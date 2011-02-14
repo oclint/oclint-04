@@ -3,17 +3,16 @@
 #include "mo/util/FileUtil.h"
 #include "mo/exception/MessageBasedException.h"
 
+#include <iostream>
+
 SmellFinder::SmellFinder() {
   _index = clang_createIndex(0, 0);
+  _translationUnit = 0;
 }
 
 SmellFinder::~SmellFinder() {
-  if (_translationUnit) {
-    clang_disposeTranslationUnit(_translationUnit); 
-  }
-  if (_index) {
-    clang_disposeIndex(_index);
-  }
+  clang_disposeTranslationUnit(_translationUnit); 
+  clang_disposeIndex(_index);
 }
 
 void SmellFinder::compileSourceFileToTranslationUnit(string src) {
