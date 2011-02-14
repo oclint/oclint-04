@@ -1,11 +1,6 @@
 include_directories(${MO_SOURCE_DIR}/third-party/cxxtest)
 include_directories(${MO_SOURCE_DIR})
-
-add_library(MOTest
-  CanaryTest.cpp
-  MO_SmellFinderTest.cpp
-  MO_UTIL_FileUtilTest.cpp
-  )
+include_directories(${MO_SOURCE_DIR}/test/headers)
 
 add_executable(mo_test 
   mo_test.cpp
@@ -23,3 +18,5 @@ target_link_libraries(mo_test
   gcov
   )
 ENDIF()
+
+add_subdirectory(impl)

@@ -1,4 +1,4 @@
-#include "test/MO_SmellFinderTest.h"
+#include "mo/SmellFinderTest.h"
 
 void SmellFinderTest::setUp() {
   finder = new SmellFinder("test/samples/HelloWorld.m");

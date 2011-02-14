@@ -1,4 +1,4 @@
-#include "test/MO_UTIL_FileUtilTest.h"
+#include "mo/util/FileUtilTest.h"
 
 void FileUtilTest::testFileExists() {
   TS_ASSERT(FileUtil::isSrcExists("test/samples/HelloWorld.m"));
