@@ -12,12 +12,13 @@ class SmellFinder {
 private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;
-  
+
 public:
-  SmellFinder(string src);
+  SmellFinder();
   ~SmellFinder();
   
-  bool hasSmell();
+  void compileSourceFileToTranslationUnit(string src);
+  bool hasSmell(string src);
 };
 
 #endif

@@ -11,8 +11,8 @@ int main(int argc, char* argv[]) {
   }
   string src(argv[1]);
   try {
-    SmellFinder smellFinder(src);
-    if (!smellFinder.hasSmell()) {
+    SmellFinder smellFinder;
+    if (!smellFinder.hasSmell(src)) {
       cout << "No Smell Detected!" << endl;
     }
   }

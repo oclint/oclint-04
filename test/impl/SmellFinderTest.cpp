@@ -2,7 +2,7 @@
 #include "mo/SmellFinderTest.h"
 
 void SmellFinderTest::setUp() {
-  finder = new SmellFinder("test/samples/HelloWorld.m");
+  finder = new SmellFinder();
 }
 
 void SmellFinderTest::tearDown() {
@@ -10,12 +10,12 @@ void SmellFinderTest::tearDown() {
 }
 
 void SmellFinderTest::testHasNoSmell() {
-  TS_ASSERT(!finder->hasSmell());
+  TS_ASSERT(!finder->hasSmell("test/samples/HelloWorld.m"));
 }
 
 void SmellFinderTest::testCodeCompilationFailException() {
   try {
-    new SmellFinder("test/samples/CompilationFail.txt");
+    finder->compileSourceFileToTranslationUnit("test/samples/CompilationFail.txt");
     TS_FAIL("compilation error exception expected");
   } catch (MessageBasedException *ex) {
     //
@@ -24,7 +24,7 @@ void SmellFinderTest::testCodeCompilationFailException() {
 
 void SmellFinderTest::testSourceDoesntExistException() {
   try {
-    new SmellFinder("");
+    finder->compileSourceFileToTranslationUnit("");
     TS_FAIL("source file doesn't exist exception expected");
   } catch (MessageBasedException *ex) {
     //
