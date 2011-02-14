@@ -3,6 +3,7 @@
 using namespace std;
 
 #include "mo/SmellFinder.h"
+#include "mo/exception/MessageBasedException.h"
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
@@ -16,8 +17,8 @@ int main(int argc, char* argv[]) {
       cout << "No Smell Detected!" << endl;
     }
   }
-  catch (char *ex) {
-    cout << "Exception: " << ex << endl;
+  catch (MessageBasedException *ex) {
+    cout << "Exception: " << ex->getMessage() << endl;
   }
   return 0;
 }
