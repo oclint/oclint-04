@@ -16,7 +16,7 @@ add_definitions(
   -fPIC
   )
 
-include_directories(${MO_SOURCE_DIR}/src/include)
+include_directories(${MO_SOURCE_DIR}/src/headers)
 include_directories(${LLVM_SRC_DIR}/tools/clang/include)
 
 link_directories(${LLVM_BINARY_DIR}/lib)
