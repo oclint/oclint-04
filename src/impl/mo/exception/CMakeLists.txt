@@ -1,3 +1,3 @@
 add_library(MOException
-  MessageBasedException.cpp
+  MOException.cpp
   )
