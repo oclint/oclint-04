@@ -9,6 +9,8 @@ add_executable(mo_test
 target_link_libraries(mo_test  
   MOTest
   MOCore
+  MOException
+  MOUtil
   ${MO_COMMON_LINK_LIB}
   dl
   )

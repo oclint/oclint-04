@@ -1,14 +1,8 @@
-add_library(MOCore
-  SmellFinder.cpp
-  TraverseAST.cpp
-  FileUtil.cpp
-  MessageBasedException.cpp
-  RuleViolation.cpp
-  )
-
 add_executable(mo main.cpp)
 target_link_libraries(mo 
   MOCore
+  MOException
+  MOUtil
   ${MO_COMMON_LINK_LIB}
   dl
   )
@@ -18,3 +12,5 @@ target_link_libraries(mo
   gcov
   )
 ENDIF()
+
+add_subdirectory(mo)
