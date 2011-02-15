@@ -3,6 +3,7 @@ add_library(MOCore
   TraverseAST.cpp
   FileUtil.cpp
   MessageBasedException.cpp
+  RuleViolation.cpp
   )
 
 add_executable(mo main.cpp)
