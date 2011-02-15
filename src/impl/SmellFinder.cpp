@@ -1,5 +1,6 @@
 #include "mo/SmellFinder.h"
 #include "mo/TraverseAST.h"
+#include "mo/RuleViolation.h"
 #include "mo/util/FileUtil.h"
 #include "mo/exception/MessageBasedException.h"
 
@@ -29,6 +30,7 @@ void SmellFinder::compileSourceFileToTranslationUnit(string src) {
 
 bool SmellFinder::hasSmell(string src) {
   compileSourceFileToTranslationUnit(src);
-  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, 0);
-  return false;
+  RuleViolation *violation = new RuleViolation();
+  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, violation);
+  return violation->numberOfViolations();
 }
