@@ -7,7 +7,9 @@ add_executable(mo_test
   )
 
 target_link_libraries(mo_test  
-  MOTest
+  CanaryTest
+  MOCoreTest
+  MOUtilTest
   MOCore
   MOException
   MOUtil

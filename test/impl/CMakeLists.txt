@@ -1,6 +1,5 @@
-add_library(MOTest
+add_library(CanaryTest
   CanaryTest.cpp
-  SmellFinderTest.cpp
-  FileUtilTest.cpp
-  RuleViolationTest.cpp
   )
+  
+add_subdirectory(mo)
