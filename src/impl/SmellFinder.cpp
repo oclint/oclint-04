@@ -4,8 +4,6 @@
 #include "mo/util/FileUtil.h"
 #include "mo/exception/MessageBasedException.h"
 
-#include <iostream>
-
 SmellFinder::SmellFinder() {
   _index = clang_createIndex(0, 0);
   _translationUnit = 0;
