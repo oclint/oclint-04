@@ -3,4 +3,5 @@ add_library(MOCoreTest
   RuleViolationTest.cpp
   )
 
+add_subdirectory(exception)
 add_subdirectory(util)
