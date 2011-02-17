@@ -16,7 +16,6 @@ public:
   virtual void apply(CXCursor node, CXCursor parentNode, RuleViolation *violation) {}
 
   virtual string name() = 0;
-  virtual int priority() = 0;
 };
 
 #endif

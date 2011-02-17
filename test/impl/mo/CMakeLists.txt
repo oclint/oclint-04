@@ -4,4 +4,5 @@ add_library(MOCoreTest
   )
 
 add_subdirectory(exception)
+add_subdirectory(rule)
 add_subdirectory(util)

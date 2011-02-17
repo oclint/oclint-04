@@ -10,6 +10,7 @@ target_link_libraries(mo_test
   CanaryTest
   MOCoreTest
   MOExceptionTest
+  MORuleTest
   MOUtilTest
   MOCore
   MOException
