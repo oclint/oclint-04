@@ -2,6 +2,11 @@
 #include "mo/Rule.h"
 #include "mo/RuleViolation.h"
 
+RuleData::RuleData() {
+  _violation = 0;
+  _rule = 0;
+}
+
 RuleViolation* RuleData::getViolation() {
   return _violation;
 }

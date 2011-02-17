@@ -3,6 +3,6 @@
 
 #include <clang-c/Index.h>
 
-enum CXChildVisitResult traverseAST(CXCursor node, CXCursor parentNode, CXClientData violations);
+enum CXChildVisitResult traverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData);
 
 #endif

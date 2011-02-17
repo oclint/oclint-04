@@ -14,6 +14,8 @@ private:
   RuleViolation* _violation;
   
 public:
+  RuleData();
+  
   RuleViolation* getViolation();
   Rule* getRule();
   void setRule(Rule* rule);

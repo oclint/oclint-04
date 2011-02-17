@@ -1,6 +1,7 @@
 add_library(MOCoreTest
   SmellFinderTest.cpp
   RuleViolationTest.cpp
+  TraverseASTTest.cpp
   )
 
 add_subdirectory(exception)
