@@ -14,6 +14,7 @@ target_link_libraries(mo_test
   MOUtilTest
   MOCore
   MOException
+  MORule
   MOUtil
   ${MO_COMMON_LINK_LIB}
   dl

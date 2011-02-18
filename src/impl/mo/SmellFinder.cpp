@@ -1,9 +1,12 @@
 #include "mo/SmellFinder.h"
 #include "mo/TraverseAST.h"
+#include "mo/Rule.h"
 #include "mo/RuleViolation.h"
 #include "mo/RuleData.h"
 #include "mo/util/FileUtil.h"
 #include "mo/exception/MOException.h"
+
+#include "mo/rule/SwitchStatementRule.h"
 
 SmellFinder::SmellFinder() {
   _index = clang_createIndex(0, 0);
@@ -32,6 +35,8 @@ bool SmellFinder::hasSmell(string src) {
   RuleViolation *violation = new RuleViolation();
   RuleData *data = new RuleData();
   data->setViolation(violation);
-  //clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, data);
+  Rule *rule = new SwitchStatementRule();
+  data->setRule(rule);
+  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, data);
   return violation->numberOfViolations();
 }

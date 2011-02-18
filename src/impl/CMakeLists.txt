@@ -2,6 +2,7 @@ add_executable(mo main.cpp)
 target_link_libraries(mo 
   MOCore
   MOException
+  MORule
   MOUtil
   ${MO_COMMON_LINK_LIB}
   dl

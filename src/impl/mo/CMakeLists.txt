@@ -6,4 +6,5 @@ add_library(MOCore
   )
 
 add_subdirectory(exception)
+add_subdirectory(rule)
 add_subdirectory(util)
