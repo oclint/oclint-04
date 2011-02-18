@@ -10,4 +10,7 @@ public:
   void tearDown();
   void testNoViolation();
   void testAddViolation();
+  void testGetViolationOutOfRangeWithNoViolation();
+  void testGetViolationOutOfRangeWithNegativeIndex();
+  void testGetViolationOutOfRangeWithIndexOverNumberOfViolations();
 };

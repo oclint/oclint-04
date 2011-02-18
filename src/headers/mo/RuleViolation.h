@@ -11,8 +11,9 @@ private:
   vector<string> _violations;
 
 public:
-  void addViolation(string violationMessage);
+  void addViolation(const string& violationMessage);
   int numberOfViolations();
+  const string& violationAt(int index);
 };
 
 #endif
