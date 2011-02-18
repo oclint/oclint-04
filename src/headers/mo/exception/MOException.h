@@ -10,8 +10,8 @@ private:
   string _exceptionMessage;
   
 public:
-  MOException(string message);
-  string getMessage();
+  MOException(const string& message);
+  const string& getMessage();
 };
 
 #endif

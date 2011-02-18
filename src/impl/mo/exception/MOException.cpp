@@ -1,9 +1,9 @@
 #include "mo/exception/MOException.h"
 
-MOException::MOException(string message) {
+MOException::MOException(const string& message) {
   _exceptionMessage = message;
 }
 
-string MOException::getMessage() {
+const string& MOException::getMessage() {
   return _exceptionMessage;
 }
