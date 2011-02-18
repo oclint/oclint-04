@@ -13,9 +13,9 @@ class Rule {
 public:
   virtual ~Rule() {}
   
-  virtual void apply(CXCursor node, CXCursor parentNode, RuleViolation *violation) {}
+  virtual void apply(CXCursor node, CXCursor parentNode, RuleViolation& violation) {}
 
-  virtual string name() = 0;
+  virtual const string name() = 0;
 };
 
 #endif

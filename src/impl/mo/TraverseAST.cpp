@@ -7,6 +7,6 @@ enum CXChildVisitResult traverseAST(CXCursor node, CXCursor parentNode, CXClient
   RuleData *data = (RuleData *)clientData;
   Rule *rule = data->getRule();
   RuleViolation *violation = data->getViolation();
-  rule->apply(node, parentNode, violation);
+  rule->apply(node, parentNode, *violation);
   return CXChildVisit_Recurse;
 }

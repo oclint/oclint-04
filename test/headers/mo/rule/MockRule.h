@@ -10,8 +10,8 @@ private:
 public:
   MockRule();
   MockRule(string name);
-  void apply(CXCursor node, CXCursor parentNode, RuleViolation *violation);
-  string name();
+  void apply(CXCursor node, CXCursor parentNode, RuleViolation& violation);
+  const string name();
 };
 
 #endif

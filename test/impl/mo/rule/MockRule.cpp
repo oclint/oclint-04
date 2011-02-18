@@ -9,11 +9,11 @@ MockRule::MockRule(string name) {
   _name = name;
 }
 
-void MockRule::apply(CXCursor node, CXCursor parentNode, RuleViolation *violation) {
+void MockRule::apply(CXCursor node, CXCursor parentNode, RuleViolation& violation) {
   _name = "applied!";
-  violation->addViolation("violation!");
+  violation.addViolation("violation!");
 }
 
-string MockRule::name() {
+const string MockRule::name() {
   return _name;
 }
