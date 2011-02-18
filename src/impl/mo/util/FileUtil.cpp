@@ -2,6 +2,6 @@
 #include "mo/util/FileUtil.h"
 
 bool FileUtil::isSrcExists(string srcPath) {
-  struct stat statFileInfo;
+  stat::stat statFileInfo;
   return !stat(srcPath.c_str(), &statFileInfo);
 }
