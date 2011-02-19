@@ -17,7 +17,10 @@ add_definitions(
   )
 
 include_directories(${MO_SOURCE_DIR}/src/headers)
+include_directories(${LLVM_SRC_DIR}/include)
 include_directories(${LLVM_SRC_DIR}/tools/clang/include)
+include_directories(${LLVM_BINARY_DIR}/include)
+include_directories(${LLVM_BINARY_DIR}/tools/clang/include)
 
 link_directories(${LLVM_BINARY_DIR}/lib)
 
