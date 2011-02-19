@@ -1,5 +1,6 @@
 #include "mo/rule/SwitchStatementRule.h"
 #include "mo/RuleViolation.h"
+#include "mo/util/RuleUtil.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -9,9 +10,8 @@ using namespace clang;
 #include <sstream>
 
 void SwitchStatementRule::apply(CXCursor node, CXCursor parentNode, RuleViolation& violation) {
-  if (node.kind >= CXCursor_FirstStmt && node.kind <= CXCursor_LastStmt) {
-    Stmt *stmt = (Stmt *) node.data[1];
-    if (stmt && isa<SwitchStmt>(stmt)) {
+  if (Stmt *stmt = RuleUtil::getCursorStmt(node)) {
+    if (isa<SwitchStmt>(stmt)) {
       CXSourceLocation loc = clang_getCursorLocation(node);
       CXFile file;
       unsigned line, column, offset;
