@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     }
   }
   catch (MOException *ex) {
-    cout << "Exception: " << ex->getMessage() << endl;
+    cout << "Exception: " << ex->message << endl;
   }
   return 0;
 }

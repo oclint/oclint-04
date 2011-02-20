@@ -6,12 +6,10 @@
 using namespace std;
 
 class MOException {
-private:
-  string _exceptionMessage;
+public:    
+  const string message;
   
-public:
-  MOException(const string& message);
-  const string& getMessage();
+  MOException(const string& exceptionMessage);
 };
 
 #endif
