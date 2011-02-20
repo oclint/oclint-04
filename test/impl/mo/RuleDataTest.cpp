@@ -26,7 +26,7 @@ void RuleDataTest::testGetViolationOutOfRangeWithNoViolation() {
   try {
     data->violationAt(0);
     TS_FAIL("no violation when getting violation");
-  } catch (MOException *ex) {
+  } catch (MOException& ex) {
     //
   }
 }
@@ -35,7 +35,7 @@ void RuleDataTest::testGetViolationOutOfRangeWithNegativeIndex() {
   try {
     data->violationAt(-1);
     TS_FAIL("negative index when getting violation");
-  } catch (MOException *ex) {
+  } catch (MOException& ex) {
     //
   }
 }
@@ -46,7 +46,7 @@ void RuleDataTest::testGetViolationOutOfRangeWithIndexOverNumberOfViolations() {
   try {
     data->violationAt(1);
     TS_FAIL("index over number of violations when getting violation");
-  } catch (MOException *ex) {
+  } catch (MOException& ex) {
     //
   }
 }

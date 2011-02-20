@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
       cout << "No Smell Detected!" << endl;
     }
   }
-  catch (MOException *ex) {
-    cout << "Exception: " << ex->message << endl;
+  catch (MOException& ex) {
+    cout << "Exception: " << ex.message << endl;
   }
   return 0;
 }

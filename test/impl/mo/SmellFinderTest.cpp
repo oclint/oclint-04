@@ -21,7 +21,7 @@ void SmellFinderTest::testCodeCompilationFailException() {
   try {
     finder->compileSourceFileToTranslationUnit("test/samples/CompilationFail.txt");
     TS_FAIL("compilation error exception expected");
-  } catch (MOException *ex) {
+  } catch (MOException& ex) {
     //
   }
 }
@@ -30,7 +30,7 @@ void SmellFinderTest::testSourceDoesntExistException() {
   try {
     finder->compileSourceFileToTranslationUnit("");
     TS_FAIL("source file doesn't exist exception expected");
-  } catch (MOException *ex) {
+  } catch (MOException& ex) {
     //
   }
 }

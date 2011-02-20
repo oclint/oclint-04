@@ -22,11 +22,11 @@ void SmellFinder::compileSourceFileToTranslationUnit(string src) {
   if (FileUtil::isSrcExists(src)) {
     _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
     if (!_translationUnit) {
-      throw new MOException("Code compilation fails!");
+      throw MOException("Code compilation fails!");
     }
   }
   else {
-    throw new MOException("File doesn't exist!");
+    throw MOException("File doesn't exist!");
   }
 }
 

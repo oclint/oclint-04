@@ -28,6 +28,6 @@ const RuleViolation& RuleData::violationAt(int index) {
     return _violations.at(index);
   }
   else {
-    throw new MOException("Index out of range when getting violation!");
+    throw MOException("Index out of range when getting violation!");
   }
 }
