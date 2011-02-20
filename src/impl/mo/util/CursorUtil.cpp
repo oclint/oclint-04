@@ -1,16 +1,16 @@
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Decl.h>
 
-#include "mo/util/RuleUtil.h"
+#include "mo/util/CursorUtil.h"
 
-Decl* RuleUtil::getCursorDecl(CXCursor node) {
+Decl* CursorUtil::getDecl(CXCursor node) {
   if (node.kind >= CXCursor_FirstDecl && node.kind <= CXCursor_LastDecl) {
     return (Decl *)node.data[0];
   }
   return 0;
 }
 
-Stmt* RuleUtil::getCursorStmt(CXCursor node) {
+Stmt* CursorUtil::getStmt(CXCursor node) {
   if (node.kind >= CXCursor_FirstStmt && node.kind <= CXCursor_LastStmt) {
     /*
     if (Cursor.kind == CXCursor_ObjCSuperClassRef ||
