@@ -4,22 +4,14 @@
 #include "mo/util/CursorUtil.h"
 
 Decl* CursorUtil::getDecl(CXCursor node) {
-  if (node.kind >= CXCursor_FirstDecl && node.kind <= CXCursor_LastDecl) {
+  if (clang_isDeclaration(clang_getCursorKind(node))) {
     return (Decl *)node.data[0];
   }
   return 0;
 }
 
 Stmt* CursorUtil::getStmt(CXCursor node) {
-  if (node.kind >= CXCursor_FirstStmt && node.kind <= CXCursor_LastStmt) {
-    /*
-    if (Cursor.kind == CXCursor_ObjCSuperClassRef ||
-        Cursor.kind == CXCursor_ObjCProtocolRef ||
-        Cursor.kind == CXCursor_ObjCClassRef) {
-      return 0;
-    }
-    */
-
+  if (clang_isStatement(clang_getCursorKind(node))) {
     return (Stmt *)node.data[1];
   }
   return 0;
