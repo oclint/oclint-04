@@ -8,6 +8,7 @@ private:
 public:
   void setUp();
   void tearDown();
+  void testHasSmell();
   void testHasNoSmell();
   void testCodeCompilationFailException();
   void testSourceDoesntExistException();
