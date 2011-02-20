@@ -5,7 +5,7 @@
 
 class SwitchStatementRule : public Rule {
 public:
-  void apply(CXCursor node, CXCursor parentNode, RuleViolation& violation);
+  void apply(CXCursor node, CXCursor parentNode, RuleData& data);
   const string name();
 };
 

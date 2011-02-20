@@ -1,9 +1,9 @@
 #include <cxxtest/TestSuite.h>
-#include "mo/RuleViolation.h"
+#include "mo/RuleData.h"
 
-class RuleViolationTest : public CxxTest::TestSuite { 
+class RuleDataTest : public CxxTest::TestSuite { 
 private:
-  RuleViolation *violation;
+  RuleData *data;
   
 public:
   void setUp();

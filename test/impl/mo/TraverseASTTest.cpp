@@ -5,8 +5,6 @@
 
 void TraverseASTTest::testTraverseAST() {
   RuleData *data = new RuleData();
-  RuleViolation *violation = new RuleViolation();
-  data->setViolation(violation);
   MockRule *rule = new MockRule();
   data->setRule(rule);
   CXCursor node;
@@ -14,5 +12,5 @@ void TraverseASTTest::testTraverseAST() {
   TS_ASSERT_EQUALS(rule->name(), "mock rule");
   TS_ASSERT_EQUALS(traverseAST(node, parentNode, data), CXChildVisit_Recurse);
   TS_ASSERT_EQUALS(rule->name(), "applied!");
-  TS_ASSERT_EQUALS(violation->numberOfViolations(), 1);
+  TS_ASSERT_EQUALS(data->numberOfViolations(), 1);
 }

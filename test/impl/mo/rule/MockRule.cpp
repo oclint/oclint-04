@@ -1,4 +1,5 @@
 #include "mo/rule/MockRule.h"
+#include "mo/RuleData.h"
 #include "mo/RuleViolation.h"
 
 MockRule::MockRule() {
@@ -9,9 +10,10 @@ MockRule::MockRule(string name) {
   _name = name;
 }
 
-void MockRule::apply(CXCursor node, CXCursor parentNode, RuleViolation& violation) {
+void MockRule::apply(CXCursor node, CXCursor parentNode, RuleData& data) {
   _name = "applied!";
-  violation.addViolation("violation!");
+  RuleViolation violation(clang_getNullCursor(), this);
+  data.addViolation(violation);
 }
 
 const string MockRule::name() {

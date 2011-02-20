@@ -7,13 +7,13 @@ using namespace std;
 
 #include <clang-c/Index.h>
 
-class RuleViolation;
+class RuleData;
 
 class Rule {
 public:
   virtual ~Rule() {}
   
-  virtual void apply(CXCursor node, CXCursor parentNode, RuleViolation& violation) {}
+  virtual void apply(CXCursor node, CXCursor parentNode, RuleData& data) {}
 
   virtual const string name() = 0;
 };

@@ -1,19 +1,16 @@
 #ifndef MO_RULEVIOLATION_H
 #define MO_RULEVIOLATION_H
 
-#include <string>
-#include <vector>
+#include <clang-c/Index.h>
 
-using namespace std;
+class Rule;
 
 class RuleViolation {
-private:
-  vector<string> _violations;
-
 public:
-  void addViolation(const string& violationMessage);
-  int numberOfViolations();
-  const string& violationAt(int index);
+  CXCursor _cursor;
+  Rule *_rule;
+
+  RuleViolation(CXCursor cursor, Rule *rule);
 };
 
 #endif

@@ -32,11 +32,9 @@ void SmellFinder::compileSourceFileToTranslationUnit(string src) {
 
 bool SmellFinder::hasSmell(string src) {
   compileSourceFileToTranslationUnit(src);
-  RuleViolation *violation = new RuleViolation();
   RuleData *data = new RuleData();
-  data->setViolation(violation);
   Rule *rule = new SwitchStatementRule();
   data->setRule(rule);
   clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, data);
-  return violation->numberOfViolations();
+  return data->numberOfViolations();
 }
