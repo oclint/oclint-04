@@ -19,7 +19,7 @@ void RuleDataTest::testAddViolation() {
   RuleViolation violation(clang_getNullCursor(), new MockRule());
   data->addViolation(violation);
   TS_ASSERT_EQUALS(data->numberOfViolations(), 1);
-  TS_ASSERT(clang_equalCursors(data->violationAt(0)._cursor, clang_getNullCursor()));
+  TS_ASSERT(clang_equalCursors(data->violationAt(0).cursor, clang_getNullCursor()));
 }
 
 void RuleDataTest::testGetViolationOutOfRangeWithNoViolation() {

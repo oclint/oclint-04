@@ -1,7 +1,7 @@
 #include "mo/RuleViolation.h"
 #include "mo/Rule.h"
 
-RuleViolation::RuleViolation(CXCursor cursor, Rule *rule) {
-  _cursor = cursor;
-  _rule = rule;
+RuleViolation::RuleViolation(CXCursor currentNode, Rule *violatedRule) {
+  cursor = currentNode;
+  rule = violatedRule;
 }

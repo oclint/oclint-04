@@ -7,10 +7,10 @@ class Rule;
 
 class RuleViolation {
 public:
-  CXCursor _cursor;
-  Rule *_rule;
+  CXCursor cursor;
+  const Rule *rule;
 
-  RuleViolation(CXCursor cursor, Rule *rule);
+  RuleViolation(CXCursor currentNode, Rule *violatedRule);
 };
 
 #endif
