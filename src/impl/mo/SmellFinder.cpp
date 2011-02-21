@@ -40,3 +40,8 @@ bool SmellFinder::hasSmell(string src) {
   clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
   return _data->numberOfViolations();
 }
+
+string SmellFinder::smellToString() {
+  // later extract violations from RuleData, and generate violation report
+  return "Smell Detected!";
+}

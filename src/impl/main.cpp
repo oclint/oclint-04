@@ -13,7 +13,10 @@ int main(int argc, char* argv[]) {
   string src(argv[1]);
   try {
     SmellFinder smellFinder;
-    if (!smellFinder.hasSmell(src)) {
+    if (smellFinder.hasSmell(src)) {
+      cout << smellFinder.smellToString() << endl;
+    }
+    else {
       cout << "No Smell Detected!" << endl;
     }
   }

@@ -22,6 +22,7 @@ public:
   
   void compileSourceFileToTranslationUnit(string src);
   bool hasSmell(string src);
+  string smellToString(); 
 };
 
 #endif
