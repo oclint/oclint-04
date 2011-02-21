@@ -3,7 +3,6 @@
 #include "mo/Rule.h"
 #include "mo/RuleViolation.h"
 #include "mo/RuleData.h"
-#include "mo/util/FileUtil.h"
 #include "mo/exception/MOException.h"
 
 #include "mo/rule/SwitchStatementRule.h"
