@@ -9,10 +9,6 @@ void SmellFinderTest::tearDown() {
   delete finder;
 }
 
-void SmellFinderTest::testHasSmell() {
-  TS_ASSERT(finder->hasSmell("test/samples/SwitchStatement.m"));
-}
-
 void SmellFinderTest::testHasNoSmell() {
   TS_ASSERT(!finder->hasSmell("test/samples/HelloWorld.m"));
 }
