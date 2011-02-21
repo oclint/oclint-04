@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   string src(argv[1]);
+  cout << "[" << src << "]:" <<endl;
   try {
     SmellFinder smellFinder;
     if (smellFinder.hasSmell(src)) {
