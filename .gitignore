@@ -11,3 +11,6 @@
 *.zip
 .DS_Store
 Icon?
+build*
+*.pyc
+test/mo_test.cpp
