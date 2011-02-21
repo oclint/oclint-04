@@ -8,10 +8,13 @@ using namespace std;
 
 #include <clang-c/Index.h>
 
+class RuleData;
+
 class SmellFinder {
 private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;
+  RuleData *_data;
 
 public:
   SmellFinder();

@@ -11,11 +11,16 @@
 SmellFinder::SmellFinder() {
   _index = clang_createIndex(0, 0);
   _translationUnit = 0;
+  _data = new RuleData();
+  
+  // temporarily use a fixed Rule
+  _data->setRule(new SwitchStatementRule());
 }
 
 SmellFinder::~SmellFinder() {
   clang_disposeTranslationUnit(_translationUnit); 
   clang_disposeIndex(_index);
+  delete _data;
 }
 
 void SmellFinder::compileSourceFileToTranslationUnit(string src) {
@@ -32,9 +37,6 @@ void SmellFinder::compileSourceFileToTranslationUnit(string src) {
 
 bool SmellFinder::hasSmell(string src) {
   compileSourceFileToTranslationUnit(src);
-  RuleData *data = new RuleData();
-  Rule *rule = new SwitchStatementRule();
-  data->setRule(rule);
-  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, data);
-  return data->numberOfViolations();
+  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
+  return _data->numberOfViolations();
 }
