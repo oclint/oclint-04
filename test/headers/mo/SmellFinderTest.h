@@ -10,5 +10,4 @@ public:
   void tearDown();
   void testHasNoSmell();
   void testCodeCompilationFailException();
-  void testSourceDoesntExistException();
 };

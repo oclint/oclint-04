@@ -23,20 +23,15 @@ SmellFinder::~SmellFinder() {
   delete _data;
 }
 
-void SmellFinder::compileSourceFileToTranslationUnit(string src) {
-  if (FileUtil::isSrcExists(src)) {
-    _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
-    if (!_translationUnit) {
-      throw MOException("Code compilation fails!");
-    }
-  }
-  else {
-    throw MOException("File doesn't exist!");
+void SmellFinder::compileSourceFileToTranslationUnit(char* argv[], int argc) {
+  _translationUnit = clang_parseTranslationUnit(_index, 0, argv, argc, 0, 0, CXTranslationUnit_None);
+  if (!_translationUnit) {
+    throw MOException("Code compilation fails!");
   }
 }
 
-bool SmellFinder::hasSmell(string src) {
-  compileSourceFileToTranslationUnit(src);
+bool SmellFinder::hasSmell(char* argv[], int argc) {
+  compileSourceFileToTranslationUnit(argv, argc);
   clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
   return _data->numberOfViolations();
 }
