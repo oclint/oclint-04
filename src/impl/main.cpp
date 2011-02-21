@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   try {
     SmellFinder smellFinder;
-    if (smellFinder.hasSmell(argv, argc)) {
+    if (smellFinder.hasSmell(argv + 1, argc - 1)) {
       cout << smellFinder.smellToString() << endl;
     }
     else {
