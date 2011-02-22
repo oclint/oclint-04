@@ -13,7 +13,7 @@ SmellFinder::SmellFinder() {
   _data = new RuleData();
   
   // temporarily use a fixed Rule
-  _data->setRule(new SwitchStatementRule());
+  _data->addRule(new SwitchStatementRule());
 }
 
 SmellFinder::~SmellFinder() {

@@ -6,7 +6,7 @@
 void TraverseASTTest::testTraverseAST() {
   RuleData *data = new RuleData();
   MockRule *rule = new MockRule();
-  data->setRule(rule);
+  data->addRule(rule);
   CXCursor node;
   CXCursor parentNode;
   TS_ASSERT_EQUALS(rule->name(), "mock rule");

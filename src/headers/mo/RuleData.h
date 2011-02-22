@@ -10,17 +10,16 @@ class RuleViolation;
 
 class RuleData {
 private:
-  Rule* _rule;
+  vector<Rule*> _rules;
   vector<RuleViolation> _violations;
   
 public:
-  RuleData();
-  
-  Rule* getRule();
-  void setRule(Rule* rule);
+  void addRule(Rule* rule);
+  const int numberOfRules();
+  Rule* ruleAt(int index);
   
   void addViolation(const RuleViolation& violation);
-  int numberOfViolations();
+  const int numberOfViolations();
   const RuleViolation& violationAt(int index);
 };
 

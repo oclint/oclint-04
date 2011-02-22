@@ -3,23 +3,28 @@
 #include "mo/RuleViolation.h"
 #include "mo/exception/MOException.h"
 
-RuleData::RuleData() {
-  _rule = 0;
+void RuleData::addRule(Rule* rule) {
+  _rules.push_back(rule);
 }
 
-Rule* RuleData::getRule() {
-  return _rule;
+const int RuleData::numberOfRules() {
+  return _rules.size();
 }
 
-void RuleData::setRule(Rule* rule) {
-  _rule = rule;
+Rule* RuleData::ruleAt(int index) {
+  if (index >= 0 && index < numberOfRules()) {
+    return _rules.at(index);
+  }
+  else {
+    throw MOException("Index out of range when getting rule!");
+  }
 }
 
 void RuleData::addViolation(const RuleViolation& violation) {
   _violations.push_back(violation);
 }
 
-int RuleData::numberOfViolations() {
+const int RuleData::numberOfViolations() {
   return _violations.size();
 }
 

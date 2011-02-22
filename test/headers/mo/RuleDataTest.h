@@ -8,6 +8,11 @@ private:
 public:
   void setUp();
   void tearDown();
+  void testNoRule();
+  void testAddRule();
+  void testGetRuleOutOfRangeWithNoRule();
+  void testGetRuleOutOfRangeWithNegativeIndex();
+  void testGetRuleOutOfRangeWithIndexOverNumberOfRules();
   void testNoViolation();
   void testAddViolation();
   void testGetViolationOutOfRangeWithNoViolation();
