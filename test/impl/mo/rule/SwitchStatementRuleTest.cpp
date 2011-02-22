@@ -22,10 +22,16 @@ void SwitchStatementRuleTest::tearDown() {
   delete rule;
 }
 
+#include "mo/SmellFinder.h"
+
 void SwitchStatementRuleTest::testApply() {
+  /*
   RuleData data;
   rule->apply(stmtCursor(), clang_getNullCursor(), data);
   TS_ASSERT_EQUALS(data.numberOfViolations(), 1);
+  */
+  const char * const argv[] = { "test/samples/SwitchStatement.m" };
+  TS_ASSERT(SmellFinder().hasSmell(argv, 1));
 }
 
 void SwitchStatementRuleTest::testName() {
