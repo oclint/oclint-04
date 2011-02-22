@@ -1,9 +1,13 @@
 #! /bin/bash
 
 CWD=`pwd`
-
-cd test/samples
-for file in `ls -d *`
+INCLUDES=''
+for arg in "$@"
 do
-  $CWD/build/bin/mo "$file"
+  INCLUDES="$INCLUDES -I $arg"
+done
+
+for file in `ls -d test/samples/*`
+do
+  $CWD/build/bin/mo $INCLUDES "$file"
 done
