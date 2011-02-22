@@ -20,8 +20,8 @@ public:
   SmellFinder();
   ~SmellFinder();
   
-  void compileSourceFileToTranslationUnit(char* argv[], int argc);
-  bool hasSmell(char* argv[], int argc);
+  void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
+  bool hasSmell(const char * const * argv, int argc);
   string smellToString(); 
 };
 

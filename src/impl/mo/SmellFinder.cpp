@@ -22,14 +22,14 @@ SmellFinder::~SmellFinder() {
   delete _data;
 }
 
-void SmellFinder::compileSourceFileToTranslationUnit(char* argv[], int argc) {
+void SmellFinder::compileSourceFileToTranslationUnit(const char * const * argv, int argc) {
   _translationUnit = clang_parseTranslationUnit(_index, 0, argv, argc, 0, 0, CXTranslationUnit_None);
   if (!_translationUnit) {
     throw MOException("Code compilation fails!");
   }
 }
 
-bool SmellFinder::hasSmell(char* argv[], int argc) {
+bool SmellFinder::hasSmell(const char * const * argv, int argc) {
   compileSourceFileToTranslationUnit(argv, argc);
   clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
   return _data->numberOfViolations();

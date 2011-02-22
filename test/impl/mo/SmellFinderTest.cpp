@@ -10,13 +10,13 @@ void SmellFinderTest::tearDown() {
 }
 
 void SmellFinderTest::testHasNoSmell() {
-  char *argv[] = { (char *)"test/samples/HelloWorld.m" };
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
   TS_ASSERT(!finder->hasSmell(argv, 1));
 }
 
 void SmellFinderTest::testCodeCompilationFailException() {
   try {
-    char *argv[] = { (char *)"test/samples/CompilationFail.txt" };
+    const char * const argv[] = { "test/samples/CompilationFail.txt" };
     finder->compileSourceFileToTranslationUnit(argv, 1);
     TS_FAIL("compilation error exception expected");
   } catch (MOException& ex) {
