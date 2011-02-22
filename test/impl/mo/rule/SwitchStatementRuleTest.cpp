@@ -30,6 +30,7 @@ void SwitchStatementRuleTest::testApply() {
   rule->apply(stmtCursor(), clang_getNullCursor(), data);
   TS_ASSERT_EQUALS(data.numberOfViolations(), 1);
   */
+  // FIX-ME: there must be an elegant way of writing this test
   const char * const argv[] = { "test/samples/SwitchStatement.m" };
   TS_ASSERT(SmellFinder().hasSmell(argv, 1));
 }
