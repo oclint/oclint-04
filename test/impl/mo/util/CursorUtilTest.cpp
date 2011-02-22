@@ -5,18 +5,12 @@ CXCursor getNullCursor() {
 }
 
 CXCursor getDeclCursor() {
-  CXCursor cursor = getNullCursor();
-  cursor.kind = CXCursor_FirstDecl;
-  int testData = 99;
-  cursor.data[0] = &testData;
+  CXCursor cursor = { CXCursor_FirstDecl, { (void*)1, 0, 0 } };
   return cursor;
 }
 
 CXCursor getStmtCursor() {
-  CXCursor cursor = getNullCursor();
-  cursor.kind = CXCursor_FirstStmt;
-  int testData = 98;
-  cursor.data[1] = &testData;
+  CXCursor cursor = { CXCursor_FirstStmt, { 0, (void*)1, 0 } };
   return cursor;
 }
 
