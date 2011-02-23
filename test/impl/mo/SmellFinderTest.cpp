@@ -11,7 +11,8 @@ void SmellFinderTest::tearDown() {
 
 void SmellFinderTest::testHasNoSmell() {
   const char * const argv[] = { "test/samples/HelloWorld.m" };
-  TS_ASSERT(!finder->hasSmell(argv, 1));
+  finder->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!finder->hasSmell());
 }
 
 void SmellFinderTest::testCodeCompilationFailException() {

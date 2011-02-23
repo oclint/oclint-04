@@ -29,8 +29,15 @@ void SmellFinder::compileSourceFileToTranslationUnit(const char * const * argv, 
   }
 }
 
-bool SmellFinder::hasSmell(const char * const * argv, int argc) {
-  compileSourceFileToTranslationUnit(argv, argc);
+bool SmellFinder::hasDiagnostic() {
+  return clang_getNumDiagnostics(_translationUnit);
+}
+
+string SmellFinder::diagnosticToString() {
+  return "Diagnostics Detected!";
+}
+
+bool SmellFinder::hasSmell() {
   clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
   return _data->numberOfViolations();
 }

@@ -21,7 +21,9 @@ public:
   ~SmellFinder();
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
-  bool hasSmell(const char * const * argv, int argc);
+  bool hasDiagnostic();
+  string diagnosticToString();
+  bool hasSmell();
   string smellToString(); 
 };
 

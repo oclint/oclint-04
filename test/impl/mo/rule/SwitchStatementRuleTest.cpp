@@ -32,7 +32,9 @@ void SwitchStatementRuleTest::testApply() {
   */
   // FIX-ME: there must be an elegant way of writing this test
   const char * const argv[] = { "test/samples/SwitchStatement.m" };
-  TS_ASSERT(SmellFinder().hasSmell(argv, 1));
+  SmellFinder finder;
+  finder.compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(finder.hasSmell());
 }
 
 void SwitchStatementRuleTest::testName() {
