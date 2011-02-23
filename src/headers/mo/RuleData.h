@@ -21,6 +21,7 @@ public:
   void addViolation(const RuleViolation& violation);
   const int numberOfViolations();
   const RuleViolation& violationAt(int index);
+  vector<RuleViolation> getViolations();
 };
 
 

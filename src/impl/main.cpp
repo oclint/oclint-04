@@ -5,15 +5,18 @@ using namespace std;
 #include "mo/SmellFinder.h"
 #include "mo/exception/MOException.h"
 
+#include "mo/reporter/PlainTextReporter.h"
+
 int execute(const char * const * argv, int argc) {
+  PlainTextReporter reporter;
   SmellFinder smellFinder;
   smellFinder.compileSourceFileToTranslationUnit(argv, argc);
   if (smellFinder.hasDiagnostic()) {
-    cout << smellFinder.diagnosticToString() << endl;
+    smellFinder.reportDiagnostics(reporter);
     return 1;
   }
   if (smellFinder.hasSmell()) {
-    cout << smellFinder.smellToString() << endl;
+    smellFinder.reportSmells(reporter);
     return 2;
   }
   return 0;

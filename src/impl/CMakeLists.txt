@@ -2,6 +2,7 @@ add_executable(mo main.cpp)
 target_link_libraries(mo 
   MOCore
   MOException
+  MOReporter
   MORule
   MOUtil
   MOCore # TODO: will remove this line when we dynamically load these rules

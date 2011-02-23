@@ -1,5 +1,6 @@
 #include "mo/SmellFinder.h"
 #include "mo/TraverseAST.h"
+#include "mo/Reporter.h"
 #include "mo/Rule.h"
 #include "mo/RuleViolation.h"
 #include "mo/RuleData.h"
@@ -33,8 +34,12 @@ bool SmellFinder::hasDiagnostic() {
   return clang_getNumDiagnostics(_translationUnit);
 }
 
-string SmellFinder::diagnosticToString() {
-  return "Diagnostics Detected!";
+void SmellFinder::reportDiagnostics(const Reporter& reporter) {
+  vector<CXDiagnostic> diagnostics;
+  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+    diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
+  }
+  reporter.reportDiagnostics(diagnostics);
 }
 
 bool SmellFinder::hasSmell() {
@@ -42,7 +47,6 @@ bool SmellFinder::hasSmell() {
   return _data->numberOfViolations();
 }
 
-string SmellFinder::smellToString() {
-  // later extract violations from RuleData, and generate violation report
-  return "Smell Detected!";
+void SmellFinder::reportSmells(const Reporter& reporter) {
+  reporter.reportViolations(_data->getViolations());
 }

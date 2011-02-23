@@ -9,6 +9,7 @@ using namespace std;
 #include <clang-c/Index.h>
 
 class RuleData;
+class Reporter;
 
 class SmellFinder {
 private:
@@ -22,9 +23,9 @@ public:
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
   bool hasDiagnostic();
-  string diagnosticToString();
+  void reportDiagnostics(const Reporter& reporter);
   bool hasSmell();
-  string smellToString(); 
+  void reportSmells(const Reporter& reporter); 
 };
 
 #endif

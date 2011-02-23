@@ -36,3 +36,7 @@ const RuleViolation& RuleData::violationAt(int index) {
     throw MOException("Index out of range when getting violation!");
   }
 }
+
+vector<RuleViolation> RuleData::getViolations() {
+  return _violations;
+}
