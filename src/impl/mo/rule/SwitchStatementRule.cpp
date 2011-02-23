@@ -16,6 +16,6 @@ void SwitchStatementRule::apply(CXCursor node, CXCursor parentNode, RuleData& da
   }
 }
 
-const string SwitchStatementRule::name() {
+string SwitchStatementRule::name() const {
   return "Switch Statement";
 }

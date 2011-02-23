@@ -11,7 +11,7 @@ public:
   MockRule();
   MockRule(string name);
   void apply(CXCursor node, CXCursor parentNode, RuleData& data);
-  const string name();
+  string name() const;
 };
 
 #endif

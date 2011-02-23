@@ -1,4 +1,5 @@
 #include "mo/RuleViolation.h"
+#include "mo/Rule.h"
 #include "mo/reporter/PlainTextReporter.h"
 
 #include <iostream>
@@ -15,5 +16,17 @@ void PlainTextReporter::reportDiagnostics(vector<CXDiagnostic> diagnostics) cons
 }
 
 void PlainTextReporter::reportViolations(vector<RuleViolation> violations) const {
-  cout << "Smell Detected!" << endl;
+  for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
+    RuleViolation violation = violations.at(index);
+    
+    CXSourceLocation violatedSourceLocation = clang_getCursorLocation(violation.cursor);
+    CXFile file;
+    unsigned line, column;
+    clang_getSpellingLocation(violatedSourceLocation, &file, &line, &column, 0);
+    CXString violatedFile = clang_getFileName(file);
+    
+    cout << clang_getCString(violatedFile) << ":" << line << ":" << column << ": "
+      << "code smell: " << violation.rule->name() << endl;
+    clang_disposeString(violatedFile);
+  }
 }

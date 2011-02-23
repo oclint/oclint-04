@@ -15,7 +15,7 @@ public:
   
   virtual void apply(CXCursor node, CXCursor parentNode, RuleData& data) {}
 
-  virtual const string name() = 0;
+  virtual string name() const = 0;
 };
 
 #endif

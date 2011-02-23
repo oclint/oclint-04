@@ -16,6 +16,6 @@ void MockRule::apply(CXCursor node, CXCursor parentNode, RuleData& data) {
   data.addViolation(violation);
 }
 
-const string MockRule::name() {
+string MockRule::name() const {
   return _name;
 }
