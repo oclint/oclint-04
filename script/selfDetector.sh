@@ -9,5 +9,5 @@ done
 
 for file in `find src -name *.cpp`
 do
-  $CWD/build/bin/mo $INCLUDES "$file"
+  $CWD/build/bin/mo -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS $INCLUDES "$file"
 done
