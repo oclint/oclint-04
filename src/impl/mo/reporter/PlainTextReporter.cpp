@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void PlainTextReporter::reportDiagnostics(vector<CXDiagnostic> diagnostics) const {
+void PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> diagnostics) const {
   unsigned displayOptions = CXDiagnostic_DisplaySourceLocation
     | CXDiagnostic_DisplayColumn | CXDiagnostic_DisplaySourceRanges
     | CXDiagnostic_DisplayOption;
