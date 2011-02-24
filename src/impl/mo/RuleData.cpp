@@ -27,16 +27,6 @@ void RuleData::addViolation(const RuleViolation& violation) {
 const int RuleData::numberOfViolations() {
   return _violations.size();
 }
-
-const RuleViolation& RuleData::violationAt(int index) {
-  if (index >= 0 && index < numberOfViolations()) {
-    return _violations.at(index);
-  }
-  else {
-    throw MOException("Index out of range when getting violation!");
-  }
-}
-
 const vector<RuleViolation> RuleData::getViolations() {
   return _violations;
 }
