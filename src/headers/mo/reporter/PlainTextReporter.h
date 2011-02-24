@@ -6,7 +6,7 @@
 class PlainTextReporter : public Reporter {
 public:
   void reportDiagnostics(vector<CXDiagnostic> diagnostics) const;
-  void reportViolations(vector<RuleViolation> violations) const;
+  void reportViolations(const vector<RuleViolation> violations) const;
 };
 
 #endif

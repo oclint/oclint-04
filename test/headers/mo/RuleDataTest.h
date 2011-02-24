@@ -15,6 +15,7 @@ public:
   void testGetRuleOutOfRangeWithIndexOverNumberOfRules();
   void testNoViolation();
   void testAddViolation();
+  void testGetViolations();
   void testGetViolationOutOfRangeWithNoViolation();
   void testGetViolationOutOfRangeWithNegativeIndex();
   void testGetViolationOutOfRangeWithIndexOverNumberOfViolations();

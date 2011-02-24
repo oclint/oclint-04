@@ -15,7 +15,7 @@ void PlainTextReporter::reportDiagnostics(vector<CXDiagnostic> diagnostics) cons
   }
 }
 
-void PlainTextReporter::reportViolations(vector<RuleViolation> violations) const {
+void PlainTextReporter::reportViolations(const vector<RuleViolation> violations) const {
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     RuleViolation violation = violations.at(index);
     

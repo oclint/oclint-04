@@ -37,6 +37,6 @@ const RuleViolation& RuleData::violationAt(int index) {
   }
 }
 
-vector<RuleViolation> RuleData::getViolations() {
+const vector<RuleViolation> RuleData::getViolations() {
   return _violations;
 }

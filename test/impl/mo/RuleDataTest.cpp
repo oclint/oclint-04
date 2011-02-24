@@ -60,6 +60,13 @@ void RuleDataTest::testAddViolation() {
   TS_ASSERT(clang_equalCursors(data->violationAt(0).cursor, clang_getNullCursor()));
 }
 
+void RuleDataTest::testGetViolations() {
+  RuleViolation violation(clang_getNullCursor(), new MockRule());
+  data->addViolation(violation);
+  const vector<RuleViolation> violations = data->getViolations();
+  TS_ASSERT(clang_equalCursors(violations.at(0).cursor, clang_getNullCursor()));
+}
+
 void RuleDataTest::testGetViolationOutOfRangeWithNoViolation() {
   try {
     data->violationAt(0);

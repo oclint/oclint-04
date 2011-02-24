@@ -14,7 +14,7 @@ public:
   virtual ~Reporter() {}
   
   virtual void reportDiagnostics(vector<CXDiagnostic> diagnostics) const = 0;
-  virtual void reportViolations(vector<RuleViolation> violations) const = 0;
+  virtual void reportViolations(const vector<RuleViolation> violations) const = 0;
 };
 
 #endif
