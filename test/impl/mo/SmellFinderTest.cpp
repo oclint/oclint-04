@@ -9,6 +9,19 @@ void SmellFinderTest::tearDown() {
   delete finder;
 }
 
+
+void SmellFinderTest::testHasNoDiagnostic() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  finder->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!finder->hasDiagnostic());
+}
+
+void SmellFinderTest::testHasDiagnostic() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  finder->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(finder->hasDiagnostic());
+}
+
 void SmellFinderTest::testHasNoSmell() {
   const char * const argv[] = { "test/samples/HelloWorld.m" };
   finder->compileSourceFileToTranslationUnit(argv, 1);

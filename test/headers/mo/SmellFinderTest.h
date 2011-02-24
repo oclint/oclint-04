@@ -8,6 +8,8 @@ private:
 public:
   void setUp();
   void tearDown();
+  void testHasNoDiagnostic();
+  void testHasDiagnostic();
   void testHasNoSmell();
   void testCodeCompilationFailException();
 };
