@@ -6,7 +6,9 @@
 class PlainTextReporter : public Reporter {
 public:
   const string reportDiagnostics(const vector<CXDiagnostic> diagnostics) const;
-  void reportViolations(const vector<RuleViolation> violations) const;
+  const string reportViolations(const vector<RuleViolation> violations) const;
+  
+  const string cursorLocationToPlainText(CXCursor cursor) const;
 };
 
 #endif

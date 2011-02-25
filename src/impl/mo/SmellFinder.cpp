@@ -47,6 +47,6 @@ bool SmellFinder::hasSmell() {
   return _data->numberOfViolations();
 }
 
-void SmellFinder::reportSmells(const Reporter& reporter) {
-  reporter.reportViolations(_data->getViolations());
+const string SmellFinder::reportSmells(const Reporter& reporter) {
+  return reporter.reportViolations(_data->getViolations());
 }

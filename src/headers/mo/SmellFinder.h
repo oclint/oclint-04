@@ -25,7 +25,7 @@ public:
   bool hasDiagnostic();
   const string reportDiagnostics(const Reporter& reporter);
   bool hasSmell();
-  void reportSmells(const Reporter& reporter); 
+  const string reportSmells(const Reporter& reporter); 
 };
 
 #endif

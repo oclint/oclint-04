@@ -16,7 +16,7 @@ int execute(const char * const * argv, int argc) {
     return 1;
   }
   if (smellFinder.hasSmell()) {
-    smellFinder.reportSmells(reporter);
+    cout << smellFinder.reportSmells(reporter);
     return 2;
   }
   return 0;

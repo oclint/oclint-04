@@ -2,7 +2,7 @@
 #include "mo/Rule.h"
 #include "mo/reporter/PlainTextReporter.h"
 
-#include <iostream>
+#include <sstream> // Think about it
 
 const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> diagnostics) const {
   string formatedDiagnostics;
@@ -18,18 +18,26 @@ const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> dia
   return formatedDiagnostics;
 }
 
-void PlainTextReporter::reportViolations(const vector<RuleViolation> violations) const {
+const string PlainTextReporter::reportViolations(const vector<RuleViolation> violations) const {
+  string formatedViolations;
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     RuleViolation violation = violations.at(index);
-    
-    CXSourceLocation violatedSourceLocation = clang_getCursorLocation(violation.cursor);
-    CXFile file;
-    unsigned line, column;
-    clang_getSpellingLocation(violatedSourceLocation, &file, &line, &column, 0);
-    CXString violatedFile = clang_getFileName(file);
-    
-    cout << clang_getCString(violatedFile) << ":" << line << ":" << column << ": "
-      << "code smell: " << violation.rule->name() << endl;
-    clang_disposeString(violatedFile);
+    formatedViolations += cursorLocationToPlainText(violation.cursor);
+    formatedViolations += ": " + violation.rule->name();
+    formatedViolations += '\n';
   }
+  return formatedViolations;
+}
+
+const string PlainTextReporter::cursorLocationToPlainText(CXCursor cursor) const {
+  stringstream locationStream;
+  CXSourceLocation violatedSourceLocation = clang_getCursorLocation(cursor);
+  CXFile file;
+  unsigned line, column;
+  clang_getSpellingLocation(violatedSourceLocation, &file, &line, &column, 0);
+  CXString violatedFile = clang_getFileName(file);
+  
+  locationStream << clang_getCString(violatedFile) << ":" << line << ":" << column;
+  clang_disposeString(violatedFile);
+  return locationStream.str();
 }
