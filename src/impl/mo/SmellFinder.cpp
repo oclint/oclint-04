@@ -34,12 +34,12 @@ bool SmellFinder::hasDiagnostic() {
   return clang_getNumDiagnostics(_translationUnit);
 }
 
-void SmellFinder::reportDiagnostics(const Reporter& reporter) {
+const string SmellFinder::reportDiagnostics(const Reporter& reporter) {
   vector<CXDiagnostic> diagnostics;
   for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
     diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
   }
-  reporter.reportDiagnostics(diagnostics);
+  return reporter.reportDiagnostics(diagnostics);
 }
 
 bool SmellFinder::hasSmell() {

@@ -12,7 +12,7 @@ int execute(const char * const * argv, int argc) {
   SmellFinder smellFinder;
   smellFinder.compileSourceFileToTranslationUnit(argv, argc);
   if (smellFinder.hasDiagnostic()) {
-    smellFinder.reportDiagnostics(reporter);
+    cout << smellFinder.reportDiagnostics(reporter);
     return 1;
   }
   if (smellFinder.hasSmell()) {

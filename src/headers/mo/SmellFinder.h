@@ -23,7 +23,7 @@ public:
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
   bool hasDiagnostic();
-  void reportDiagnostics(const Reporter& reporter);
+  const string reportDiagnostics(const Reporter& reporter);
   bool hasSmell();
   void reportSmells(const Reporter& reporter); 
 };

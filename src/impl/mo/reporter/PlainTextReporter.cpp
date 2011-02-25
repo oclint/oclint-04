@@ -4,15 +4,18 @@
 
 #include <iostream>
 
-void PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> diagnostics) const {
+const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> diagnostics) const {
+  string formatedDiagnostics;
   unsigned displayOptions = CXDiagnostic_DisplaySourceLocation
     | CXDiagnostic_DisplayColumn | CXDiagnostic_DisplaySourceRanges
     | CXDiagnostic_DisplayOption;
   for (int index = 0, numberOfDiagnostics = diagnostics.size(); index < numberOfDiagnostics; index++) {
     CXString diagnostic = clang_formatDiagnostic(diagnostics.at(index), displayOptions);
-    cout << clang_getCString(diagnostic) << endl;
+    formatedDiagnostics += clang_getCString(diagnostic);
+    formatedDiagnostics += '\n';
     clang_disposeString(diagnostic);
   }
+  return formatedDiagnostics;
 }
 
 void PlainTextReporter::reportViolations(const vector<RuleViolation> violations) const {
