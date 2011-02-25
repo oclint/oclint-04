@@ -23,7 +23,7 @@ const string PlainTextReporter::reportViolations(const vector<RuleViolation> vio
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     RuleViolation violation = violations.at(index);
     formatedViolations += cursorLocationToPlainText(violation.cursor);
-    formatedViolations += ": " + violation.rule->name();
+    formatedViolations += ": code smell: " + violation.rule->name();
     formatedViolations += '\n';
   }
   return formatedViolations;
