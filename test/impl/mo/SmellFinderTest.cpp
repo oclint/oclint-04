@@ -1,5 +1,6 @@
 #include "mo/exception/MOException.h"
 #include "mo/SmellFinderTest.h"
+#include "mo/reporter/MockReporter.h"
 
 void SmellFinderTest::setUp() {
   finder = new SmellFinder();
@@ -36,4 +37,18 @@ void SmellFinderTest::testCodeCompilationFailException() {
   } catch (MOException& ex) {
     //
   }
+}
+
+void SmellFinderTest::testReportDiagnostics() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  finder->compileSourceFileToTranslationUnit(argv, 1);
+  MockReporter reporter;
+  TS_ASSERT_EQUALS(finder->reportDiagnostics(reporter), "mock report diagnostics");
+}
+
+void SmellFinderTest::testReportViolations() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  finder->compileSourceFileToTranslationUnit(argv, 1);
+  MockReporter reporter;
+  TS_ASSERT_EQUALS(finder->reportSmells(reporter), "mock report violations");
 }

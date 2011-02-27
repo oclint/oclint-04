@@ -12,4 +12,6 @@ public:
   void testHasDiagnostic();
   void testHasNoSmell();
   void testCodeCompilationFailException();
+  void testReportDiagnostics();
+  void testReportViolations();
 };
