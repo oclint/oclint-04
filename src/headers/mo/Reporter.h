@@ -2,6 +2,7 @@
 #define MO_REPORTER_H
 
 #include <vector>
+#include <string>
 
 using namespace std;
 

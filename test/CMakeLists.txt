@@ -10,10 +10,12 @@ target_link_libraries(mo_test
   CanaryTest
   MOCoreTest
   MOExceptionTest
+  MOReporterTest
   MORuleTest
   MOUtilTest
   MOCore
   MOException
+  MOReporter
   MORule
   MOUtil
   ${MO_COMMON_LINK_LIB}
