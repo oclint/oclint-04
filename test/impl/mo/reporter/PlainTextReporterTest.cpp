@@ -1,30 +1,7 @@
 #include "mo/reporter/PlainTextReporterTest.h"
 #include "mo/RuleViolation.h"
-#include "mo/RuleData.h"
-#include "mo/util/CursorUtil.h"
 #include "mo/rule/MockRule.h"
-
-#include <clang/AST/Stmt.h>
-
-using namespace clang;
-
-enum CXChildVisitResult extractSwitchStmtCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
-  RuleData *data = (RuleData *)clientData;
-  if (Stmt *stmt = CursorUtil::getStmt(node)) {
-    if (isa<SwitchStmt>(stmt)) {
-      RuleViolation violation(node, new MockRule());
-      data->addViolation(violation);
-    }
-  }
-  return CXChildVisit_Recurse;
-}
-
-CXCursor getSwitchStmtForTest(CXIndex index, CXTranslationUnit translationUnit) {
-  RuleData *data = new RuleData();
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractSwitchStmtCursor, data);
-  RuleViolation violation = data->getViolations().at(0);
-  return violation.cursor;
-}
+#include "mo/util/TestCursorUtil.h"
 
 void PlainTextReporterTest::setUp() {
   reporter = new PlainTextReporter();
@@ -52,25 +29,17 @@ void PlainTextReporterTest::testReportDiagnostics() {
 
 void PlainTextReporterTest::testCursorLocationToPlainText() {
   string cursorLocationPlainText = "test/samples/SwitchStatement.m:3:3";
-  CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
-  CXCursor switchStmtCursor = getSwitchStmtForTest(index, translationUnit);
+  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
   TS_ASSERT_EQUALS(reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
-  clang_disposeTranslationUnit(translationUnit);
-  clang_disposeIndex(index);
 }
 
 void PlainTextReporterTest::testReportViolations() {
   string violationMessage = "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
   violationMessage += "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
-  CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
-  RuleViolation violation1(getSwitchStmtForTest(index, translationUnit), new MockRule());
-  RuleViolation violation2(getSwitchStmtForTest(index, translationUnit), new MockRule());
+  RuleViolation violation1(TestCursorUtil::getSwitchStmtCursor(), new MockRule());
+  RuleViolation violation2(TestCursorUtil::getSwitchStmtCursor(), new MockRule());
   vector<RuleViolation> violations;
   violations.push_back(violation1);
   violations.push_back(violation2);
   TS_ASSERT_EQUALS(reporter->reportViolations(violations), violationMessage);
-  clang_disposeTranslationUnit(translationUnit);
-  clang_disposeIndex(index);
 }
