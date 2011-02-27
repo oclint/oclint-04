@@ -1,5 +1,30 @@
 #include "mo/reporter/PlainTextReporterTest.h"
 #include "mo/RuleViolation.h"
+#include "mo/RuleData.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/rule/MockRule.h"
+
+#include <clang/AST/Stmt.h>
+
+using namespace clang;
+
+enum CXChildVisitResult extractSwitchStmtCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  RuleData *data = (RuleData *)clientData;
+  if (Stmt *stmt = CursorUtil::getStmt(node)) {
+    if (isa<SwitchStmt>(stmt)) {
+      RuleViolation violation(node, new MockRule());
+      data->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+CXCursor getSwitchStmtForTest(CXIndex index, CXTranslationUnit translationUnit) {
+  RuleData *data = new RuleData();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractSwitchStmtCursor, data);
+  RuleViolation violation = data->getViolations().at(0);
+  return violation.cursor;
+}
 
 void PlainTextReporterTest::setUp() {
   reporter = new PlainTextReporter();
@@ -21,6 +46,17 @@ void PlainTextReporterTest::testReportDiagnostics() {
     diagnostics.push_back(clang_getDiagnostic(translationUnit, index));
   }
   TS_ASSERT_EQUALS(reporter->reportDiagnostics(diagnostics), diagnosticMessage);
+  clang_disposeTranslationUnit(translationUnit);
+  clang_disposeIndex(index);
+}
+
+void PlainTextReporterTest::testCursorLocationToPlainText() {
+  string cursorLocationPlainText = "test/samples/SwitchStatement.m:3:3";
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
+  CXCursor switchStmtCursor = getSwitchStmtForTest(index, translationUnit);
+  assert(isa<SwitchStmt>(CursorUtil::getStmt(switchStmtCursor)));
+  TS_ASSERT_EQUALS(reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
   clang_disposeTranslationUnit(translationUnit);
   clang_disposeIndex(index);
 }

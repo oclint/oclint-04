@@ -9,4 +9,5 @@ public:
   void setUp();
   void tearDown();
   void testReportDiagnostics();
+  void testCursorLocationToPlainText();
 };
