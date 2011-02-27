@@ -55,8 +55,22 @@ void PlainTextReporterTest::testCursorLocationToPlainText() {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
   CXCursor switchStmtCursor = getSwitchStmtForTest(index, translationUnit);
-  assert(isa<SwitchStmt>(CursorUtil::getStmt(switchStmtCursor)));
   TS_ASSERT_EQUALS(reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
+  clang_disposeTranslationUnit(translationUnit);
+  clang_disposeIndex(index);
+}
+
+void PlainTextReporterTest::testReportViolations() {
+  string violationMessage = "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
+  violationMessage += "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
+  RuleViolation violation1(getSwitchStmtForTest(index, translationUnit), new MockRule());
+  RuleViolation violation2(getSwitchStmtForTest(index, translationUnit), new MockRule());
+  vector<RuleViolation> violations;
+  violations.push_back(violation1);
+  violations.push_back(violation2);
+  TS_ASSERT_EQUALS(reporter->reportViolations(violations), violationMessage);
   clang_disposeTranslationUnit(translationUnit);
   clang_disposeIndex(index);
 }

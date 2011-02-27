@@ -10,4 +10,5 @@ public:
   void tearDown();
   void testReportDiagnostics();
   void testCursorLocationToPlainText();
+  void testReportViolations();
 };
