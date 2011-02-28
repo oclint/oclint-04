@@ -2,8 +2,6 @@
 #include "mo/Reporter.h"
 #include "mo/exception/MOException.h"
 
-#include "mo/rule/SwitchStatementRule.h"
-
 ClangInstance::ClangInstance() {
   _index = clang_createIndex(0, 0);
   _translationUnit = 0;
