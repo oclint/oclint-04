@@ -2,7 +2,6 @@
 #define MO_SMELLFINDER_H
 
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -13,18 +12,13 @@ class Reporter;
 
 class SmellFinder {
 private:
-  CXIndex _index;
-  CXTranslationUnit _translationUnit;
   RuleData *_data;
 
 public:
   SmellFinder();
   ~SmellFinder();
   
-  void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
-  bool hasDiagnostic();
-  const string reportDiagnostics(const Reporter& reporter);
-  bool hasSmell();
+  bool hasSmell(CXTranslationUnit translationUnit);
   const string reportSmells(const Reporter& reporter); 
 };
 

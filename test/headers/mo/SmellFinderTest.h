@@ -8,10 +8,9 @@ private:
 public:
   void setUp();
   void tearDown();
-  void testHasNoDiagnostic();
-  void testHasDiagnostic();
   void testHasNoSmell();
-  void testCodeCompilationFailException();
-  void testReportDiagnostics();
+  void testHasSmellWithEmptyTranslationUnit();
+  void testHasSmellWithQuestionableTranslationUnit();
+  void testReportNoViolation();
   void testReportViolations();
 };

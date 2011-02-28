@@ -9,8 +9,6 @@
 #include "mo/rule/SwitchStatementRule.h"
 
 SmellFinder::SmellFinder() {
-  _index = clang_createIndex(0, 0);
-  _translationUnit = 0;
   _data = new RuleData();
   
   // temporarily use a fixed Rule
@@ -18,35 +16,23 @@ SmellFinder::SmellFinder() {
 }
 
 SmellFinder::~SmellFinder() {
-  clang_disposeTranslationUnit(_translationUnit); 
-  clang_disposeIndex(_index);
   delete _data;
 }
 
-void SmellFinder::compileSourceFileToTranslationUnit(const char * const * argv, int argc) {
-  _translationUnit = clang_parseTranslationUnit(_index, 0, argv, argc, 0, 0, CXTranslationUnit_None);
-  if (!_translationUnit) {
-    throw MOException("Code compilation fails!");
+bool SmellFinder::hasSmell(CXTranslationUnit translationUnit) {
+  if (!translationUnit) {
+    throw MOException("Inspect on an mpty translation unit!");
   }
-}
-
-bool SmellFinder::hasDiagnostic() {
-  return clang_getNumDiagnostics(_translationUnit);
-}
-
-const string SmellFinder::reportDiagnostics(const Reporter& reporter) {
-  vector<CXDiagnostic> diagnostics;
-  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
-    diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
+  if (clang_getNumDiagnostics(translationUnit)) {
+    throw MOException("Insepct on a questionable translation unit!");
   }
-  return reporter.reportDiagnostics(diagnostics);
-}
-
-bool SmellFinder::hasSmell() {
-  clang_visitChildren(clang_getTranslationUnitCursor(_translationUnit), traverseAST, _data);
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), traverseAST, _data);
   return _data->numberOfViolations();
 }
 
 const string SmellFinder::reportSmells(const Reporter& reporter) {
+  if (!_data->numberOfViolations()) {
+    throw MOException("No violation to report!");
+  }
   return reporter.reportViolations(_data->getViolations());
 }

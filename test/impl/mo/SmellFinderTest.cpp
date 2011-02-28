@@ -10,45 +10,49 @@ void SmellFinderTest::tearDown() {
   delete finder;
 }
 
-
-void SmellFinderTest::testHasNoDiagnostic() {
-  const char * const argv[] = { "test/samples/HelloWorld.m" };
-  finder->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(!finder->hasDiagnostic());
-}
-
-void SmellFinderTest::testHasDiagnostic() {
-  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
-  finder->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(finder->hasDiagnostic());
-}
-
 void SmellFinderTest::testHasNoSmell() {
-  const char * const argv[] = { "test/samples/HelloWorld.m" };
-  finder->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(!finder->hasSmell());
+  string src = "test/samples/HelloWorld.m";
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+  TS_ASSERT(!finder->hasSmell(translationUnit));
 }
 
-void SmellFinderTest::testCodeCompilationFailException() {
+void SmellFinderTest::testHasSmellWithEmptyTranslationUnit() {
   try {
-    const char * const argv[] = { "test/samples/CompilationFail.txt" };
-    finder->compileSourceFileToTranslationUnit(argv, 1);
-    TS_FAIL("compilation error exception expected");
+    finder->hasSmell(0);
+    TS_FAIL("inpection on empty tranlsation unit exception expected");
   } catch (MOException& ex) {
     //
   }
 }
 
-void SmellFinderTest::testReportDiagnostics() {
-  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
-  finder->compileSourceFileToTranslationUnit(argv, 1);
-  MockReporter reporter;
-  TS_ASSERT_EQUALS(finder->reportDiagnostics(reporter), "mock report diagnostics");
+void SmellFinderTest::testHasSmellWithQuestionableTranslationUnit() {
+  try {
+    string src = "test/samples/CompilerDiagnostics.cpp";
+    CXIndex index = clang_createIndex(0, 0);
+    CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+    finder->hasSmell(translationUnit);
+    TS_FAIL("inpection on questionalbe tranlsation unit exception expected");
+  } catch (MOException& ex) {
+    //
+  }
+}
+
+void SmellFinderTest::testReportNoViolation() {
+  try {
+    MockReporter reporter;
+    finder->reportSmells(reporter);
+    TS_FAIL("report on no violation exception expected");
+  } catch (MOException& ex) {
+    //
+  }
 }
 
 void SmellFinderTest::testReportViolations() {
-  const char * const argv[] = { "test/samples/HelloWorld.m" };
-  finder->compileSourceFileToTranslationUnit(argv, 1);
+  string src = "test/samples/SwitchStatement.m";
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+  finder->hasSmell(translationUnit);
   MockReporter reporter;
   TS_ASSERT_EQUALS(finder->reportSmells(reporter), "mock report violations");
 }

@@ -2,6 +2,7 @@
 
 using namespace std;
 
+#include "mo/ClangInstance.h"
 #include "mo/SmellFinder.h"
 #include "mo/exception/MOException.h"
 
@@ -9,13 +10,14 @@ using namespace std;
 
 int execute(const char * const * argv, int argc) {
   PlainTextReporter reporter;
-  SmellFinder smellFinder;
-  smellFinder.compileSourceFileToTranslationUnit(argv, argc);
-  if (smellFinder.hasDiagnostic()) {
-    cout << smellFinder.reportDiagnostics(reporter);
+  ClangInstance instance;
+  instance.compileSourceFileToTranslationUnit(argv, argc);
+  if (instance.hasDiagnostic()) {
+    cout << instance.reportDiagnostics(reporter);
     return 1;
   }
-  if (smellFinder.hasSmell()) {
+  SmellFinder smellFinder;
+  if (smellFinder.hasSmell(instance.getTranslationUnit())) {
     cout << smellFinder.reportSmells(reporter);
     return 2;
   }
