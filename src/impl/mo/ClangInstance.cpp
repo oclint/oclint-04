@@ -4,7 +4,7 @@
 
 ClangInstance::ClangInstance() {
   _index = clang_createIndex(0, 0);
-  _translationUnit = 0;
+  _translationUnit = NULL;
 }
 
 ClangInstance::~ClangInstance() {
