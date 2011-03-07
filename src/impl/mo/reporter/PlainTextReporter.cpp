@@ -4,7 +4,7 @@
 
 #include <sstream> // Think about it
 
-const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> diagnostics) const {
+const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
   string formatedDiagnostics;
   unsigned displayOptions = CXDiagnostic_DisplaySourceLocation
     | CXDiagnostic_DisplayColumn | CXDiagnostic_DisplaySourceRanges
@@ -18,7 +18,7 @@ const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic> dia
   return formatedDiagnostics;
 }
 
-const string PlainTextReporter::reportViolations(const vector<RuleViolation> violations) const {
+const string PlainTextReporter::reportViolations(const vector<RuleViolation>& violations) const {
   string formatedViolations;
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     RuleViolation violation = violations.at(index);
