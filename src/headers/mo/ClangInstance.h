@@ -20,9 +20,9 @@ public:
   ~ClangInstance();
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
-  bool hasDiagnostic();
+  bool hasDiagnostic() const;
   const string reportDiagnostics(const Reporter& reporter);
-  CXTranslationUnit getTranslationUnit();
+  const CXTranslationUnit& getTranslationUnit() const;
 };
 
 #endif

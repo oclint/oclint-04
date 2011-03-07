@@ -37,7 +37,7 @@ void ClangInstanceTest::testReportDiagnostics() {
   const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
   _instance->compileSourceFileToTranslationUnit(argv, 1);
   MockReporter reporter;
-  TS_ASSERT_EQUALS(_instance->reportDiagnostics(reporter), "mock report diagnostics");
+  TS_ASSERT_EQUALS(_instance->reportDiagnostics(reporter), string("mock report diagnostics"));
 }
 
 void ClangInstanceTest::testGetTranslationUnitWithCompilationError() {

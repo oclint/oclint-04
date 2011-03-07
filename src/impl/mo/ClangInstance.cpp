@@ -19,10 +19,11 @@ void ClangInstance::compileSourceFileToTranslationUnit(const char * const * argv
   }
 }
 
-bool ClangInstance::hasDiagnostic() {
+bool ClangInstance::hasDiagnostic() const {
   return clang_getNumDiagnostics(_translationUnit);
 }
 
+// Can I return reference of string& here?
 const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
   vector<CXDiagnostic> diagnostics;
   for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
@@ -31,7 +32,7 @@ const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
   return reporter.reportDiagnostics(diagnostics);
 }
 
-CXTranslationUnit ClangInstance::getTranslationUnit() {
+const CXTranslationUnit& ClangInstance::getTranslationUnit() const {
   if (!_translationUnit) {
     throw MOException("No translation unit found, please compile source code first!");
   }
