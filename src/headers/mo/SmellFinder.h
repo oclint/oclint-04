@@ -18,8 +18,8 @@ public:
   SmellFinder();
   ~SmellFinder();
   
-  bool hasSmell(CXTranslationUnit translationUnit);
-  const string reportSmells(const Reporter& reporter); 
+  bool hasSmell(const CXTranslationUnit& translationUnit) const;
+  const string reportSmells(const Reporter& reporter) const; 
 };
 
 #endif

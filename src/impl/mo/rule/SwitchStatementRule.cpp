@@ -22,6 +22,7 @@ void SwitchStatementRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& 
 
 const string& SwitchStatementRule::name() const {
   return _name;
+  // return string("switch statement");
   // to avoid warning: returning reference to temporary 
   // I store this into a member.
   // But is it a better to achieve this?

@@ -19,7 +19,7 @@ SmellFinder::~SmellFinder() {
   delete _data;
 }
 
-bool SmellFinder::hasSmell(CXTranslationUnit translationUnit) {
+bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   if (!translationUnit) {
     throw MOException("Inspect on an mpty translation unit!");
   }
@@ -30,7 +30,7 @@ bool SmellFinder::hasSmell(CXTranslationUnit translationUnit) {
   return _data->numberOfViolations();
 }
 
-const string SmellFinder::reportSmells(const Reporter& reporter) {
+const string SmellFinder::reportSmells(const Reporter& reporter) const {
   if (!_data->numberOfViolations()) {
     throw MOException("No violation to report!");
   }
