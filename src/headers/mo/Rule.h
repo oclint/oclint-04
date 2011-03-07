@@ -13,7 +13,7 @@ class Rule {
 public:
   virtual ~Rule() {}
   
-  virtual void apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {}
+  virtual void apply(CXCursor& node, CXCursor& parentNode, RuleData& data) = 0;
 
   virtual const string& name() const = 0;
 };
