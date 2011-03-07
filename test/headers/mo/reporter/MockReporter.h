@@ -5,8 +5,8 @@
 
 class MockReporter : public Reporter {
 public:
-  const string reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const;
-  const string reportViolations(const vector<RuleViolation>& violations) const;
+  virtual const string reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const;
+  virtual const string reportViolations(const vector<RuleViolation>& violations) const;
 };
 
 #endif
