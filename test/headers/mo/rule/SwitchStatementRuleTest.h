@@ -3,7 +3,7 @@
 
 class SwitchStatementRuleTest : public CxxTest::TestSuite { 
 private:
-  SwitchStatementRule *rule;
+  SwitchStatementRule *_rule;
   
 public:
   void setUp();

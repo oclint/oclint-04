@@ -3,7 +3,7 @@
 
 class SmellFinderTest : public CxxTest::TestSuite { 
 private:
-  SmellFinder *finder;
+  SmellFinder *_finder;
   
 public:
   void setUp();

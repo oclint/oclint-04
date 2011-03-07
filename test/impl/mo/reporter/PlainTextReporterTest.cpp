@@ -4,11 +4,11 @@
 #include "mo/util/TestCursorUtil.h"
 
 void PlainTextReporterTest::setUp() {
-  reporter = new PlainTextReporter();
+  _reporter = new PlainTextReporter();
 }
 
 void PlainTextReporterTest::tearDown() {
-  delete reporter;
+  delete _reporter;
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {
@@ -22,7 +22,7 @@ void PlainTextReporterTest::testReportDiagnostics() {
   for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(translationUnit); index < numberOfDiagnostics; index++) {
     diagnostics.push_back(clang_getDiagnostic(translationUnit, index));
   }
-  TS_ASSERT_EQUALS(reporter->reportDiagnostics(diagnostics), diagnosticMessage);
+  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
   clang_disposeTranslationUnit(translationUnit);
   clang_disposeIndex(index);
 }
@@ -30,7 +30,7 @@ void PlainTextReporterTest::testReportDiagnostics() {
 void PlainTextReporterTest::testCursorLocationToPlainText() {
   string cursorLocationPlainText = "test/samples/SwitchStatement.m:3:3";
   CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
-  TS_ASSERT_EQUALS(reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
+  TS_ASSERT_EQUALS(_reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
 }
 
 void PlainTextReporterTest::testReportViolations() {
@@ -41,5 +41,5 @@ void PlainTextReporterTest::testReportViolations() {
   vector<RuleViolation> violations;
   violations.push_back(violation1);
   violations.push_back(violation2);
-  TS_ASSERT_EQUALS(reporter->reportViolations(violations), violationMessage);
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);
 }

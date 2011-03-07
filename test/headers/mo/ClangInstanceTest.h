@@ -3,7 +3,7 @@
 
 class ClangInstanceTest : public CxxTest::TestSuite { 
 private:
-  ClangInstance *instance;
+  ClangInstance *_instance;
   
 public:
   void setUp();

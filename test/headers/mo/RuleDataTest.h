@@ -3,7 +3,7 @@
 
 class RuleDataTest : public CxxTest::TestSuite { 
 private:
-  RuleData *data;
+  RuleData *_data;
   
 public:
   void setUp();

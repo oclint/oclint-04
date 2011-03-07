@@ -3,7 +3,7 @@
 
 class PlainTextReporterTest : public CxxTest::TestSuite { 
 private:
-  PlainTextReporter *reporter;
+  PlainTextReporter *_reporter;
   
 public:
   void setUp();
