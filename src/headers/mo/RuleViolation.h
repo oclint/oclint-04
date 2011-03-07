@@ -10,7 +10,7 @@ public:
   CXCursor cursor;
   const Rule *rule;
 
-  RuleViolation(CXCursor currentNode, Rule *violatedRule);
+  RuleViolation(const CXCursor& currentNode, Rule *violatedRule);
 };
 
 #endif
