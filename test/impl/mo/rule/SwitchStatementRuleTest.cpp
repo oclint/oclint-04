@@ -13,12 +13,13 @@ void SwitchStatementRuleTest::tearDown() {
 
 void SwitchStatementRuleTest::testApply() {
   RuleData data;
-  rule->apply(TestCursorUtil::getSwitchStmtCursor(), clang_getNullCursor(), data);
+  CXCursor cursor = TestCursorUtil::getSwitchStmtCursor();
+  rule->apply(cursor, cursor, data);
   TS_ASSERT_EQUALS(data.numberOfViolations(), 1);
 }
 
 void SwitchStatementRuleTest::testName() {
-  TS_ASSERT_EQUALS(rule->name(), "Switch Statement");
+  TS_ASSERT_EQUALS(rule->name(), string("switch statement"));
 }
 
 

@@ -5,7 +5,7 @@
 
 class TestCursorUtil {
 public:
-  static CXCursor getSwitchStmtCursor();
+  static CXCursor& getSwitchStmtCursor();
 };
 
 #endif

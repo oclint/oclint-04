@@ -7,7 +7,11 @@
 
 using namespace clang;
 
-void SwitchStatementRule::apply(CXCursor node, CXCursor parentNode, RuleData& data) {
+SwitchStatementRule::SwitchStatementRule() {
+  _name = "switch statement"; 
+}
+
+void SwitchStatementRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
   if (Stmt *stmt = CursorUtil::getStmt(node)) {
     if (isa<SwitchStmt>(stmt)) {
       RuleViolation violation(node, this);
@@ -16,6 +20,9 @@ void SwitchStatementRule::apply(CXCursor node, CXCursor parentNode, RuleData& da
   }
 }
 
-string SwitchStatementRule::name() const {
-  return "Switch Statement";
+const string& SwitchStatementRule::name() const {
+  return _name;
+  // to avoid warning: returning reference to temporary 
+  // I store this into a member.
+  // But is it a better to achieve this?
 }

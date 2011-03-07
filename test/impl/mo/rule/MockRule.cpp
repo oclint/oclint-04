@@ -10,12 +10,12 @@ MockRule::MockRule(string name) {
   _name = name;
 }
 
-void MockRule::apply(CXCursor node, CXCursor parentNode, RuleData& data) {
+void MockRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
   _name = "applied!";
   RuleViolation violation(clang_getNullCursor(), this);
   data.addViolation(violation);
 }
 
-string MockRule::name() const {
+const string& MockRule::name() const {
   return _name;
 }
