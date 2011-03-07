@@ -19,7 +19,7 @@ enum CXChildVisitResult extractSwitchStmtCursor(CXCursor node, CXCursor parentNo
   return CXChildVisit_Recurse;
 }
 
-CXCursor& TestCursorUtil::getSwitchStmtCursor() {
+const CXCursor& TestCursorUtil::getSwitchStmtCursor() {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
   RuleData *data = new RuleData();
