@@ -29,7 +29,7 @@ const string PlainTextReporter::reportViolations(const vector<RuleViolation>& vi
   return formatedViolations;
 }
 
-const string PlainTextReporter::cursorLocationToPlainText(CXCursor cursor) const {
+const string PlainTextReporter::cursorLocationToPlainText(const CXCursor& cursor) const {
   stringstream locationStream;
   CXSourceLocation violatedSourceLocation = clang_getCursorLocation(cursor);
   CXFile file;

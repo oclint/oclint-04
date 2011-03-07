@@ -8,7 +8,7 @@ public:
   virtual const string reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const;
   virtual const string reportViolations(const vector<RuleViolation>& violations) const;
   
-  const string cursorLocationToPlainText(CXCursor cursor) const;
+  const string cursorLocationToPlainText(const CXCursor& cursor) const;
 };
 
 #endif
