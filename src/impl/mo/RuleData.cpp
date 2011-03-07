@@ -3,11 +3,11 @@
 #include "mo/RuleViolation.h"
 #include "mo/exception/MOException.h"
 
-void RuleData::addRule(Rule* rule) {
+void RuleData::addRule(Rule *const rule) {
   _rules.push_back(rule);
 }
 
-const int RuleData::numberOfRules() {
+const int RuleData::numberOfRules() const {
   return _rules.size();
 }
 
@@ -24,9 +24,9 @@ void RuleData::addViolation(const RuleViolation& violation) {
   _violations.push_back(violation);
 }
 
-const int RuleData::numberOfViolations() {
+const int RuleData::numberOfViolations() const {
   return _violations.size();
 }
-const vector<RuleViolation> RuleData::getViolations() {
+const vector<RuleViolation> RuleData::getViolations() const {
   return _violations;
 }
