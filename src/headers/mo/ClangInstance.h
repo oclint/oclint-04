@@ -14,10 +14,13 @@ class ClangInstance {
 private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;
+  
+  ClangInstance(const ClangInstance& instance);
+  ClangInstance& operator=(const ClangInstance& otherInstance);
 
 public:
   ClangInstance();
-  ~ClangInstance();
+  virtual ~ClangInstance();
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
   bool hasDiagnostic() const;
