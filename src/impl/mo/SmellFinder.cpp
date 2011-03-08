@@ -17,6 +17,7 @@ SmellFinder::SmellFinder() {
 
 SmellFinder::~SmellFinder() {
   delete _data;
+  _data = NULL;
 }
 
 bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {

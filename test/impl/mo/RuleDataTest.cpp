@@ -9,6 +9,7 @@ void RuleDataTest::setUp() {
 
 void RuleDataTest::tearDown() {
   delete _data;
+  _data = NULL;
 }
 
 void RuleDataTest::testNoRule() {

@@ -9,6 +9,7 @@ void PlainTextReporterTest::setUp() {
 
 void PlainTextReporterTest::tearDown() {
   delete _reporter;
+  _reporter = NULL;
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {
@@ -36,8 +37,9 @@ void PlainTextReporterTest::testCursorLocationToPlainText() {
 void PlainTextReporterTest::testReportViolations() {
   string violationMessage = "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
   violationMessage += "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
-  RuleViolation violation1(TestCursorUtil::getSwitchStmtCursor(), new MockRule());
-  RuleViolation violation2(TestCursorUtil::getSwitchStmtCursor(), new MockRule());
+  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
+  RuleViolation violation1(switchStmtCursor, new MockRule());
+  RuleViolation violation2(switchStmtCursor, new MockRule());
   vector<RuleViolation> violations;
   violations.push_back(violation1);
   violations.push_back(violation2);

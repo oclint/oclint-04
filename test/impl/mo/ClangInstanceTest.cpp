@@ -8,6 +8,7 @@ void ClangInstanceTest::setUp() {
 
 void ClangInstanceTest::tearDown() {
   delete _instance;
+  _instance = NULL;
 }
 
 
