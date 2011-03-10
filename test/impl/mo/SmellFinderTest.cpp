@@ -39,16 +39,6 @@ void SmellFinderTest::testHasSmellWithQuestionableTranslationUnit() {
   }
 }
 
-void SmellFinderTest::testReportNoViolation() {
-  try {
-    MockReporter reporter;
-    _finder->reportSmells(reporter);
-    TS_FAIL("report on no violation exception expected");
-  } catch (MOException& ex) {
-    //
-  }
-}
-
 void SmellFinderTest::testReportViolations() {
   string src = "test/samples/SwitchStatement.m";
   CXIndex index = clang_createIndex(0, 0);

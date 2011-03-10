@@ -11,6 +11,5 @@ public:
   void testHasNoSmell();
   void testHasSmellWithEmptyTranslationUnit();
   void testHasSmellWithQuestionableTranslationUnit();
-  void testReportNoViolation();
   void testReportViolations();
 };

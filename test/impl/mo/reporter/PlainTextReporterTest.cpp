@@ -40,6 +40,12 @@ void PlainTextReporterTest::testReportDiagnostics() {
   TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
 }
 
+void PlainTextReporterTest::testReportEmptyDiagnostics() {
+  string diagnosticMessage;
+  vector<CXDiagnostic> diagnostics;
+  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
+}
+
 void PlainTextReporterTest::testCursorLocationToPlainText() {
   string cursorLocationPlainText = "test/samples/SwitchStatement.m:3:3";
   CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
@@ -50,5 +56,11 @@ void PlainTextReporterTest::testReportViolations() {
   string violationMessage = "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
 
   vector<RuleViolation> violations = getTestViolations();  
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);
+}
+
+void PlainTextReporterTest::testReportEmptyViolations() {
+  string violationMessage;
+  vector<RuleViolation> violations;  
   TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);
 }

@@ -32,8 +32,5 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
 }
 
 const string SmellFinder::reportSmells(const Reporter& reporter) const {
-  if (!_data->numberOfViolations()) {
-    throw MOException("No violation to report!");
-  }
   return reporter.reportViolations(_data->getViolations());
 }

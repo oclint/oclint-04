@@ -9,6 +9,8 @@ public:
   void setUp();
   void tearDown();
   void testReportDiagnostics();
+  void testReportEmptyDiagnostics();
   void testCursorLocationToPlainText();
   void testReportViolations();
+  void testReportEmptyViolations();
 };
