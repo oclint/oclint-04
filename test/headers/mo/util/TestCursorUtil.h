@@ -5,7 +5,7 @@
 
 class TestCursorUtil {
 public:
-  static const CXCursor& getSwitchStmtCursor();
+  static const CXCursor getSwitchStmtCursor();
 };
 
 #endif
