@@ -12,12 +12,10 @@ const int RuleData::numberOfRules() const {
 }
 
 Rule* RuleData::ruleAt(int index) {
-  if (index >= 0 && index < numberOfRules()) {
-    return _rules.at(index);
-  }
-  else {
+  if (index < 0 || index >= numberOfRules()) {
     throw MOException("Index out of range when getting rule!");
   }
+  return _rules.at(index);
 }
 
 void RuleData::addViolation(const RuleViolation& violation) {
