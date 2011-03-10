@@ -14,12 +14,12 @@ class SmellFinder {
 private:
   RuleData *_data;
   
-  SmellFinder(const SmellFinder& finder);
-  SmellFinder& operator=(const SmellFinder& otherFinder);
+  SmellFinder(const SmellFinder&);
+  SmellFinder& operator=(const SmellFinder&);
 
 public:
   SmellFinder();
-  ~SmellFinder();
+  virtual ~SmellFinder();
   
   bool hasSmell(const CXTranslationUnit& translationUnit) const;
   const string reportSmells(const Reporter& reporter) const; 
