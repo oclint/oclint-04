@@ -25,7 +25,6 @@ bool ClangInstance::hasDiagnostic() const {
   return clang_getNumDiagnostics(_translationUnit);
 }
 
-// Can I return reference of string& here?
 const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
   vector<CXDiagnostic> diagnostics;
   for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
