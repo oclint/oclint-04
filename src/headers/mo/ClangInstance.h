@@ -15,8 +15,8 @@ private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;
   
-  ClangInstance(const ClangInstance& instance);
-  ClangInstance& operator=(const ClangInstance& otherInstance);
+  ClangInstance(const ClangInstance&);
+  ClangInstance& operator=(const ClangInstance&);
 
 public:
   ClangInstance();
