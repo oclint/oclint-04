@@ -10,8 +10,6 @@ ClangInstance::ClangInstance() {
 ClangInstance::~ClangInstance() {
   clang_disposeTranslationUnit(_translationUnit); 
   clang_disposeIndex(_index);
-  _index = NULL;
-  _translationUnit = NULL;
 }
 
 void ClangInstance::compileSourceFileToTranslationUnit(const char * const * argv, int argc) {

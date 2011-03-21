@@ -27,7 +27,6 @@ void PlainTextReporterTest::setUp() {
 
 void PlainTextReporterTest::tearDown() {
   delete _reporter;
-  _reporter = NULL;
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {

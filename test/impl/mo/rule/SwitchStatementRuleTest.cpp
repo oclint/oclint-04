@@ -9,7 +9,6 @@ void SwitchStatementRuleTest::setUp() {
 
 void SwitchStatementRuleTest::tearDown() {
   delete _rule;
-  _rule = NULL;
 }
 
 void SwitchStatementRuleTest::testApply() {

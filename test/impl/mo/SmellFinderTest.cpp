@@ -8,7 +8,6 @@ void SmellFinderTest::setUp() {
 
 void SmellFinderTest::tearDown() {
   delete _finder;
-  _finder = NULL;
 }
 
 void SmellFinderTest::testHasNoSmell() {
