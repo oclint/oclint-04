@@ -12,5 +12,19 @@ RuleSet::RuleSet(Rule* rule) {
 }
 
 int RuleSet::numberOfRules() {
+  if (_rules == NULL) {
+    _rules = new vector<Rule*>();
+  }
+  
   return _rules->size();
+}
+
+void RuleSet::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+  if (_rules == NULL) {
+    _rules = new vector<Rule*>();
+  } // DRY violation...
+  
+  for (int index = 0, numRules = numberOfRules(); index != numRules; index++) {
+    _rules->at(index)->apply(node, parentNode, data);
+  }
 }

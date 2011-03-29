@@ -5,7 +5,10 @@
 
 using namespace std;
 
+#include <clang-c/Index.h>
+
 class Rule;
+class RuleData;
 
 class RuleSet {
 private:
@@ -14,7 +17,7 @@ private:
 public:
   RuleSet(Rule* rule);
   static int numberOfRules();
-  static void emptySet();
+  static void apply(CXCursor& node, CXCursor& parentNode, RuleData& data);
 };
 
 #endif

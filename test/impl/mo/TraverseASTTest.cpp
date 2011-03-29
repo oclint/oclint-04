@@ -5,12 +5,8 @@
 
 void TraverseASTTest::testTraverseAST() {
   RuleData *data = new RuleData();
-  MockRule *rule = new MockRule();
-  data->addRule(rule);
-  CXCursor node;
-  CXCursor parentNode;
-  TS_ASSERT_EQUALS(rule->name(), "mock rule");
+  CXCursor node = clang_getNullCursor();
+  CXCursor parentNode = clang_getNullCursor();
   TS_ASSERT_EQUALS(traverseAST(node, parentNode, data), CXChildVisit_Recurse);
-  TS_ASSERT_EQUALS(rule->name(), "applied!");
   TS_ASSERT_EQUALS(data->numberOfViolations(), 1);
 }

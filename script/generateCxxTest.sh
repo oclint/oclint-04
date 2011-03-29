@@ -5,5 +5,4 @@ test/headers/*Test.h \
 test/headers/mo/*Test.h \
 test/headers/mo/util/*Test.h \
 test/headers/mo/exception/*Test.h \
-test/headers/mo/reporter/*Test.h \
-test/headers/mo/rule/*Test.h
+test/headers/mo/reporter/*Test.h

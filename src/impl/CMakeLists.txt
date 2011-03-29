@@ -3,9 +3,7 @@ target_link_libraries(mo
   MOCore
   MOException
   MOReporter
-  MORule
   MOUtil
-  MOCore # TODO: will remove this line when we dynamically load these rules
   ${MO_COMMON_LINK_LIB}
   dl
   )

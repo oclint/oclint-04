@@ -1,3 +1,3 @@
-add_library(MORule
-  SwitchStatementRule.cpp
-  )
+#add_library(MORule
+#  SwitchStatementRule.cpp
+#  )

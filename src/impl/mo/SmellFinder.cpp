@@ -6,13 +6,8 @@
 #include "mo/RuleData.h"
 #include "mo/exception/MOException.h"
 
-#include "mo/rule/SwitchStatementRule.h"
-
 SmellFinder::SmellFinder() {
   _data = new RuleData();
-  
-  // temporarily use a fixed Rule
-  _data->addRule(new SwitchStatementRule());
 }
 
 SmellFinder::~SmellFinder() {
