@@ -8,6 +8,7 @@ using namespace std;
 #include <clang-c/Index.h>
 
 class RuleData;
+class RuleSet;
 
 class Rule {
 public:
