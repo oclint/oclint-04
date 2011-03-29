@@ -4,6 +4,7 @@ add_library(MOCore
   TraverseAST.cpp
   RuleViolation.cpp
   RuleData.cpp
+  RuleSet.cpp
   )
 
 add_subdirectory(exception)

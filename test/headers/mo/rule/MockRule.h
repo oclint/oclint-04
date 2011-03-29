@@ -2,10 +2,12 @@
 #define MO_MOCKRULE_H
 
 #include "mo/Rule.h"
+#include "mo/RuleSet.h"
 
 class MockRule : public Rule {
 private:
   string _name;
+  static RuleSet rules;
   
 public:
   MockRule();

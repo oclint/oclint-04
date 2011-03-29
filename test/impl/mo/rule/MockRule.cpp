@@ -2,6 +2,8 @@
 #include "mo/RuleData.h"
 #include "mo/RuleViolation.h"
 
+RuleSet MockRule::rules(new MockRule());
+
 MockRule::MockRule() {
   _name = "mock rule";
 }
