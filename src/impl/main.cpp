@@ -55,7 +55,6 @@ int main(int argc, char* argv[]) {
   int execute_flag = -1;
   string executablePath(argv[0]);
   dynamicLoadRules(executablePath, "rules");
-  cout << "number of rules loaded: " << RuleSet::numberOfRules() << endl;
   try {
     execute_flag = execute(argv + 1, argc - 1);
   }
