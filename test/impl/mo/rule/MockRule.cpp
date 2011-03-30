@@ -1,4 +1,5 @@
 #include "mo/rule/MockRule.h"
+#include "mo/RuleSet.h"
 #include "mo/RuleData.h"
 #include "mo/RuleViolation.h"
 #include "mo/util/CursorUtil.h"

@@ -1,16 +1,13 @@
-#ifndef MO_MOCKRULE_H
-#define MO_MOCKRULE_H
+#ifndef MO_EMPTYIFSTATEMENTRULE_H
+#define MO_EMPTYIFSTATEMENTRULE_H
 
 #include "mo/Rule.h"
 
-class MockRule : public Rule {
+class EmptyIfStatementRule : public Rule {
 private:
-  string _name;
   static RuleSet rules;
   
 public:
-  MockRule();
-  MockRule(string name);
   virtual void apply(CXCursor& node, CXCursor& parentNode, RuleData& data);
   virtual const string name() const;
 };

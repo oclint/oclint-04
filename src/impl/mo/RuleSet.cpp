@@ -22,7 +22,7 @@ int RuleSet::numberOfRules() {
 void RuleSet::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
   if (_rules == NULL) {
     _rules = new vector<Rule*>();
-  } // DRY violation...
+  } //DRY violation
   
   for (int index = 0, numRules = numberOfRules(); index != numRules; index++) {
     _rules->at(index)->apply(node, parentNode, data);
