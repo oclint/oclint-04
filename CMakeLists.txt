@@ -29,7 +29,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 SET(MO_COMMON_LINK_LIB
-  clang
+  libclang
   pthread
   )
 
