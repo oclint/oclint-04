@@ -5,10 +5,14 @@
 
 void SmellFinderTest::setUp() {
   _finder = new SmellFinder();
+  _index = clang_createIndex(0, 0);
+  _translationUnit = NULL;
 }
 
 void SmellFinderTest::tearDown() {
   delete _finder;
+  clang_disposeTranslationUnit(_translationUnit); 
+  clang_disposeIndex(_index);
 }
 
 void SmellFinderTest::testHasNoSmell() {
@@ -17,10 +21,8 @@ void SmellFinderTest::testHasNoSmell() {
 }                                         \n";
 
   StringSourceCode strCode(stringToBeChecked, "m");
-  
-  CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, index);
-  TS_ASSERT(!_finder->hasSmell(translationUnit));
+  _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, _index);
+  TS_ASSERT(!_finder->hasSmell(_translationUnit));
 }
 
 void SmellFinderTest::testHasSmellWithEmptyTranslationUnit() {
@@ -35,9 +37,8 @@ void SmellFinderTest::testHasSmellWithEmptyTranslationUnit() {
 void SmellFinderTest::testHasSmellWithQuestionableTranslationUnit() {
   try {
     string src = "test/samples/CompilerDiagnostics.cpp";
-    CXIndex index = clang_createIndex(0, 0);
-    CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
-    _finder->hasSmell(translationUnit);
+    _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+    _finder->hasSmell(_translationUnit);
     TS_FAIL("inpection on questionalbe tranlsation unit exception expected");
   } catch (MOException& ex) {
     //

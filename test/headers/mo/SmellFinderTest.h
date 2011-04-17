@@ -4,6 +4,8 @@
 class SmellFinderTest : public CxxTest::TestSuite { 
 private:
   SmellFinder *_finder;
+  CXIndex _index;
+  CXTranslationUnit _translationUnit;
   
 public:
   void setUp();
