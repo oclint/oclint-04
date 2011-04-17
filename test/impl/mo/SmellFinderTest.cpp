@@ -16,10 +16,7 @@ void SmellFinderTest::tearDown() {
 }
 
 void SmellFinderTest::testHasNoSmell() {
-  string stringToBeChecked = "int main() {\n\
-  return 0;                               \n\
-}                                         \n";
-
+  string stringToBeChecked = "int main() { return 0; }";
   StringSourceCode strCode(stringToBeChecked, "m");
   _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, _index);
   TS_ASSERT(!_finder->hasSmell(_translationUnit));
@@ -30,26 +27,27 @@ void SmellFinderTest::testHasSmellWithEmptyTranslationUnit() {
     _finder->hasSmell(0);
     TS_FAIL("inpection on empty tranlsation unit exception expected");
   } catch (MOException& ex) {
-    //
+    // :)
   }
 }
 
 void SmellFinderTest::testHasSmellWithQuestionableTranslationUnit() {
+  string stringToBeChecked = "compilation fails!";
+  StringSourceCode strCode(stringToBeChecked, "txt");
+  _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, _index);
   try {
-    string src = "test/samples/CompilerDiagnostics.cpp";
-    _translationUnit = clang_parseTranslationUnit(_index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
     _finder->hasSmell(_translationUnit);
     TS_FAIL("inpection on questionalbe tranlsation unit exception expected");
   } catch (MOException& ex) {
-    //
+    // :)
   }
 }
 
 void SmellFinderTest::testReportViolations() {
-  string src = "test/samples/SwitchStatement.m";
-  CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
-  _finder->hasSmell(translationUnit);
+  string stringToBeChecked = "int main() { int i = 1; switch (i) { } return 0; }";
+  StringSourceCode strCode(stringToBeChecked, "m");
+  _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, _index);
+  _finder->hasSmell(_translationUnit);
   MockReporter reporter;
   TS_ASSERT_EQUALS(_finder->reportSmells(reporter), "mock report violations");
 }
