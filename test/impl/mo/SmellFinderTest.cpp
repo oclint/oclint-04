@@ -1,6 +1,7 @@
 #include "mo/exception/MOException.h"
 #include "mo/SmellFinderTest.h"
 #include "mo/reporter/MockReporter.h"
+#include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
 void SmellFinderTest::setUp() {
   _finder = new SmellFinder();
@@ -11,9 +12,14 @@ void SmellFinderTest::tearDown() {
 }
 
 void SmellFinderTest::testHasNoSmell() {
-  string src = "test/samples/HelloWorld.m";
+  string stringToBeChecked = "int main() {\n\
+  return 0;                               \n\
+}                                         \n";
+
+  StringSourceCode strCode(stringToBeChecked, "m");
+  
   CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, src.c_str(), 0, 0, 0, 0, CXTranslationUnit_None);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, index);
   TS_ASSERT(!_finder->hasSmell(translationUnit));
 }
 
