@@ -1,5 +1,5 @@
-#ifndef MO_TESTCURSORUTIL_H
-#define MO_TESTCURSORUTIL_H
+#ifndef MO_UTIL_TESTCURSORUTIL_H
+#define MO_UTIL_TESTCURSORUTIL_H
 
 #include <clang-c/Index.h>
 

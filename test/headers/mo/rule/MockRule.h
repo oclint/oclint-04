@@ -1,5 +1,5 @@
-#ifndef MO_MOCKRULE_H
-#define MO_MOCKRULE_H
+#ifndef MO_RULE_MOCKRULE_H
+#define MO_RULE_MOCKRULE_H
 
 #include "mo/Rule.h"
 

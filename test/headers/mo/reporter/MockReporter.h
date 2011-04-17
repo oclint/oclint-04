@@ -1,5 +1,5 @@
-#ifndef MO_MOCKREPORTER_H
-#define MO_MOCKREPORTER_H
+#ifndef MO_REPORTER_MOCKREPORTER_H
+#define MO_REPORTER_MOCKREPORTER_H
 
 #include "mo/Reporter.h"
 
