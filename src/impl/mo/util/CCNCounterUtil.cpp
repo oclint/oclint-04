@@ -15,7 +15,7 @@ static int _count;
 int CCNCounterUtil::getCCNOfCursor(CXCursor node) {
   _count = 0;
   clang_visitChildren(node, ccnTraverseAST, 0);
-  return _count;
+  return _count + 1;
 }
 
 enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
