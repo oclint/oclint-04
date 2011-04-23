@@ -9,4 +9,8 @@ public:
   void testGetStmtWithStmtCursor();
   void testGetStmtWithNotStmtCursor();
   void testGetStmtWithNullCursor();
+  void testGetExprWithExprCursor();
+  void testGetExprWithNotExprCursor();
+  void testGetExprWithNullCursor();
+  void testGetExprWithStmtCursor();
 };

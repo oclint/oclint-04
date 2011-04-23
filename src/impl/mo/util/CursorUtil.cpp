@@ -1,5 +1,6 @@
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Decl.h>
+#include <clang/AST/Expr.h>
 
 #include "mo/util/CursorUtil.h"
 
@@ -13,6 +14,13 @@ Decl* CursorUtil::getDecl(CXCursor node) {
 Stmt* CursorUtil::getStmt(CXCursor node) {
   if (clang_isStatement(clang_getCursorKind(node))) {
     return (Stmt *)node.data[1];
+  }
+  return NULL;
+}
+
+Expr* CursorUtil::getExpr(CXCursor node) {
+  if (clang_isExpression(clang_getCursorKind(node))) {
+    return (Expr *)node.data[1];
   }
   return NULL;
 }

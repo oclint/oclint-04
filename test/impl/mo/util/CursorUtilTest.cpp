@@ -14,6 +14,11 @@ CXCursor getStmtCursor() {
   return cursor;
 }
 
+CXCursor getExprCursor() {
+  CXCursor cursor = { CXCursor_FirstExpr, { 0, (void*)1, 0 } };
+  return cursor;
+}
+
 void CursorUtilTest::testGetDeclWithDeclCursor() {
   CXCursor cursor = getDeclCursor();
   Decl *decl = CursorUtil::getDecl(cursor);
@@ -48,4 +53,28 @@ void CursorUtilTest::testGetStmtWithNullCursor() {
   CXCursor cursor = getNullCursor();
   Stmt *stmt = CursorUtil::getStmt(cursor);
   TS_ASSERT(!stmt);
+}
+
+void CursorUtilTest::testGetExprWithExprCursor() {
+  CXCursor cursor = getExprCursor();
+  Expr *expr = CursorUtil::getExpr(cursor);
+  TS_ASSERT(expr);
+}
+
+void CursorUtilTest::testGetExprWithNotExprCursor() {
+  CXCursor cursor = getDeclCursor();
+  Expr *expr = CursorUtil::getExpr(cursor);
+  TS_ASSERT(!expr);
+}
+
+void CursorUtilTest::testGetExprWithNullCursor() {
+  CXCursor cursor = getNullCursor();
+  Expr *expr = CursorUtil::getExpr(cursor);
+  TS_ASSERT(!expr);
+}
+
+void CursorUtilTest::testGetExprWithStmtCursor() {
+  CXCursor cursor = getStmtCursor();
+  Expr *expr = CursorUtil::getExpr(cursor);
+  TS_ASSERT(!expr);
 }
