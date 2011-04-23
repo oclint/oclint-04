@@ -21,13 +21,18 @@ int CCNCounterUtil::getCCNOfCursor(CXCursor node) {
 enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   if (Stmt *stmt = CursorUtil::getStmt(node)) {
     if (isa<IfStmt>(stmt) || isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || isa<WhileStmt>(stmt) || 
-        isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt) || isa<ConditionalOperator>(stmt)) {
+        isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt)) {
       _count++;
     }
     if (BinaryOperator *biOperator = dyn_cast<BinaryOperator>(stmt)) {
       if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
         _count++;
       }
+    }
+  }
+  if (Expr *expr = CursorUtil::getExpr(node)) {
+    if (isa<ConditionalOperator>(expr)) {
+      _count++;
     }
   }
   return CXChildVisit_Recurse;

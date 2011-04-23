@@ -63,7 +63,7 @@ void CCNCounterUtilTest::testOneObjCAtCatchStatement() {
 
 void CCNCounterUtilTest::testOneConditionalOperator() {
   StringSourceCode strCode("int main() { int i = 0 ? 1 : -1; return i; }", "m");
-  //checkCCN(strCode, 2);
+  checkCCN(strCode, 2);
 }
 
 void CCNCounterUtilTest::testOneLogicAndOperator() {
