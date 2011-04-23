@@ -32,8 +32,7 @@ void CCNCounterUtilTest::testOneForStatement() {
 }
 
 void CCNCounterUtilTest::testOneObjCForCollectionStatement() {
-  StringSourceCode strCode("int main() { id array; for(id one : array) {} return 0; }", "m");
-  // TODO: think about a better sample, it seems this one is not ObjCForCollection
+  StringSourceCode strCode("int main() { id array; for(id one in array) {} return 0; }", "m");
   checkCCN(strCode, 2);
 }
 
