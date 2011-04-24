@@ -19,19 +19,24 @@ int CCNCounterUtil::getCCNOfCursor(CXCursor node) {
 }
 
 enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
-  if (Stmt *stmt = CursorUtil::getStmt(node)) {
+  Stmt *stmt = CursorUtil::getStmt(node);
+  if (stmt) {
     if (isa<IfStmt>(stmt) || isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || isa<WhileStmt>(stmt) || 
         isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt)) {
       _count++;
     }
   }
-  if (Expr *expr = CursorUtil::getExpr(node)) {
+  Expr *expr = CursorUtil::getExpr(node);
+  if (expr) {
     if (isa<ConditionalOperator>(expr)) {
       _count++;
     }
-    if (BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr)) {
-      if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
-        _count++;
+    else {
+      BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr);
+      if (biOperator) {
+        if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
+          _count++;
+        }
       }
     }
   }
