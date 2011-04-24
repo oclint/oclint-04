@@ -24,4 +24,5 @@ public:
   void testOneConditionalOperator();
   void testOneLogicAndOperator();
   void testOneLogicOrOperator();
+  void testABinaryOperatorButHasNoEffectOnCCNCouting();
 };

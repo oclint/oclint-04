@@ -67,11 +67,16 @@ void CCNCounterUtilTest::testOneConditionalOperator() {
 }
 
 void CCNCounterUtilTest::testOneLogicAndOperator() {
-  StringSourceCode strCode("int main() { bool b = 1 && 0; return 0; }", "m");
-  //checkCCN(strCode, 2);
+  StringSourceCode strCode("int main() { int b = 1 && 0; return 0; }", "m");
+  checkCCN(strCode, 2);
 }
 
 void CCNCounterUtilTest::testOneLogicOrOperator() {
-  StringSourceCode strCode("int main() { bool b = 1 || 0; return 0; }", "m");
-  //checkCCN(strCode, 2);
+  StringSourceCode strCode("int main() { int b = 1 || 0; return 0; }", "m");
+  checkCCN(strCode, 2);
+}
+
+void CCNCounterUtilTest::testABinaryOperatorButHasNoEffectOnCCNCouting() {
+  StringSourceCode strCode("int main() { int b = 1 == 0; return 0; }", "m");
+  checkCCN(strCode, 1);
 }

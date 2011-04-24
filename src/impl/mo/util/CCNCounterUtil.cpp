@@ -24,15 +24,15 @@ enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXCli
         isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt)) {
       _count++;
     }
-    if (BinaryOperator *biOperator = dyn_cast<BinaryOperator>(stmt)) {
-      if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
-        _count++;
-      }
-    }
   }
   if (Expr *expr = CursorUtil::getExpr(node)) {
     if (isa<ConditionalOperator>(expr)) {
       _count++;
+    }
+    if (BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr)) {
+      if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
+        _count++;
+      }
     }
   }
   return CXChildVisit_Recurse;
