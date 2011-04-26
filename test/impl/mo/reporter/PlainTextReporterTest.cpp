@@ -5,16 +5,6 @@
 #include "mo/StringSourceCode.h"
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
-vector<CXDiagnostic> getTestDiagnostics() {
-  CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/CompilerDiagnostics.cpp", 0, 0, 0, 0, CXTranslationUnit_None);
-  vector<CXDiagnostic> diagnostics;
-  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(translationUnit); index < numberOfDiagnostics; index++) {
-    diagnostics.push_back(clang_getDiagnostic(translationUnit, index));
-  }
-  return diagnostics;
-}
-
 void PlainTextReporterTest::setUp() {
   _reporter = new PlainTextReporter();
 }
@@ -24,13 +14,16 @@ void PlainTextReporterTest::tearDown() {
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {
-  string diagnosticMessage = "test/samples/CompilerDiagnostics.cpp:3:9:{3:7-3:12}: warning: using the result of an assignment as a condition without parentheses [-Wparentheses]\n";
-  diagnosticMessage += "test/samples/CompilerDiagnostics.cpp:3:9: note: use '==' to turn this assignment into an equality comparison\n";
-  diagnosticMessage += "test/samples/CompilerDiagnostics.cpp:3:9: note: place parentheses around the assignment to silence this warning\n";
-  diagnosticMessage += "test/samples/CompilerDiagnostics.cpp:6:11: error: expected ';' after return statement\n";
-  
-  vector<CXDiagnostic> diagnostics = getTestDiagnostics();
-  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
+  StringSourceCode strCode("int main() { return 0 }", "cpp");
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, index);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  vector<CXDiagnostic> diagnostics;
+  for (int idx = 0, numberOfDiagnostics = clang_getNumDiagnostics(translationUnit); idx < numberOfDiagnostics; idx++) {
+    diagnostics.push_back(clang_getDiagnostic(translationUnit, idx));
+  }
+  string diagnosticMessage = ":1:22: error: expected ';' after return statement\n";
+  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics).substr(tmpFileNameLength), diagnosticMessage);
 }
 
 void PlainTextReporterTest::testReportEmptyDiagnostics() {
