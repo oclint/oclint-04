@@ -3,6 +3,7 @@
 #include "mo/RuleViolation.h"
 #include "mo/RuleData.h"
 #include "mo/rule/MockRule.h"
+#include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -19,16 +20,11 @@ enum CXChildVisitResult extractSwitchStmtCursor(CXCursor node, CXCursor parentNo
   return CXChildVisit_Recurse;
 }
 
-const CXCursor TestCursorUtil::getSwitchStmtCursor() {
+const CXCursor TestCursorUtil::getSwitchStmtCursor(StringSourceCode code) {
   CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = clang_parseTranslationUnit(index, "test/samples/SwitchStatement.m", 0, 0, 0, 0, CXTranslationUnit_None);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   RuleData *data = new RuleData();
   clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractSwitchStmtCursor, data);
   RuleViolation violation = data->getViolations().at(0);
-  CXCursor switchStmtCursor = violation.cursor;
-  // As we need to use a Cursor within the TranslationUnit, so we cannot
-  // use disposeTranslationUnit method to release memory
-  // clang_disposeTranslationUnit(translationUnit);
-  // clang_disposeIndex(index);
-  return switchStmtCursor;
+  return violation.cursor;
 }

@@ -2,6 +2,8 @@
 #include "mo/RuleViolation.h"
 #include "mo/rule/MockRule.h"
 #include "mo/util/TestCursorUtil.h"
+#include "mo/StringSourceCode.h"
+#include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
 vector<CXDiagnostic> getTestDiagnostics() {
   CXIndex index = clang_createIndex(0, 0);
@@ -11,14 +13,6 @@ vector<CXDiagnostic> getTestDiagnostics() {
     diagnostics.push_back(clang_getDiagnostic(translationUnit, index));
   }
   return diagnostics;
-}
-
-vector<RuleViolation> getTestViolations() {
-  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
-  RuleViolation violation(switchStmtCursor, new MockRule());
-  vector<RuleViolation> violations;
-  violations.push_back(violation);
-  return violations;
 }
 
 void PlainTextReporterTest::setUp() {
@@ -46,16 +40,23 @@ void PlainTextReporterTest::testReportEmptyDiagnostics() {
 }
 
 void PlainTextReporterTest::testCursorLocationToPlainText() {
-  string cursorLocationPlainText = "test/samples/SwitchStatement.m:3:3";
-  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor();
-  TS_ASSERT_EQUALS(_reporter->cursorLocationToPlainText(switchStmtCursor), cursorLocationPlainText);
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor(strCode);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  string cursorLocationPlainText = ":1:25";
+  string reportString = _reporter->cursorLocationToPlainText(switchStmtCursor);
+  TS_ASSERT_EQUALS(reportString.substr(tmpFileNameLength), cursorLocationPlainText);
 }
 
 void PlainTextReporterTest::testReportViolations() {
-  string violationMessage = "test/samples/SwitchStatement.m:3:3: code smell: mock rule\n";
-
-  vector<RuleViolation> violations = getTestViolations();  
-  TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor(strCode);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  RuleViolation violation(switchStmtCursor, new MockRule());
+  vector<RuleViolation> violations;
+  violations.push_back(violation); 
+  string violationMessage = ":1:25: code smell: mock rule\n";
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(tmpFileNameLength), violationMessage);
 }
 
 void PlainTextReporterTest::testReportEmptyViolations() {

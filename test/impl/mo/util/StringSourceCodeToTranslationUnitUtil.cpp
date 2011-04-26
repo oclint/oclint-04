@@ -1,11 +1,11 @@
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
+#include <ctime>
 #include <fstream>
 using namespace std;
 
 CXTranslationUnit StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(StringSourceCode code, CXIndex index) {
-  string tmpFilePath("/tmp/mo.tmp.");
-  tmpFilePath += generateRandomString(10) + "." + code.type;
+  string tmpFilePath = generateTmpFileName(code);
   
   ofstream tmpFile;
   tmpFile.open(tmpFilePath.c_str());
@@ -20,12 +20,12 @@ CXTranslationUnit StringSourceCodeToTranslationUnitUtil::compileStringSourceCode
 }
 
 char StringSourceCodeToTranslationUnitUtil::generateRandomCharacter() {
-  srand(time(NULL));
   static const char alphanum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   return alphanum[rand() % (sizeof(alphanum) - 1)];
 }
 
 void StringSourceCodeToTranslationUnitUtil::fillInRandomCharacters(char *pChars, const int lengthOfRandomCharacters) {
+  srand(time(NULL));
   for (int index = 0; index < lengthOfRandomCharacters; ++index) {
     pChars[index] = generateRandomCharacter();
   }
@@ -36,4 +36,12 @@ string StringSourceCodeToTranslationUnitUtil::generateRandomString(int length) {
   char *charsToBeFilled = new char[length + 1];
   fillInRandomCharacters(charsToBeFilled, length);
   return string(charsToBeFilled);
+}
+
+int StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(StringSourceCode code) {
+  return generateTmpFileName(code).length();
+}
+
+string StringSourceCodeToTranslationUnitUtil::generateTmpFileName(StringSourceCode code) {
+  return "/tmp/mo.tmp." + generateRandomString(10) + "." + code.type;
 }

@@ -3,9 +3,11 @@
 
 #include <clang-c/Index.h>
 
+class StringSourceCode;
+
 class TestCursorUtil {
 public:
-  static const CXCursor getSwitchStmtCursor();
+  static const CXCursor getSwitchStmtCursor(StringSourceCode code);
 };
 
 #endif
