@@ -11,12 +11,22 @@ using namespace clang;
 
 RuleSet UnusedFormalParameterRule::rules(new UnusedFormalParameterRule());
 
+#include <iostream>
+using namespace std;
+
 void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
     ParmVarDecl *parameterDecl = dyn_cast<ParmVarDecl>(decl);
     if (parameterDecl) {
       if (!parameterDecl->isUsed()) {
+        DeclContext *context = parameterDecl->getDeclContext();
+        do {
+          if (isa<ObjCInterfaceDecl>(context)) {
+            return;
+          }
+          context = context->getParent();
+        } while (context);
         RuleViolation violation(node, this);
         data.addViolation(violation);
       }
