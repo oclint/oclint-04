@@ -1,6 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin/rules)
 
 macro(add_mo_rule name)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -undefined dynamic_lookup")
+  
   add_library(${name} SHARED
     ${name}.cpp
     )
