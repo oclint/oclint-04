@@ -11,9 +11,6 @@ using namespace clang;
 
 RuleSet UnusedFormalParameterRule::rules(new UnusedFormalParameterRule());
 
-#include <iostream>
-using namespace std;
-
 void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
