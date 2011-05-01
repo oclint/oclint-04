@@ -22,3 +22,4 @@ macro(add_mo_rule name)
 endmacro(add_mo_rule)
 
 add_mo_rule(EmptyIfStatementRule)
+add_mo_rule(UnusedFormalParameterRule)
