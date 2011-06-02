@@ -1,0 +1,6 @@
+[submodule "third-party/llvm"]
+	path = third-party/llvm
+	url = http://llvm.org/git/llvm
+[submodule "third-party/clang"]
+	path = third-party/clang
+	url = http://llvm.org/git/clang
