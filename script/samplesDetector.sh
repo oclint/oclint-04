@@ -9,5 +9,5 @@ done
 
 for file in `ls -d test/samples/*`
 do
-  $CWD/build/bin/mo $INCLUDES "$file"
+  $CWD/build/mo/bin/mo $INCLUDES "$file"
 done
