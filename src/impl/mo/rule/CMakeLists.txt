@@ -14,11 +14,10 @@ macro(add_mo_rule name)
     MOException
     )
 
-  IF(CMAKE_COMPILER_IS_GNUCXX)
   target_link_libraries(${name} 
-    gcov
+    profile_rt
     )
-  ENDIF()
+
 endmacro(add_mo_rule)
 
 add_mo_rule(EmptyIfStatementRule)

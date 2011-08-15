@@ -7,7 +7,7 @@ SUCCESS=0
 ./script/generateCxxTest.sh
 mkdir -p build/mo && cd build/mo
 if [ $SUCCESS -eq 0 ]; then
-	cmake -D CMAKE_CXX_COMPILER=g++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
+	cmake -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
 	if [ $? -ne 0 ]; then
 		SUCCESS=1
 	fi 
@@ -17,16 +17,20 @@ if [ $SUCCESS -eq 0 ]; then
 	if [ $? -ne 0 ]; then
 		SUCCESS=2
 	fi 
-fi 
-cd $CWD
+fi
 if [ $SUCCESS -eq 0 ]; then
-	build/mo/bin/mo_test > build/testresults.txt
+	cp -r ../../test/samples test/samples
+	./bin/mo_test > ../testresults.txt
+	mkdir coverage
+	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
+	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then
 		SUCCESS=3
 	fi 
 fi 
+cd $CWD
 if [ $SUCCESS -eq 0 ]; then
-	python third-party/zcov/zcov-scan build/output.zcov .
+	python third-party/zcov/zcov-scan build/output.zcov . > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		SUCCESS=4
 	fi
@@ -53,4 +57,5 @@ if [ $SUCCESS -eq 0 ]; then
 fi
 
 cd $CWD
+rm -rf CMakeFiles
 exit $SUCCESS

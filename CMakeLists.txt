@@ -33,12 +33,10 @@ SET(MO_COMMON_LINK_LIB
   pthread
   )
 
-IF(CMAKE_COMPILER_IS_GNUCXX)
 add_definitions(
   -fprofile-arcs 
   -ftest-coverage
   )
-ENDIF()
 
 add_subdirectory(src)
 add_subdirectory(test)

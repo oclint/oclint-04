@@ -23,10 +23,8 @@ target_link_libraries(mo_test
   dl
   )
   
-IF(CMAKE_COMPILER_IS_GNUCXX)
 target_link_libraries(mo_test 
-  gcov
+  profile_rt
   )
-ENDIF()
 
 add_subdirectory(impl)
