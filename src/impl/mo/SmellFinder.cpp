@@ -3,15 +3,15 @@
 #include "mo/Reporter.h"
 #include "mo/Rule.h"
 #include "mo/RuleViolation.h"
-#include "mo/RuleData.h"
+#include "mo/ViolationSet.h"
 #include "mo/exception/MOException.h"
 
 SmellFinder::SmellFinder() {
-  _data = new RuleData();
+  _violationSet = new ViolationSet();
 }
 
 SmellFinder::~SmellFinder() {
-  delete _data;
+  delete _violationSet;
 }
 
 bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
@@ -21,10 +21,10 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   if (clang_getNumDiagnostics(translationUnit)) {
     throw MOException("Insepct on a questionable translation unit!");
   }
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), traverseAST, _data);
-  return _data->numberOfViolations();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), traverseAST, _violationSet);
+  return _violationSet->numberOfViolations();
 }
 
 const string SmellFinder::reportSmells(const Reporter& reporter) const {
-  return reporter.reportViolations(_data->getViolations());
+  return reporter.reportViolations(_violationSet->getViolations());
 }

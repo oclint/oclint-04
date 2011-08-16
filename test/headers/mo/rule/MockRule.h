@@ -11,7 +11,7 @@ private:
 public:
   MockRule();
   MockRule(string name);
-  virtual void apply(CXCursor& node, CXCursor& parentNode, RuleData& data);
+  virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
   virtual const string name() const;
 };
 

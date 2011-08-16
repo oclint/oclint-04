@@ -1,6 +1,6 @@
 #include "mo/rule/EmptyIfStatementRule.h"
 #include "mo/ruleset/RuleSet.h"
-#include "mo/RuleData.h"
+#include "mo/ViolationSet.h"
 #include "mo/RuleViolation.h"
 #include "mo/util/CursorUtil.h"
 
@@ -10,7 +10,7 @@ using namespace clang;
 
 RuleSet EmptyIfStatementRule::rules(new EmptyIfStatementRule());
 
-void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorUtil::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
@@ -19,13 +19,13 @@ void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, RuleData&
       if (compoundStmt) {
         if (compoundStmt->body_empty()) {
           RuleViolation violation(node, this);
-          data.addViolation(violation);
+          violationSet.addViolation(violation);
         }
       }
       else {
         if (isa<NullStmt>(ifStmt->getThen())) {
           RuleViolation violation(node, this);
-          data.addViolation(violation);
+          violationSet.addViolation(violation);
         }
       }
     }

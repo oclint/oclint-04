@@ -19,12 +19,12 @@ int RuleSet::numberOfRules() {
   return _rules->size();
 }
 
-void RuleSet::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+void RuleSet::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   if (_rules == NULL) {
     _rules = new vector<Rule*>();
   } //DRY violation
   
   for (int index = 0, numRules = numberOfRules(); index != numRules; index++) {
-    _rules->at(index)->apply(node, parentNode, data);
+    _rules->at(index)->apply(node, parentNode, violationSet);
   }
 }

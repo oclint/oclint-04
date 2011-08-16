@@ -1,6 +1,6 @@
 #include "mo/rule/UnusedFormalParameterRule.h"
 #include "mo/ruleset/RuleSet.h"
-#include "mo/RuleData.h"
+#include "mo/ViolationSet.h"
 #include "mo/RuleViolation.h"
 #include "mo/util/CursorUtil.h"
 
@@ -11,7 +11,7 @@ using namespace clang;
 
 RuleSet UnusedFormalParameterRule::rules(new UnusedFormalParameterRule());
 
-void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
     ParmVarDecl *parameterDecl = dyn_cast<ParmVarDecl>(decl);
@@ -25,7 +25,7 @@ void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, Rule
           context = context->getParent();
         } while (context);
         RuleViolation violation(node, this);
-        data.addViolation(violation);
+        violationSet.addViolation(violation);
       }
     }
   }

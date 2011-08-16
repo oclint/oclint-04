@@ -1,6 +1,6 @@
 #include "mo/rule/CyclomaticComplexityRule.h"
 #include "mo/ruleset/RuleSet.h"
-#include "mo/RuleData.h"
+#include "mo/ViolationSet.h"
 #include "mo/RuleViolation.h"
 #include "mo/util/CursorUtil.h"
 #include "mo/util/CCNCounterUtil.h"
@@ -13,14 +13,14 @@ using namespace clang;
 
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
-void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
     if (isa<ObjCMethodDecl>(decl) || isa<CXXMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
       int ccn = CCNCounterUtil::getCCNOfCursor(node);
       if (ccn > 9) {
         RuleViolation violation(node, this);
-        data.addViolation(violation);
+        violationSet.addViolation(violation);
       }
     }
   }

@@ -3,7 +3,7 @@ add_library(MOCore
   SmellFinder.cpp
   TraverseAST.cpp
   RuleViolation.cpp
-  RuleData.cpp
+  ViolationSet.cpp
   )
 
 add_subdirectory(exception)

@@ -7,12 +7,12 @@ using namespace std;
 
 #include <clang-c/Index.h>
 
-class RuleData;
+class ViolationSet;
 class Reporter;
 
 class SmellFinder {
 private:
-  RuleData *_data;
+  ViolationSet *_violationSet;
   
   SmellFinder(const SmellFinder&);
   SmellFinder& operator=(const SmellFinder&);

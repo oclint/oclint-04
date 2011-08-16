@@ -8,7 +8,7 @@ using namespace std;
 #include <clang-c/Index.h>
 
 class Rule;
-class RuleData;
+class ViolationSet;
 
 class RuleSet {
 private:
@@ -17,7 +17,7 @@ private:
 public:
   RuleSet(Rule* rule);
   static int numberOfRules();
-  static void apply(CXCursor& node, CXCursor& parentNode, RuleData& data);
+  static void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
 };
 
 #endif

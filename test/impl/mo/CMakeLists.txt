@@ -1,7 +1,7 @@
 add_library(MOCoreTest
   ClangInstanceTest.cpp
   SmellFinderTest.cpp
-  RuleDataTest.cpp
+  ViolationSetTest.cpp
   TraverseASTTest.cpp
   )
 

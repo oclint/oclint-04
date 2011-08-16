@@ -1,6 +1,6 @@
 #include "mo/rule/MockRule.h"
 #include "mo/ruleset/RuleSet.h"
-#include "mo/RuleData.h"
+#include "mo/ViolationSet.h"
 #include "mo/RuleViolation.h"
 #include "mo/util/CursorUtil.h"
 
@@ -18,17 +18,17 @@ MockRule::MockRule(string name) {
   _name = name;
 }
 
-void MockRule::apply(CXCursor& node, CXCursor& parentNode, RuleData& data) {
+void MockRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   _name = "applied!";
   if (Stmt *stmt = CursorUtil::getStmt(node)) {
     if (isa<SwitchStmt>(stmt)) {
       RuleViolation violation(node, this);
-      data.addViolation(violation);
+      violationSet.addViolation(violation);
     }
   }
   if (node.kind == CXCursor_InvalidFile) {
     RuleViolation violation(node, this);
-    data.addViolation(violation);
+    violationSet.addViolation(violation);
   }
 }
 
