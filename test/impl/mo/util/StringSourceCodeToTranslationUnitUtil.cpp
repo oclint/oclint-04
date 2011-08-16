@@ -1,6 +1,7 @@
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
 #include <ctime>
+#include <cstdlib>
 #include <fstream>
 using namespace std;
 

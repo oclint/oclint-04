@@ -28,7 +28,7 @@ int execute(const char * const * argv, int argc) {
   return 0;
 }
 
-void dynamicLoadRules(string executablePath, string relativeRulesPath) {
+int dynamicLoadRules(string executablePath, string relativeRulesPath) {
   string absoluteRulesPath = executablePath.substr(0, executablePath.find_last_of("/") + 1) + relativeRulesPath;
   
   DIR *dp;
@@ -43,23 +43,27 @@ void dynamicLoadRules(string executablePath, string relativeRulesPath) {
         void *ruleHandle = dlopen(rulePath.c_str(), RTLD_NOW);
         if(ruleHandle == NULL){
            cerr << dlerror() << endl;
-           exit(-1);
+           closedir(dp);
+           return 3;
         }
       }
     }
   }
   closedir(dp);
+  return 0;
 }
 
 int main(int argc, char* argv[]) {
   int execute_flag = -1;
   string executablePath(argv[0]);
-  dynamicLoadRules(executablePath, "rules");
-  try {
-    execute_flag = execute(argv + 1, argc - 1);
-  }
-  catch (MOException& ex) {
-    cout << "Exception: " << ex.message << endl;
+  execute_flag = dynamicLoadRules(executablePath, "rules");
+  if (execute_flag == 0) {
+    try {
+      execute_flag = execute(argv + 1, argc - 1);
+    }
+    catch (MOException& ex) {
+      cout << "Exception: " << ex.message << endl;
+    }
   }
   return execute_flag;
 }
