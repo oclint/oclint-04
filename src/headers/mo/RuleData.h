@@ -14,13 +14,6 @@ private:
   vector<RuleViolation> _violations;
   
 public:
-  void addRule(Rule *const rule);
-  //later I will use dynamically load rules
-  // can i use a const pointer here?
-  
-  const int numberOfRules() const;
-  Rule* ruleAt(int index);
-  
   void addViolation(const RuleViolation& violation);
   const int numberOfViolations() const;
   const vector<RuleViolation> getViolations() const;

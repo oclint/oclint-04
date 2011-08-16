@@ -22,9 +22,11 @@ target_link_libraries(mo_test
   ${MO_COMMON_LINK_LIB}
   dl
   )
-  
+
+if(IS_CI_BUILD)
 target_link_libraries(mo_test 
   profile_rt
   )
+endif()
 
 add_subdirectory(impl)

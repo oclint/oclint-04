@@ -33,10 +33,12 @@ SET(MO_COMMON_LINK_LIB
   pthread
   )
 
+if(IS_CI_BUILD)
 add_definitions(
   -fprofile-arcs 
   -ftest-coverage
   )
+endif()
 
 add_subdirectory(src)
 add_subdirectory(test)

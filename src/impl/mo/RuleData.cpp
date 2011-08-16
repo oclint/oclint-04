@@ -3,21 +3,6 @@
 #include "mo/RuleViolation.h"
 #include "mo/exception/MOException.h"
 
-void RuleData::addRule(Rule *const rule) {
-  _rules.push_back(rule);
-}
-
-const int RuleData::numberOfRules() const {
-  return _rules.size();
-}
-
-Rule* RuleData::ruleAt(int index) {
-  if (index < 0 || index >= numberOfRules()) {
-    throw MOException("Index out of range when getting rule!");
-  }
-  return _rules.at(index);
-}
-
 void RuleData::addViolation(const RuleViolation& violation) {
   _violations.push_back(violation);
 }

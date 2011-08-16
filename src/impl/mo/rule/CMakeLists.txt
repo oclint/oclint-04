@@ -14,9 +14,11 @@ macro(add_mo_rule name)
     MOException
     )
 
+  if(IS_CI_BUILD)
   target_link_libraries(${name} 
     profile_rt
     )
+  endif()
 
 endmacro(add_mo_rule)
 

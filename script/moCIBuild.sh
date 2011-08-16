@@ -7,7 +7,7 @@ SUCCESS=0
 ./script/generateCxxTest.sh
 mkdir -p build/mo && cd build/mo
 if [ $SUCCESS -eq 0 ]; then
-	cmake -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
+	cmake -D IS_CI_BUILD=1 -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
 	if [ $? -ne 0 ]; then
 		SUCCESS=1
 	fi 

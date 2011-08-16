@@ -8,9 +8,11 @@ target_link_libraries(mo
   ${MO_COMMON_LINK_LIB}
   dl
   )
-  
+
+if(IS_CI_BUILD)
 target_link_libraries(mo 
   profile_rt
   )
+endif()
 
 add_subdirectory(mo)
