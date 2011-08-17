@@ -12,12 +12,10 @@ target_link_libraries(mo_test
   MOExceptionTest
   MOReporterTest
   MORuleTest
-  MORuleSetTest
   MOUtilTest
   MOCore
   MOException
   MOReporter
-  MORuleSet
   MOUtil
   ${MO_COMMON_LINK_LIB}
   dl

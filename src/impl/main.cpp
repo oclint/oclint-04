@@ -4,7 +4,7 @@ using namespace std;
 
 #include "mo/ClangInstance.h"
 #include "mo/SmellFinder.h"
-#include "mo/ruleset/RuleSet.h"
+#include "mo/RuleSet.h"
 #include "mo/exception/MOException.h"
 
 #include "mo/reporter/PlainTextReporter.h"

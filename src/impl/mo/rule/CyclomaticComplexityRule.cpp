@@ -1,5 +1,5 @@
 #include "mo/rule/CyclomaticComplexityRule.h"
-#include "mo/ruleset/RuleSet.h"
+#include "mo/RuleSet.h"
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"

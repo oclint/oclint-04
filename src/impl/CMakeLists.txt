@@ -4,7 +4,6 @@ target_link_libraries(mo
   MOException
   MOReporter
   MOUtil
-  MORuleSet
   ${MO_COMMON_LINK_LIB}
   dl
   )

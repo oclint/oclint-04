@@ -3,10 +3,10 @@ add_library(MOCoreTest
   SmellFinderTest.cpp
   ViolationSetTest.cpp
   TraverseASTTest.cpp
+  RuleSetTest.cpp
   )
 
 add_subdirectory(exception)
 add_subdirectory(reporter)
 add_subdirectory(rule)
-add_subdirectory(ruleset)
 add_subdirectory(util)

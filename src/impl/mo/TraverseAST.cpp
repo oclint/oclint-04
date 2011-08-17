@@ -1,6 +1,6 @@
 #include "mo/TraverseAST.h"
 #include "mo/ViolationSet.h"
-#include "mo/ruleset/RuleSet.h"
+#include "mo/RuleSet.h"
 
 enum CXChildVisitResult traverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   ViolationSet *violationSet = (ViolationSet *)clientData;

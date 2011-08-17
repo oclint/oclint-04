@@ -1,4 +1,4 @@
-#include "mo/ruleset/RuleSet.h"
+#include "mo/RuleSet.h"
 #include "mo/Rule.h"
 
 vector<Rule*>* RuleSet::_rules = NULL;

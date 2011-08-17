@@ -1,4 +1,4 @@
-#include "mo/ruleset/RuleSetTest.h"
+#include "mo/RuleSetTest.h"
 #include "mo/rule/MockRule.h"
 
 void RuleSetTest::testMockRuleBePushed() {

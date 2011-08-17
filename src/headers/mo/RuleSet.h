@@ -1,5 +1,5 @@
-#ifndef MO_RULESET_RULESET_H
-#define MO_RULESET_RULESET_H
+#ifndef MO_RULESET_H
+#define MO_RULESET_H
 
 #include <vector>
 
