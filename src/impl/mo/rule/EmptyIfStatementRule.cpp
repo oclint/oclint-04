@@ -1,7 +1,7 @@
 #include "mo/rule/EmptyIfStatementRule.h"
 #include "mo/ruleset/RuleSet.h"
 #include "mo/ViolationSet.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
 
 #include <clang/AST/Stmt.h>
@@ -18,13 +18,13 @@ void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, Violation
       CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(ifStmt->getThen());
       if (compoundStmt) {
         if (compoundStmt->body_empty()) {
-          RuleViolation violation(node, this);
+          Violation violation(node, this);
           violationSet.addViolation(violation);
         }
       }
       else {
         if (isa<NullStmt>(ifStmt->getThen())) {
-          RuleViolation violation(node, this);
+          Violation violation(node, this);
           violationSet.addViolation(violation);
         }
       }

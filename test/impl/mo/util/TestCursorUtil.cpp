@@ -1,6 +1,6 @@
 #include "mo/util/TestCursorUtil.h"
 #include "mo/util/CursorUtil.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/ViolationSet.h"
 #include "mo/rule/MockRule.h"
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
@@ -13,7 +13,7 @@ enum CXChildVisitResult extractSwitchStmtCursor(CXCursor node, CXCursor parentNo
   ViolationSet *violationSet = (ViolationSet *)clientData;
   if (Stmt *stmt = CursorUtil::getStmt(node)) {
     if (isa<SwitchStmt>(stmt)) {
-      RuleViolation violation(node, new MockRule());
+      Violation violation(node, new MockRule());
       violationSet->addViolation(violation);
     }
   }
@@ -25,6 +25,6 @@ const CXCursor TestCursorUtil::getSwitchStmtCursor(StringSourceCode code) {
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   ViolationSet *violationSet = new ViolationSet();
   clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractSwitchStmtCursor, violationSet);
-  RuleViolation violation = violationSet->getViolations().at(0);
+  Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }

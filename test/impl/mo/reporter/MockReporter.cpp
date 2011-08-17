@@ -4,6 +4,6 @@ const string MockReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnos
   return "mock report diagnostics";
 }
 
-const string MockReporter::reportViolations(const vector<RuleViolation>& violations) const {
+const string MockReporter::reportViolations(const vector<Violation>& violations) const {
   return "mock report violations";
 }

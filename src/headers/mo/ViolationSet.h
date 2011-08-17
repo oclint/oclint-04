@@ -5,16 +5,16 @@
 
 using namespace std;
 
-class RuleViolation;
+class Violation;
 
 class ViolationSet {
 private:
-  vector<RuleViolation> _violations;
+  vector<Violation> _violations;
   
 public:
-  void addViolation(const RuleViolation& violation);
+  void addViolation(const Violation& violation);
   int numberOfViolations() const;
-  const vector<RuleViolation> getViolations() const;
+  const vector<Violation> getViolations() const;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "mo/rule/UnusedFormalParameterRule.h"
 #include "mo/ruleset/RuleSet.h"
 #include "mo/ViolationSet.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
 
 #include <clang/AST/Decl.h>
@@ -24,7 +24,7 @@ void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, Viol
           }
           context = context->getParent();
         } while (context);
-        RuleViolation violation(node, this);
+        Violation violation(node, this);
         violationSet.addViolation(violation);
       }
     }

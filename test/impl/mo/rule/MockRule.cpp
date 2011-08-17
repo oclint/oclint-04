@@ -1,7 +1,7 @@
 #include "mo/rule/MockRule.h"
 #include "mo/ruleset/RuleSet.h"
 #include "mo/ViolationSet.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
 
 #include <clang/AST/Stmt.h>
@@ -22,12 +22,12 @@ void MockRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violati
   _name = "applied!";
   if (Stmt *stmt = CursorUtil::getStmt(node)) {
     if (isa<SwitchStmt>(stmt)) {
-      RuleViolation violation(node, this);
+      Violation violation(node, this);
       violationSet.addViolation(violation);
     }
   }
   if (node.kind == CXCursor_InvalidFile) {
-    RuleViolation violation(node, this);
+    Violation violation(node, this);
     violationSet.addViolation(violation);
   }
 }

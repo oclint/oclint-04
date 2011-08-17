@@ -1,15 +1,13 @@
 #include "mo/ViolationSet.h"
-#include "mo/Rule.h"
-#include "mo/RuleViolation.h"
-#include "mo/exception/MOException.h"
+#include "mo/Violation.h"
 
-void ViolationSet::addViolation(const RuleViolation& violation) {
+void ViolationSet::addViolation(const Violation& violation) {
   _violations.push_back(violation);
 }
 
 int ViolationSet::numberOfViolations() const {
   return _violations.size();
 }
-const vector<RuleViolation> ViolationSet::getViolations() const {
+const vector<Violation> ViolationSet::getViolations() const {
   return _violations;
 }

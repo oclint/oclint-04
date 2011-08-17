@@ -1,8 +1,7 @@
 #include "mo/SmellFinder.h"
 #include "mo/TraverseAST.h"
 #include "mo/Reporter.h"
-#include "mo/Rule.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/ViolationSet.h"
 #include "mo/exception/MOException.h"
 

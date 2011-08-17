@@ -1,7 +1,7 @@
 #include "mo/rule/CyclomaticComplexityRule.h"
 #include "mo/ruleset/RuleSet.h"
 #include "mo/ViolationSet.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
 #include "mo/util/CCNCounterUtil.h"
 
@@ -19,7 +19,7 @@ void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, Viola
     if (isa<ObjCMethodDecl>(decl) || isa<CXXMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
       int ccn = CCNCounterUtil::getCCNOfCursor(node);
       if (ccn > 9) {
-        RuleViolation violation(node, this);
+        Violation violation(node, this);
         violationSet.addViolation(violation);
       }
     }

@@ -1,4 +1,4 @@
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 #include "mo/Rule.h"
 #include "mo/reporter/PlainTextReporter.h"
 
@@ -18,10 +18,10 @@ const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& di
   return formatedDiagnostics;
 }
 
-const string PlainTextReporter::reportViolations(const vector<RuleViolation>& violations) const {
+const string PlainTextReporter::reportViolations(const vector<Violation>& violations) const {
   string formatedViolations;
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
-    RuleViolation violation = violations.at(index);
+    Violation violation = violations.at(index);
     formatedViolations += cursorLocationToPlainText(violation.cursor);
     formatedViolations += ": code smell: " + violation.rule->name();
     formatedViolations += '\n';

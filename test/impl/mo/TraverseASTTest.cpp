@@ -1,7 +1,7 @@
 #include "mo/TraverseASTTest.h"
 #include "mo/rule/MockRule.h"
 #include "mo/ViolationSet.h"
-#include "mo/RuleViolation.h"
+#include "mo/Violation.h"
 
 void TraverseASTTest::testTraverseAST() {
   ViolationSet *violationSet = new ViolationSet();

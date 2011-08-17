@@ -2,7 +2,7 @@ add_library(MOCore
   ClangInstance.cpp
   SmellFinder.cpp
   TraverseAST.cpp
-  RuleViolation.cpp
+  Violation.cpp
   ViolationSet.cpp
   )
 
