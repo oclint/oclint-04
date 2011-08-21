@@ -1,6 +1,7 @@
 add_executable(mo main.cpp)
 target_link_libraries(mo 
   MOCore
+  MORuleSet
   MOException
   MOReporter
   MOUtil

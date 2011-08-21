@@ -1,10 +1,12 @@
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin/rules)
-
-macro(add_mo_rule name)
+macro(build_dynamic_rule name)
   set(CMAKE_SHARED_LINKER_FLAGS "-undefined dynamic_lookup")
   
   add_library(${name} SHARED
     ${name}.cpp
+    )
+  
+  SET_TARGET_PROPERTIES(${name}
+    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/rules
     )
 
   target_link_libraries(${name} 
@@ -19,9 +21,28 @@ macro(add_mo_rule name)
     profile_rt
     )
   endif()
+endmacro(build_dynamic_rule)
 
-endmacro(add_mo_rule)
+macro(build_dynamic_rules rules)
+  FOREACH(it ${rules})
+    build_dynamic_rule(${it})
+  ENDFOREACH(it)
+endmacro(build_dynamic_rules)
 
-add_mo_rule(EmptyIfStatementRule)
-add_mo_rule(UnusedFormalParameterRule)
-add_mo_rule(CyclomaticComplexityRule)
+macro(build_static_rules rules)
+  SET(cpp_files)
+  FOREACH(it ${rules})
+    list(APPEND cpp_files ${it}.cpp)
+  ENDFOREACH(it)
+  
+  add_library(MORule ${cpp_files})
+endmacro(build_static_rules)
+
+SET(LIST_OF_RULES 
+  EmptyIfStatementRule
+  UnusedFormalParameterRule
+  CyclomaticComplexityRule
+  )
+
+build_static_rules("${LIST_OF_RULES}")
+build_dynamic_rules("${LIST_OF_RULES}")
