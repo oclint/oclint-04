@@ -8,6 +8,7 @@ class StringSourceCode;
 class TestCursorUtil {
 public:
   static const CXCursor getSwitchStmtCursor(StringSourceCode code);
+  static const CXCursor getIfStmtCursor(StringSourceCode code);
 };
 
 #endif

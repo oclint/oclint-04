@@ -15,6 +15,7 @@ target_link_libraries(mo_test
   MOUtilTest
   MOCore
   MORuleSet
+  MORule
   MOException
   MOReporter
   MOUtil

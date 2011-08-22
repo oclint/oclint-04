@@ -28,3 +28,23 @@ const CXCursor TestCursorUtil::getSwitchStmtCursor(StringSourceCode code) {
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }
+
+enum CXChildVisitResult extractIfStmtCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  if (Stmt *stmt = CursorUtil::getStmt(node)) {
+    if (isa<IfStmt>(stmt)) {
+      Violation violation(node, new MockRule());
+      violationSet->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getIfStmtCursor(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractIfStmtCursor, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}

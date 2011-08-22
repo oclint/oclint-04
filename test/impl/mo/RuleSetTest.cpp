@@ -2,5 +2,5 @@
 #include "mo/rule/MockRule.h"
 
 void RuleSetTest::testMockRuleBePushed() {
-  TS_ASSERT_EQUALS(RuleSet::numberOfRules(), 1);
+  TS_ASSERT_EQUALS(RuleSet::numberOfRules(), 2);
 }
