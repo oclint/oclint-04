@@ -22,6 +22,7 @@ if [ $SUCCESS -eq 0 ]; then
 	cp -r ../../test/samples test/samples
 	./bin/mo_test > ../testresults.txt
 	mkdir coverage
+	rm src/impl/mo/rule/CMakeFiles/UnusedFormalParameterRule.dir/UnusedFormalParameterRule.cpp.gcno
 	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
 	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then

@@ -15,12 +15,6 @@ macro(build_dynamic_rule name)
     MOUtil
     MOException
     )
-
-  if(IS_CI_BUILD)
-  target_link_libraries(${name} 
-    profile_rt
-    )
-  endif()
 endmacro(build_dynamic_rule)
 
 macro(build_dynamic_rules rules)

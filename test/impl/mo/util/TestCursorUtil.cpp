@@ -48,3 +48,23 @@ const CXCursor TestCursorUtil::getIfStmtCursor(StringSourceCode code) {
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }
+
+enum CXChildVisitResult extractParmVarDeclCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  if (Decl *decl = CursorUtil::getDecl(node)) {
+    if (isa<ParmVarDecl>(decl)) {
+      Violation violation(node, new MockRule());
+      violationSet->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getParmVarDeclCursor(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractParmVarDeclCursor, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}
