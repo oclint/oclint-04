@@ -15,7 +15,7 @@ SmellFinder::~SmellFinder() {
 
 bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   if (!translationUnit) {
-    throw MOException("Inspect on an mpty translation unit!");
+    throw MOException("Inspect on an empty translation unit!");
   }
   if (clang_getNumDiagnostics(translationUnit)) {
     throw MOException("Insepct on a questionable translation unit!");

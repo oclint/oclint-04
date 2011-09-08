@@ -6,6 +6,9 @@
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
 #include <clang/AST/Stmt.h>
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclObjC.h>
+#include <clang/AST/Expr.h>
 
 using namespace clang;
 
@@ -65,6 +68,26 @@ const CXCursor TestCursorUtil::getParmVarDeclCursor(StringSourceCode code) {
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   ViolationSet *violationSet = new ViolationSet();
   clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractParmVarDeclCursor, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}
+
+enum CXChildVisitResult extractObjCMethodDecl(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  if (Decl *decl = CursorUtil::getDecl(node)) {
+    if (isa<ObjCMethodDecl>(decl)) {
+      Violation violation(node, new MockRule());
+      violationSet->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getObjCMethodDecl(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractObjCMethodDecl, violationSet);
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }
