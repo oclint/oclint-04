@@ -1,9 +1,9 @@
-#ifndef MO_RULE_UNUSEDFORMALPARAMETERRULE_H
-#define MO_RULE_UNUSEDFORMALPARAMETERRULE_H
+#ifndef MO_RULE_UNUSEDLOCALVARIABLERULE_H
+#define MO_RULE_UNUSEDLOCALVARIABLERULE_H
 
 #include "mo/Rule.h"
 
-class UnusedFormalParameterRule : public Rule {
+class UnusedLocalVariableRule : public Rule {
 private:
   static RuleSet rules;
   

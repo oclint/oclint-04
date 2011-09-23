@@ -34,7 +34,7 @@ endmacro(build_static_rules)
 
 SET(LIST_OF_RULES 
   EmptyIfStatementRule
-  UnusedFormalParameterRule
+  UnusedLocalVariableRule
   CyclomaticComplexityRule
   )
 

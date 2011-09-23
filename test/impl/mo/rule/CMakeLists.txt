@@ -1,6 +1,6 @@
 add_library(MORuleTest
   EmptyIfStatementRuleTest.cpp
-  UnusedFormalParameterRuleTest.cpp
+  UnusedLocalVariableRuleTest.cpp
   CyclomaticComplexityRuleTest.cpp
   MockRule.cpp
   )

@@ -1,9 +1,11 @@
 #include <cxxtest/TestSuite.h>
-#include "mo/rule/UnusedFormalParameterRule.h"
+#include "mo/rule/UnusedLocalVariableRule.h"
 
-class UnusedFormalParameterRuleTest : public CxxTest::TestSuite { 
+class UnusedLocalVariableRuleTest : public CxxTest::TestSuite { 
 private:
-  UnusedFormalParameterRule *_rule;
+  UnusedLocalVariableRule *_rule;
+  
+  void checkRule(string source, bool isViolated);
   
 public:
   void setUp();

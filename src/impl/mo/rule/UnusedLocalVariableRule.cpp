@@ -1,4 +1,4 @@
-#include "mo/rule/UnusedFormalParameterRule.h"
+#include "mo/rule/UnusedLocalVariableRule.h"
 #include "mo/RuleSet.h"
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
@@ -9,9 +9,9 @@
 
 using namespace clang;
 
-RuleSet UnusedFormalParameterRule::rules(new UnusedFormalParameterRule());
+RuleSet UnusedLocalVariableRule::rules(new UnusedLocalVariableRule());
 
-void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void UnusedLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
     VarDecl *parameterDecl = dyn_cast<VarDecl>(decl);
@@ -31,6 +31,6 @@ void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, Viol
   }
 }
 
-const string UnusedFormalParameterRule::name() const {
-  return "unused formal parameter";
+const string UnusedLocalVariableRule::name() const {
+  return "unused local variable";
 }
