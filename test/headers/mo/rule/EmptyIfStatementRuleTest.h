@@ -5,6 +5,8 @@ class EmptyIfStatementRuleTest : public CxxTest::TestSuite {
 private:
   EmptyIfStatementRule *_rule;
   
+  void checkRule(string source, bool isViolated);
+  
 public:
   void setUp();
   void tearDown();

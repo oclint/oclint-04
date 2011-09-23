@@ -16,30 +16,29 @@ void EmptyIfStatementRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "empty if statement");
 }
 
-void EmptyIfStatementRuleTest::testGoodIfStatement() {
-  StringSourceCode strCode("int main() { if (1) {;} return 0; }", "m");
+void EmptyIfStatementRuleTest::checkRule(string source, bool isViolated) {
+  StringSourceCode strCode(source, "m");
   CXCursor ifStmtCursor = TestCursorUtil::getIfStmtCursor(strCode);
   ViolationSet violationSet;
   _rule->apply(ifStmtCursor, ifStmtCursor, violationSet);
-  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
+  if (isViolated) {
+    TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
+    Violation violation = violationSet.getViolations().at(0);
+    TS_ASSERT_EQUALS(violation.rule, _rule);
+  }
+  else {
+    TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
+  }
+}
+
+void EmptyIfStatementRuleTest::testGoodIfStatement() {
+  checkRule("int main() { if (1) {;} return 0; }", false);
 }
 
 void EmptyIfStatementRuleTest::testIfStatementWithEmptyComponent() {
-  StringSourceCode strCode("int main() { if (1) {} return 0; }", "m");
-  CXCursor ifStmtCursor = TestCursorUtil::getIfStmtCursor(strCode);
-  ViolationSet violationSet;
-  _rule->apply(ifStmtCursor, ifStmtCursor, violationSet);
-  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
-  Violation violation = violationSet.getViolations().at(0);
-  TS_ASSERT_EQUALS(violation.rule, _rule);
+  checkRule("int main() { if (1) {} return 0; }", true);
 }
 
 void EmptyIfStatementRuleTest::testIfStatementWithNull() {
-  StringSourceCode strCode("int main() { if (1); return 0; }", "m");
-  CXCursor ifStmtCursor = TestCursorUtil::getIfStmtCursor(strCode);
-  ViolationSet violationSet;
-  _rule->apply(ifStmtCursor, ifStmtCursor, violationSet);
-  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
-  Violation violation = violationSet.getViolations().at(0);
-  TS_ASSERT_EQUALS(violation.rule, _rule);
+  checkRule("int main() { if (1); return 0; }", true);
 }

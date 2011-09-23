@@ -5,6 +5,8 @@ class CyclomaticComplexityRuleTest : public CxxTest::TestSuite {
 private:
   CyclomaticComplexityRule *_rule;
   
+  void checkRule(string source, bool isViolated);
+  
 public:
   void setUp();
   void tearDown();
