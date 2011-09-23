@@ -18,7 +18,7 @@ void UnusedFormalParameterRuleTest::testRuleName() {
 
 void UnusedFormalParameterRuleTest::testMethodWithUsedParameter() {
   StringSourceCode strCode("int aMethod(int a) { a++; return 0; }", "m");
-  CXCursor paramVarDeclCursor = TestCursorUtil::getParmVarDeclCursor(strCode);
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
   ViolationSet violationSet;
   _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
   TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
@@ -26,7 +26,7 @@ void UnusedFormalParameterRuleTest::testMethodWithUsedParameter() {
 
 void UnusedFormalParameterRuleTest::testMethodWithUnusedParameter() {
   StringSourceCode strCode("int aMethod(int a) { return 0; }", "m");
-  CXCursor paramVarDeclCursor = TestCursorUtil::getParmVarDeclCursor(strCode);
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
   ViolationSet violationSet;
   _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
   TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
@@ -35,9 +35,48 @@ void UnusedFormalParameterRuleTest::testMethodWithUnusedParameter() {
 }
 
 void UnusedFormalParameterRuleTest::testObjCMethodWithUnusedParameter() {
+  StringSourceCode strCode("@interface AClass\n@end\n\
+    @implementation AClass\n- (void)aMethod:(int)a {}\n@end", "m");
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
+  ViolationSet violationSet;
+  _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
+  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
+  Violation violation = violationSet.getViolations().at(0);
+  TS_ASSERT_EQUALS(violation.rule, _rule);
+}
+
+void UnusedFormalParameterRuleTest::testObjCMethodDeclarationInsideInterface() {
   StringSourceCode strCode("@interface AnInterface\n- (void)aMethod:(int)a;\n@end", "m");
-  CXCursor paramVarDeclCursor = TestCursorUtil::getParmVarDeclCursor(strCode);
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
   ViolationSet violationSet;
   _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
   TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
+}
+
+void UnusedFormalParameterRuleTest::testUsedLocalVariable() {
+  StringSourceCode strCode("int aMethod() { int a; a = 1; return 0; }", "m");
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
+  ViolationSet violationSet;
+  _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
+  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
+}
+
+void UnusedFormalParameterRuleTest::testUnusedLocalVariable() {
+  StringSourceCode strCode("int aMethod() { int a; return 0; }", "m");
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
+  ViolationSet violationSet;
+  _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
+  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
+  Violation violation = violationSet.getViolations().at(0);
+  TS_ASSERT_EQUALS(violation.rule, _rule);
+}
+
+void UnusedFormalParameterRuleTest::testUnusedLocalVariableWithIntialAssignment() {
+  StringSourceCode strCode("int aMethod() { int a = 1; return 0; }", "m");
+  CXCursor paramVarDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
+  ViolationSet violationSet;
+  _rule->apply(paramVarDeclCursor, paramVarDeclCursor, violationSet);
+  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
+  Violation violation = violationSet.getViolations().at(0);
+  TS_ASSERT_EQUALS(violation.rule, _rule);
 }

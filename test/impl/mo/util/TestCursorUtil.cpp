@@ -52,10 +52,10 @@ const CXCursor TestCursorUtil::getIfStmtCursor(StringSourceCode code) {
   return violation.cursor;
 }
 
-enum CXChildVisitResult extractParmVarDeclCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+enum CXChildVisitResult extractVarDeclCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   ViolationSet *violationSet = (ViolationSet *)clientData;
   if (Decl *decl = CursorUtil::getDecl(node)) {
-    if (isa<ParmVarDecl>(decl)) {
+    if (isa<VarDecl>(decl)) {
       Violation violation(node, new MockRule());
       violationSet->addViolation(violation);
     }
@@ -63,11 +63,11 @@ enum CXChildVisitResult extractParmVarDeclCursor(CXCursor node, CXCursor parentN
   return CXChildVisit_Recurse;
 }
 
-const CXCursor TestCursorUtil::getParmVarDeclCursor(StringSourceCode code) {
+const CXCursor TestCursorUtil::getVarDeclCursor(StringSourceCode code) {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   ViolationSet *violationSet = new ViolationSet();
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractParmVarDeclCursor, violationSet);
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractVarDeclCursor, violationSet);
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }

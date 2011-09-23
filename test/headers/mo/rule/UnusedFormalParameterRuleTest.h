@@ -12,4 +12,8 @@ public:
   void testMethodWithUsedParameter();
   void testMethodWithUnusedParameter();
   void testObjCMethodWithUnusedParameter();
+  void testObjCMethodDeclarationInsideInterface();
+  void testUsedLocalVariable();
+  void testUnusedLocalVariable();
+  void testUnusedLocalVariableWithIntialAssignment();
 };

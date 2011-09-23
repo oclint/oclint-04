@@ -9,7 +9,7 @@ class TestCursorUtil {
 public:
   static const CXCursor getSwitchStmtCursor(StringSourceCode code);
   static const CXCursor getIfStmtCursor(StringSourceCode code);
-  static const CXCursor getParmVarDeclCursor(StringSourceCode code);
+  static const CXCursor getVarDeclCursor(StringSourceCode code);
   static const CXCursor getObjCMethodDecl(StringSourceCode code);
 };
 

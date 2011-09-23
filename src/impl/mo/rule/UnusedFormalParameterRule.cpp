@@ -14,7 +14,7 @@ RuleSet UnusedFormalParameterRule::rules(new UnusedFormalParameterRule());
 void UnusedFormalParameterRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
-    ParmVarDecl *parameterDecl = dyn_cast<ParmVarDecl>(decl);
+    VarDecl *parameterDecl = dyn_cast<VarDecl>(decl);
     if (parameterDecl) {
       if (!parameterDecl->isUsed()) {
         DeclContext *context = parameterDecl->getDeclContext();
