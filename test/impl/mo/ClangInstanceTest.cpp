@@ -10,17 +10,28 @@ void ClangInstanceTest::tearDown() {
   delete _instance;
 }
 
-
 void ClangInstanceTest::testHasNoDiagnostic() {
   const char * const argv[] = { "test/samples/HelloWorld.m" };
   _instance->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(!_instance->hasDiagnostic());
+  TS_ASSERT(!_instance->hasDiagnostics());
 }
 
-void ClangInstanceTest::testHasDiagnostic() {
+void ClangInstanceTest::testHasDiagnostics() {
   const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
   _instance->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(_instance->hasDiagnostic());
+  TS_ASSERT(_instance->hasDiagnostics());
+}
+
+void ClangInstanceTest::testHasNoWarning() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!_instance->hasWarnings());
+}
+
+void ClangInstanceTest::testHasWarnings() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(_instance->hasWarnings());
 }
 
 void ClangInstanceTest::testCodeCompilationFailException() {

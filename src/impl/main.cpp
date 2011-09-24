@@ -16,7 +16,7 @@ int execute(const char * const * argv, int argc) {
   PlainTextReporter reporter;
   ClangInstance instance;
   instance.compileSourceFileToTranslationUnit(argv, argc);
-  if (instance.hasDiagnostic()) {
+  if (instance.hasDiagnostics()) {
     cout << instance.reportDiagnostics(reporter);
     return 1;
   }

@@ -23,7 +23,9 @@ public:
   virtual ~ClangInstance();
   
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
-  bool hasDiagnostic() const;
+  bool hasDiagnostics() const;
+  bool hasWarnings() const;
+  const vector<CXDiagnostic> warnings() const;
   const string reportDiagnostics(const Reporter& reporter);
   const CXTranslationUnit& getTranslationUnit() const;
 };

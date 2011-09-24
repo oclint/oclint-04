@@ -9,7 +9,9 @@ public:
   void setUp();
   void tearDown();
   void testHasNoDiagnostic();
-  void testHasDiagnostic();
+  void testHasDiagnostics();
+  void testHasNoWarning();
+  void testHasWarnings();
   void testCodeCompilationFailException();
   void testReportDiagnostics();
   void testGetTranslationUnitWithCompilationError();
