@@ -19,8 +19,24 @@ void ClangInstance::compileSourceFileToTranslationUnit(const char * const * argv
   }
 }
 
+const string ClangInstance::reportDiagnostics(const vector<CXDiagnostic> diagnostics, const Reporter& reporter) {
+  return reporter.reportDiagnostics(diagnostics);
+}
+
 bool ClangInstance::hasDiagnostics() const {
   return clang_getNumDiagnostics(_translationUnit);
+}
+
+const vector<CXDiagnostic> ClangInstance::diagnostics() const {
+  vector<CXDiagnostic> diagnostics;
+  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+    diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
+  }
+  return diagnostics;
+}
+
+const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
+  return reportDiagnostics(diagnostics(), reporter);
 }
 
 bool ClangInstance::hasWarnings() const {
@@ -40,6 +56,10 @@ const vector<CXDiagnostic> ClangInstance::warnings() const {
   return warnings;
 }
 
+const string ClangInstance::reportWarnings(const Reporter& reporter) {
+  return reportDiagnostics(warnings(), reporter);
+}
+
 bool ClangInstance::hasErrors() const {
   return errors().size();
 }
@@ -57,20 +77,16 @@ const vector<CXDiagnostic> ClangInstance::errors() const {
   return errors;
 }
 
-const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
-  vector<CXDiagnostic> diagnostics;
-  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
-    diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
-  }
-  return reporter.reportDiagnostics(diagnostics);
+const string ClangInstance::reportErrors(const Reporter& reporter) {
+  return reportDiagnostics(errors(), reporter);
 }
 
 const CXTranslationUnit& ClangInstance::getTranslationUnit() const {
   if (!_translationUnit) {
     throw MOException("No translation unit found, please compile source code first!");
   }
-  if (hasDiagnostics()) {
-    throw MOException("You are not allowed to get a questionable translation unit!");
+  if (hasErrors()) {
+    throw MOException("You are not allowed to get a translation unit with errors!");
   }
   return _translationUnit;
 }

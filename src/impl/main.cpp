@@ -16,13 +16,21 @@ int execute(const char * const * argv, int argc) {
   PlainTextReporter reporter;
   ClangInstance instance;
   instance.compileSourceFileToTranslationUnit(argv, argc);
-  if (instance.hasDiagnostics()) {
-    cout << instance.reportDiagnostics(reporter);
+  if (instance.hasErrors()) {
+    cout << instance.reportErrors(reporter);
     return 1;
+  }
+  bool hasViolations = false;
+  if (instance.hasWarnings()) {
+    cout << instance.reportWarnings(reporter);
+    hasViolations = true;
   }
   SmellFinder smellFinder;
   if (smellFinder.hasSmell(instance.getTranslationUnit())) {
     cout << smellFinder.reportSmells(reporter);
+    hasViolations = true;
+  }
+  if (hasViolations) {
     return 2;
   }
   return 0;

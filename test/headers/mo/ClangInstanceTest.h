@@ -17,6 +17,6 @@ public:
   void testCodeCompilationFailException();
   void testReportDiagnostics();
   void testGetTranslationUnitWithCompilationError();
-  void testGetTranslationUnitWithDiagnostics();
+  void testGetTranslationUnitWithDiagnosticErrors();
   void testGetTranslationUnit();
 };
