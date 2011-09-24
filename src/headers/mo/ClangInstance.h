@@ -26,6 +26,8 @@ public:
   bool hasDiagnostics() const;
   bool hasWarnings() const;
   const vector<CXDiagnostic> warnings() const;
+  bool hasErrors() const;
+  const vector<CXDiagnostic> errors() const;
   const string reportDiagnostics(const Reporter& reporter);
   const CXTranslationUnit& getTranslationUnit() const;
 };

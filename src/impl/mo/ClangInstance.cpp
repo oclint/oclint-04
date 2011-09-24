@@ -40,6 +40,23 @@ const vector<CXDiagnostic> ClangInstance::warnings() const {
   return warnings;
 }
 
+bool ClangInstance::hasErrors() const {
+  return errors().size();
+}
+
+const vector<CXDiagnostic> ClangInstance::errors() const {
+  vector<CXDiagnostic> errors;
+  if (hasDiagnostics()) {
+    for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+      CXDiagnostic diagnostic = clang_getDiagnostic(_translationUnit, index);
+      if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Error || clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Fatal) {
+        errors.push_back(diagnostic);
+      }
+    }
+  }
+  return errors;
+}
+
 const string ClangInstance::reportDiagnostics(const Reporter& reporter) {
   vector<CXDiagnostic> diagnostics;
   for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {

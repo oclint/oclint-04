@@ -34,6 +34,18 @@ void ClangInstanceTest::testHasWarnings() {
   TS_ASSERT(_instance->hasWarnings());
 }
 
+void ClangInstanceTest::testHasNoError() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!_instance->hasErrors());
+}
+
+void ClangInstanceTest::testHasErrors() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(_instance->hasErrors());
+}
+
 void ClangInstanceTest::testCodeCompilationFailException() {
   try {
     const char * const argv[] = { "test/samples/CompilationFail.txt" };

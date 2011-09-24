@@ -26,4 +26,5 @@ if [ $SUCCESS -eq 0 ]; then
 fi 
 
 cd $CWD
+rm -rf CMakeFiles
 exit $SUCCESS
