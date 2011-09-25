@@ -48,7 +48,7 @@ void PlainTextReporterTest::testReportViolations() {
   Violation violation(switchStmtCursor, new MockRule());
   vector<Violation> violations;
   violations.push_back(violation); 
-  string violationMessage = ":1:25: code smell: mock rule\n";
+  string violationMessage = ":1:25: violation: mock rule\n";
   TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(tmpFileNameLength), violationMessage);
 }
 

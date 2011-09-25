@@ -36,6 +36,7 @@ SET(LIST_OF_RULES
   EmptyIfStatementRule
   UnusedLocalVariableRule
   CyclomaticComplexityRule
+  LongParameterListRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

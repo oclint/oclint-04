@@ -16,7 +16,7 @@ RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
-    if (isa<ObjCMethodDecl>(decl) || isa<CXXMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
+    if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
       int ccn = CCNCounterUtil::getCCNOfCursor(node);
       if (ccn > 9) {
         Violation violation(node, this);
