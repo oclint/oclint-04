@@ -11,6 +11,7 @@ public:
   static const CXCursor getIfStmtCursor(StringSourceCode code);
   static const CXCursor getVarDeclCursor(StringSourceCode code);
   static const CXCursor getObjCMethodDecl(StringSourceCode code);
+  static const CXCursor getFunctionDecl(StringSourceCode code);
 };
 
 #endif

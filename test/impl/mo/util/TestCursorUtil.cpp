@@ -91,3 +91,23 @@ const CXCursor TestCursorUtil::getObjCMethodDecl(StringSourceCode code) {
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }
+
+enum CXChildVisitResult extractFunctionDecl(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  if (Decl *decl = CursorUtil::getDecl(node)) {
+    if (isa<FunctionDecl>(decl)) {
+      Violation violation(node, new MockRule());
+      violationSet->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getFunctionDecl(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractFunctionDecl, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}

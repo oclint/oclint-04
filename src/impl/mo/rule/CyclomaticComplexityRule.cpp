@@ -11,6 +11,8 @@
 
 using namespace clang;
 
+#define DEFAULT_MAX_ALLOWED_CCN 9
+
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
@@ -18,7 +20,7 @@ void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, Viola
   if (decl) {
     if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
       int ccn = CCNCounterUtil::getCCNOfCursor(node);
-      if (ccn > 9) {
+      if (ccn > DEFAULT_MAX_ALLOWED_CCN) {
         Violation violation(node, this);
         violationSet.addViolation(violation);
       }

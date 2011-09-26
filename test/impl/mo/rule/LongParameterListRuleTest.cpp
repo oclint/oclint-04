@@ -16,9 +16,15 @@ void LongParameterListRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "long parameter list");
 }
 
-void LongParameterListRuleTest::checkRule(string source, bool isViolated) {
-  StringSourceCode strCode(source, "m");
-  CXCursor methodDeclCursor = TestCursorUtil::getObjCMethodDecl(strCode);
+void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool isViolated) {
+  StringSourceCode strCode(source, sourcetype);
+  CXCursor methodDeclCursor;
+  if (sourcetype == "m") {
+    methodDeclCursor = TestCursorUtil::getObjCMethodDecl(strCode);
+  }
+  else {
+    methodDeclCursor = TestCursorUtil::getFunctionDecl(strCode);
+  }
   ViolationSet violationSet;
   _rule->apply(methodDeclCursor, methodDeclCursor, violationSet);
   if (isViolated) {
@@ -31,17 +37,32 @@ void LongParameterListRuleTest::checkRule(string source, bool isViolated) {
   }
 }
 
-void LongParameterListRuleTest::testMethodWithThreeParametersIsNotASmell() {
+void LongParameterListRuleTest::testObjCMethodWithThreeParametersIsNotASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithThreeParameters:(int)param1 param2:(int)param2 param3:(int)param3 {}\n@end";
-  checkRule(strSource, false);
+  checkRule(strSource, "m", false);
 }
 
-void LongParameterListRuleTest::testMethodWithFourParametersIsASmell() {
+void LongParameterListRuleTest::testObjCMethodWithFourParametersIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithThreeParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 {}\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, "m", true);
 }
 
-void LongParameterListRuleTest::testMethodWithFiveParametersIsASmell() {
+void LongParameterListRuleTest::testObjCMethodWithFiveParametersIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithThreeParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 param5:... {}\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, "m", true);
+}
+
+void LongParameterListRuleTest::testCppMethodWithThreeParametersIsNotASmell() {
+  string strSource = "int aMethod(int a, int b, int c) {}";
+  checkRule(strSource, "cpp", false);
+}
+
+void LongParameterListRuleTest::testCppMethodWithFourParametersIsASmell() {
+  string strSource = "int aMethod(int a, int b, int c, int d) {}";
+  checkRule(strSource, "cpp", true);
+}
+
+void LongParameterListRuleTest::testCppMethodWithFiveParametersIsASmell() {
+  string strSource = "int aMethod(int a, int b, int c, int d, int e) {}";
+  checkRule(strSource, "cpp", true);
 }
