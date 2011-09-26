@@ -3,5 +3,6 @@ add_library(MORuleTest
   UnusedLocalVariableRuleTest.cpp
   CyclomaticComplexityRuleTest.cpp
   LongParameterListRuleTest.cpp
+  LongMethodRuleTest.cpp
   MockRule.cpp
   )

@@ -37,6 +37,7 @@ SET(LIST_OF_RULES
   UnusedLocalVariableRule
   CyclomaticComplexityRule
   LongParameterListRule
+  LongMethodRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

@@ -14,12 +14,15 @@ RuleSet UnusedLocalVariableRule::rules(new UnusedLocalVariableRule());
 void UnusedLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
-    VarDecl *parameterDecl = dyn_cast<VarDecl>(decl);
-    if (parameterDecl) {
-      if (!parameterDecl->isUsed()) {
-        DeclContext *context = parameterDecl->getDeclContext();
+    VarDecl *valDecl = dyn_cast<VarDecl>(decl);
+    if (valDecl) {
+      if (!valDecl->isUsed()) {
+        if (valDecl->isExternC()) {
+          return;
+        }
+        DeclContext *context = valDecl->getDeclContext();
         do {
-          if (isa<ObjCInterfaceDecl>(context)) {
+          if (isa<ObjCInterfaceDecl>(context) || isa<ObjCProtocolDecl>(context) || isa<ObjCCategoryDecl>(context)) {
             return;
           }
           context = context->getParent();
