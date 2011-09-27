@@ -20,4 +20,7 @@ public:
   void testCompareWithTwoConstantVariables();
   void testComplexConstantComparison();
   void testOnlyEvaluateTheNecessaryCondition();
+  void testSamePointerAlwaysContant();
+  void testSameValueDifferentPointerComparedByPointerIsNotConstant();
+  void testSameValueDifferentPointerComparedByValueIsConstant();
 };

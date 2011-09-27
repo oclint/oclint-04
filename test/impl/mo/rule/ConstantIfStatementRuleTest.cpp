@@ -67,3 +67,21 @@ void ConstantIfStatementRuleTest::testComplexConstantComparison() {
 void ConstantIfStatementRuleTest::testOnlyEvaluateTheNecessaryCondition() {
   checkRule("int foo() { return 1; } int main() { if (1 ? 0 : foo()) {;} return 0; }", true);
 }
+
+void ConstantIfStatementRuleTest::testSamePointerAlwaysContant() {
+  string sourceCode = "int main() { int *a, *b; int i = 1; a = &i; b = &i;\
+    if (a == b) {;} return 0; }";
+  //checkRule(sourceCode, true);  // I am not smart enough to do this
+}
+
+void ConstantIfStatementRuleTest::testSameValueDifferentPointerComparedByPointerIsNotConstant() {
+  string sourceCode = "int main() { int *a, *b; int i = 1, j = 1; a = &i; b = &j;\
+    if (a == b) {;} return 0; }";
+  checkRule(sourceCode, false);
+}
+
+void ConstantIfStatementRuleTest::testSameValueDifferentPointerComparedByValueIsConstant() {
+  string sourceCode = "int main() { int *a, *b; int i = 1; a = &i; b = &i;\
+    if (*a = *b) {;} return 0; }";
+  // checkRule(sourceCode, true);  // I am not smart enough to do this
+}
