@@ -14,4 +14,10 @@ public:
   void testGoodConditionExpression();
   void testCompareTwoKnownBoolValuesAlwaysBeTrue();
   void testCompareTwoKnownBoolValuesAlwaysBeFalse();
+  void testIntegerAlwaysConstant();
+  void testFloatAlwaysConstant();
+  void testConstantMethod();
+  void testCompareWithTwoConstantVariables();
+  void testComplexConstantComparison();
+  void testOnlyEvaluateTheNecessaryCondition();
 };

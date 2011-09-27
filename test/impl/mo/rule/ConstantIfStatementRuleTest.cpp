@@ -42,3 +42,28 @@ void ConstantIfStatementRuleTest::testCompareTwoKnownBoolValuesAlwaysBeTrue() {
 void ConstantIfStatementRuleTest::testCompareTwoKnownBoolValuesAlwaysBeFalse() {
   checkRule("int main() { if (1 == 0) {;} return 0; }", true);
 }
+
+void ConstantIfStatementRuleTest::testIntegerAlwaysConstant() {
+  checkRule("int main() { if (1) {;} return 0; }", true);
+}
+
+void ConstantIfStatementRuleTest::testFloatAlwaysConstant() {
+  checkRule("int main() { if (1.23) {;} return 0; }", true);
+}
+
+void ConstantIfStatementRuleTest::testConstantMethod() {
+  string sourceCode = "int alwaysTrue() { return 1; } int main() { if(alwaysTrue()) {;} return 0; }";
+  // checkRule(sourceCode, true); // I am not smart enough to do this
+}
+
+void ConstantIfStatementRuleTest::testCompareWithTwoConstantVariables() {
+  // checkRule("int main() { int a = 1, b = 2; if (a == b) {;} return 0; }", true); // I am not smart enough to do this
+}
+
+void ConstantIfStatementRuleTest::testComplexConstantComparison() {
+  checkRule("int main() { if (1 ? 0 : 1) {;} return 0; }", true);
+}
+
+void ConstantIfStatementRuleTest::testOnlyEvaluateTheNecessaryCondition() {
+  checkRule("int foo() { return 1; } int main() { if (1 ? 0 : foo()) {;} return 0; }", true);
+}
