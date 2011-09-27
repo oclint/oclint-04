@@ -38,6 +38,7 @@ SET(LIST_OF_RULES
   CyclomaticComplexityRule
   LongParameterListRule
   LongMethodRule
+  ConstantIfStatementRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

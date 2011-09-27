@@ -1,6 +1,20 @@
+#ifndef LLVM_CLANG_CXTRANSLATIONUNIT_H
+#define LLVM_CLANG_CXTRANSLATIONUNIT_H
+
+extern "C" {
+struct CXTranslationUnitImpl {
+  void *TUData;
+  void *StringPool;
+};
+}
+
+#endif
+
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Decl.h>
 #include <clang/AST/Expr.h>
+#include <clang/AST/ASTContext.h>
+#include <clang/Frontend/ASTUnit.h>
 
 #include "mo/util/CursorUtil.h"
 
@@ -23,4 +37,10 @@ Expr* CursorUtil::getExpr(CXCursor node) {
     return (Expr *)node.data[1];
   }
   return NULL;
+}
+
+ASTContext& CursorUtil::getASTContext(CXCursor node) {
+  CXTranslationUnit translationUnit = (CXTranslationUnit)node.data[2];
+  ASTUnit *astUnit = (ASTUnit *)translationUnit->TUData;
+  return astUnit->getASTContext();
 }

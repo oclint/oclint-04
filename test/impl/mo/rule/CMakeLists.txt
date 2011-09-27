@@ -4,5 +4,6 @@ add_library(MORuleTest
   CyclomaticComplexityRuleTest.cpp
   LongParameterListRuleTest.cpp
   LongMethodRuleTest.cpp
+  ConstantIfStatementRuleTest.cpp
   MockRule.cpp
   )
