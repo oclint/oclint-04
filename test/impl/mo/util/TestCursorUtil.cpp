@@ -72,7 +72,7 @@ const CXCursor TestCursorUtil::getVarDeclCursor(StringSourceCode code) {
   return violation.cursor;
 }
 
-enum CXChildVisitResult extractObjCMethodDecl(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+enum CXChildVisitResult extractObjCMethodDeclCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   ViolationSet *violationSet = (ViolationSet *)clientData;
   if (Decl *decl = CursorUtil::getDecl(node)) {
     if (isa<ObjCMethodDecl>(decl)) {
@@ -83,16 +83,16 @@ enum CXChildVisitResult extractObjCMethodDecl(CXCursor node, CXCursor parentNode
   return CXChildVisit_Recurse;
 }
 
-const CXCursor TestCursorUtil::getObjCMethodDecl(StringSourceCode code) {
+const CXCursor TestCursorUtil::getObjCMethodDeclCursor(StringSourceCode code) {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   ViolationSet *violationSet = new ViolationSet();
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractObjCMethodDecl, violationSet);
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractObjCMethodDeclCursor, violationSet);
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }
 
-enum CXChildVisitResult extractFunctionDecl(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+enum CXChildVisitResult extractFunctionDeclCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   ViolationSet *violationSet = (ViolationSet *)clientData;
   if (Decl *decl = CursorUtil::getDecl(node)) {
     if (isa<FunctionDecl>(decl)) {
@@ -103,11 +103,51 @@ enum CXChildVisitResult extractFunctionDecl(CXCursor node, CXCursor parentNode, 
   return CXChildVisit_Recurse;
 }
 
-const CXCursor TestCursorUtil::getFunctionDecl(StringSourceCode code) {
+const CXCursor TestCursorUtil::getFunctionDeclCursor(StringSourceCode code) {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   ViolationSet *violationSet = new ViolationSet();
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractFunctionDecl, violationSet);
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractFunctionDeclCursor, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}
+
+enum CXChildVisitResult extractCompoundStmtCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  if (Stmt *stmt = CursorUtil::getStmt(node)) {
+    if (isa<CompoundStmt>(stmt)) {
+      Violation violation(node, new MockRule());
+      violationSet->addViolation(violation);
+    }
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getCompoundStmtCursor(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractCompoundStmtCursor, violationSet);
+  Violation violation = violationSet->getViolations().at(0);
+  return violation.cursor;
+}
+
+enum CXChildVisitResult extractForStmtContainingCompoundStmtCursor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
+  ViolationSet *violationSet = (ViolationSet *)clientData;
+  Stmt *stmt = CursorUtil::getStmt(node);
+  Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+  if (stmt && parentStmt && isa<CompoundStmt>(stmt) && isa<ForStmt>(parentStmt)) {
+    Violation violation(node, new MockRule());
+    violationSet->addViolation(violation);
+  }
+  return CXChildVisit_Recurse;
+}
+
+const CXCursor TestCursorUtil::getForStmtContainingCompoundStmtCursor(StringSourceCode code) {
+  CXIndex index = clang_createIndex(0, 0);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  ViolationSet *violationSet = new ViolationSet();
+  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractForStmtContainingCompoundStmtCursor, violationSet);
   Violation violation = violationSet->getViolations().at(0);
   return violation.cursor;
 }

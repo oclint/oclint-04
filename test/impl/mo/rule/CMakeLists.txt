@@ -5,5 +5,6 @@ add_library(MORuleTest
   LongParameterListRuleTest.cpp
   LongMethodRuleTest.cpp
   ConstantIfStatementRuleTest.cpp
+  UnreachableCodeRuleTest.cpp
   MockRule.cpp
   )

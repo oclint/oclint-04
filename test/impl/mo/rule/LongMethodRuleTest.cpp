@@ -18,7 +18,7 @@ void LongMethodRuleTest::testRuleName() {
 
 void LongMethodRuleTest::checkRule(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
-  CXCursor methodDeclCursor = TestCursorUtil::getObjCMethodDecl(strCode);
+  CXCursor methodDeclCursor = TestCursorUtil::getObjCMethodDeclCursor(strCode);
   ViolationSet violationSet;
   _rule->apply(methodDeclCursor, methodDeclCursor, violationSet);
   if (isViolated) {

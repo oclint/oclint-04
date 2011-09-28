@@ -39,6 +39,7 @@ SET(LIST_OF_RULES
   LongParameterListRule
   LongMethodRule
   ConstantIfStatementRule
+  UnreachableCodeRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

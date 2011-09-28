@@ -23,6 +23,7 @@ if [ $SUCCESS -eq 0 ]; then
 	./bin/mo_test > ../testresults.txt
 	mkdir coverage
 	rm src/impl/mo/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
 	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
 	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then

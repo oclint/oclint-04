@@ -10,8 +10,10 @@ public:
   static const CXCursor getSwitchStmtCursor(StringSourceCode code);
   static const CXCursor getIfStmtCursor(StringSourceCode code);
   static const CXCursor getVarDeclCursor(StringSourceCode code);
-  static const CXCursor getObjCMethodDecl(StringSourceCode code);
-  static const CXCursor getFunctionDecl(StringSourceCode code);
+  static const CXCursor getObjCMethodDeclCursor(StringSourceCode code);
+  static const CXCursor getFunctionDeclCursor(StringSourceCode code);
+  static const CXCursor getCompoundStmtCursor(StringSourceCode code);
+  static const CXCursor getForStmtContainingCompoundStmtCursor(StringSourceCode code);
 };
 
 #endif

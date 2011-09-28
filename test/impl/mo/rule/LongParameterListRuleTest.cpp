@@ -20,10 +20,10 @@ void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool
   StringSourceCode strCode(source, sourcetype);
   CXCursor methodDeclCursor;
   if (sourcetype == "m") {
-    methodDeclCursor = TestCursorUtil::getObjCMethodDecl(strCode);
+    methodDeclCursor = TestCursorUtil::getObjCMethodDeclCursor(strCode);
   }
   else {
-    methodDeclCursor = TestCursorUtil::getFunctionDecl(strCode);
+    methodDeclCursor = TestCursorUtil::getFunctionDeclCursor(strCode);
   }
   ViolationSet violationSet;
   _rule->apply(methodDeclCursor, methodDeclCursor, violationSet);
