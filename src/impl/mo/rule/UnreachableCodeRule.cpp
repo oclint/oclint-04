@@ -28,14 +28,10 @@ void UnreachableCodeRule::apply(CXCursor& node, CXCursor& parentNode, ViolationS
             hasBreakPoint = true;
           }
           if (isa<BreakStmt>(bodyStmt)) {
-            hasBreakPoint = true;
-            /*
             Stmt *parentStmt = CursorUtil::getStmt(parentNode);
-            parentStmt->dump();
             if (isa<ForStmt>(parentStmt)) {
               hasBreakPoint = true;
             }
-            */ // I need to know this node's parent node to reduce false-positive
           }
         }
       }

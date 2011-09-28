@@ -3,6 +3,12 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+
+#include <clang/AST/Stmt.h>
+
+using namespace clang;
 
 void UnreachableCodeRuleTest::setUp() {
   _rule = new UnreachableCodeRule();
@@ -44,10 +50,14 @@ void UnreachableCodeRuleTest::testUnreachableCodeAfterReturnStatement() {
 }
 
 void UnreachableCodeRuleTest::testUnreachableCodeAfterBreakStatement() {
-  StringSourceCode strCode("int aMethod() { for(;;) { break; int i = 1; i++; } }", "m");
-  CXCursor compoundStmtCursor = TestCursorUtil::getForStmtContainingCompoundStmtCursor(strCode);
+  StringSourceCode strCode("int aMethod() { for(;;) { break; int i = 1; i++; } for(;;) { break; int i = 1; i++; } }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+    return stmt && parentStmt && isa<CompoundStmt>(stmt) && isa<ForStmt>(parentStmt);
+  });
   ViolationSet violationSet;
-  _rule->apply(compoundStmtCursor, compoundStmtCursor, violationSet);  
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
   Violation violation = violationSet.getViolations().at(0);
   TS_ASSERT_EQUALS(violation.rule, _rule);
