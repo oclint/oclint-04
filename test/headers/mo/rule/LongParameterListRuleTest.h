@@ -5,6 +5,7 @@ class LongParameterListRuleTest : public CxxTest::TestSuite {
 private:
   LongParameterListRule *_rule;
   
+  void checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated);
   void checkRule(string source, string sourcetype, bool isViolated);
   
 public:

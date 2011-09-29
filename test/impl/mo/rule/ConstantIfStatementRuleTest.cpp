@@ -3,6 +3,12 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+
+#include <clang/AST/Stmt.h>
+
+using namespace clang;
 
 void ConstantIfStatementRuleTest::setUp() {
   _rule = new ConstantIfStatementRule();
@@ -16,11 +22,9 @@ void ConstantIfStatementRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "constant if statement");
 }
 
-void ConstantIfStatementRuleTest::checkRule(string source, bool isViolated) {
-  StringSourceCode strCode(source, "m");
-  CXCursor ifStmtCursor = TestCursorUtil::getIfStmtCursor(strCode);
+void ConstantIfStatementRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
   ViolationSet violationSet;
-  _rule->apply(ifStmtCursor, ifStmtCursor, violationSet);
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
@@ -29,6 +33,15 @@ void ConstantIfStatementRuleTest::checkRule(string source, bool isViolated) {
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
+}
+
+void ConstantIfStatementRuleTest::checkRule(string source, bool isViolated) {
+  StringSourceCode strCode(source, "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<IfStmt>(stmt);
+  });
+  checkRule(cursorPair, isViolated);
 }
 
 void ConstantIfStatementRuleTest::testGoodConditionExpression() {
@@ -52,8 +65,7 @@ void ConstantIfStatementRuleTest::testFloatAlwaysConstant() {
 }
 
 void ConstantIfStatementRuleTest::testConstantMethod() {
-  string sourceCode = "int alwaysTrue() { return 1; } int main() { if(alwaysTrue()) {;} return 0; }";
-  // checkRule(sourceCode, true); // I am not smart enough to do this
+  // checkRule("int alwaysTrue() { return 1; } int main() { if(alwaysTrue()) {;} return 0; }", true); // I am not smart enough to do this
 }
 
 void ConstantIfStatementRuleTest::testCompareWithTwoConstantVariables() {
@@ -71,7 +83,7 @@ void ConstantIfStatementRuleTest::testOnlyEvaluateTheNecessaryCondition() {
 void ConstantIfStatementRuleTest::testSamePointerAlwaysContant() {
   string sourceCode = "int main() { int *a, *b; int i = 1; a = &i; b = &i;\
     if (a == b) {;} return 0; }";
-  //checkRule(sourceCode, true);  // I am not smart enough to do this
+  // checkRule(sourceCode, true); // I am not smart enough to do this
 }
 
 void ConstantIfStatementRuleTest::testSameValueDifferentPointerComparedByPointerIsNotConstant() {
@@ -83,5 +95,5 @@ void ConstantIfStatementRuleTest::testSameValueDifferentPointerComparedByPointer
 void ConstantIfStatementRuleTest::testSameValueDifferentPointerComparedByValueIsConstant() {
   string sourceCode = "int main() { int *a, *b; int i = 1; a = &i; b = &i;\
     if (*a = *b) {;} return 0; }";
-  // checkRule(sourceCode, true);  // I am not smart enough to do this
+  // checkRule(sourceCode, true); // I am not smart enough to do this
 }

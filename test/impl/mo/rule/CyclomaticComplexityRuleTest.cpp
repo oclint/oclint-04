@@ -3,6 +3,12 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+
+#include <clang/AST/DeclObjC.h>
+
+using namespace clang;
 
 void CyclomaticComplexityRuleTest::setUp() {
   _rule = new CyclomaticComplexityRule();
@@ -16,11 +22,9 @@ void CyclomaticComplexityRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "high cyclomatic complexity");
 }
 
-void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated) {
-  StringSourceCode strCode(source, "m");
-  CXCursor methodDeclCursor = TestCursorUtil::getObjCMethodDeclCursor(strCode);
+void CyclomaticComplexityRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
   ViolationSet violationSet;
-  _rule->apply(methodDeclCursor, methodDeclCursor, violationSet);
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
@@ -29,6 +33,15 @@ void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated) {
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
+}
+
+void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated) {
+  StringSourceCode strCode(source, "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<ObjCMethodDecl>(decl);
+  });
+  checkRule(cursorPair, isViolated);
 }
 
 void CyclomaticComplexityRuleTest::testCCNNineIsNotASmell() {

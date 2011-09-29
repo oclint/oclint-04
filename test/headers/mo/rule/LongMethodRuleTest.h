@@ -5,6 +5,7 @@ class LongMethodRuleTest : public CxxTest::TestSuite {
 private:
   LongMethodRule *_rule;
   
+  void checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated);
   void checkRule(string source, bool isViolated);
   
 public:

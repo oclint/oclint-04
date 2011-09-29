@@ -22,11 +22,9 @@ void UnreachableCodeRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "unreachable code");
 }
 
-void UnreachableCodeRuleTest::checkRule(string source, bool isViolated) {
-  StringSourceCode strCode(source, "m");
-  CXCursor compoundStmtCursor = TestCursorUtil::getCompoundStmtCursor(strCode);
+void UnreachableCodeRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
   ViolationSet violationSet;
-  _rule->apply(compoundStmtCursor, compoundStmtCursor, violationSet);
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
@@ -37,28 +35,33 @@ void UnreachableCodeRuleTest::checkRule(string source, bool isViolated) {
   }
 }
 
+void UnreachableCodeRuleTest::checkRuleOnFunctionRootComponent(string source, bool isViolated) {
+  StringSourceCode strCode(source, "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<CompoundStmt>(stmt);
+  });
+  checkRule(cursorPair, isViolated);
+}
+
 void UnreachableCodeRuleTest::testGoodCompoundStmtWithoutReturnStmt() {
-  checkRule("void aMethod() { int a; a = 1; a = 2; }", false);
+  checkRuleOnFunctionRootComponent("void aMethod() { int a; a = 1; a = 2; }", false);
 }
 
 void UnreachableCodeRuleTest::testGoodCompoundStmtWithReturnStmtAtLastLine() {
-  checkRule("int aMethod() { int i = 1; return i; }", false);
+  checkRuleOnFunctionRootComponent("int aMethod() { int i = 1; return i; }", false);
 }
 
 void UnreachableCodeRuleTest::testUnreachableCodeAfterReturnStatement() {
-  checkRule("int aMethod() { return 1; int i = 1; i++; }", true);
+  checkRuleOnFunctionRootComponent("int aMethod() { return 1; int i = 1; i++; }", true);
 }
 
 void UnreachableCodeRuleTest::testUnreachableCodeAfterBreakStatement() {
-  StringSourceCode strCode("int aMethod() { for(;;) { break; int i = 1; i++; } for(;;) { break; int i = 1; i++; } }", "m");
+  StringSourceCode strCode("int aMethod() { for(;;) { break; int i = 1; i++; } }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Stmt *stmt = CursorUtil::getStmt(node);
     Stmt *parentStmt = CursorUtil::getStmt(parentNode);
     return stmt && parentStmt && isa<CompoundStmt>(stmt) && isa<ForStmt>(parentStmt);
   });
-  ViolationSet violationSet;
-  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
-  TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
-  Violation violation = violationSet.getViolations().at(0);
-  TS_ASSERT_EQUALS(violation.rule, _rule);
+  checkRule(cursorPair, true);
 }

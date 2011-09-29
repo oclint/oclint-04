@@ -5,7 +5,8 @@ class UnreachableCodeRuleTest : public CxxTest::TestSuite {
 private:
   UnreachableCodeRule *_rule;
   
-  void checkRule(string source, bool isViolated);
+  void checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated);
+  void checkRuleOnFunctionRootComponent(string source, bool isViolated);
   
 public:
   void setUp();

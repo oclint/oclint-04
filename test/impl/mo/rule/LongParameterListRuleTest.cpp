@@ -3,6 +3,13 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclObjC.h>
+
+using namespace clang;
 
 void LongParameterListRuleTest::setUp() {
   _rule = new LongParameterListRule();
@@ -16,17 +23,9 @@ void LongParameterListRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "long parameter list");
 }
 
-void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool isViolated) {
-  StringSourceCode strCode(source, sourcetype);
-  CXCursor methodDeclCursor;
-  if (sourcetype == "m") {
-    methodDeclCursor = TestCursorUtil::getObjCMethodDeclCursor(strCode);
-  }
-  else {
-    methodDeclCursor = TestCursorUtil::getFunctionDeclCursor(strCode);
-  }
+void LongParameterListRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
   ViolationSet violationSet;
-  _rule->apply(methodDeclCursor, methodDeclCursor, violationSet);
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
@@ -35,6 +34,23 @@ void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
+}
+
+void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool isViolated) {
+  StringSourceCode strCode(source, sourcetype);
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    if (decl) {
+      if (sourcetype == "m") {
+        return isa<ObjCMethodDecl>(decl);
+      }
+      else {
+        return isa<FunctionDecl>(decl);
+      }
+    }
+    return false;
+  });
+  checkRule(cursorPair, isViolated);
 }
 
 void LongParameterListRuleTest::testObjCMethodWithThreeParametersIsNotASmell() {

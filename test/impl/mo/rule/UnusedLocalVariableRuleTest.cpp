@@ -3,6 +3,12 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"
+#include "mo/util/CursorUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+
+#include <clang/AST/Decl.h>
+
+using namespace clang;
 
 void UnusedLocalVariableRuleTest::setUp() {
   _rule = new UnusedLocalVariableRule();
@@ -16,11 +22,9 @@ void UnusedLocalVariableRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "unused local variable");
 }
 
-void UnusedLocalVariableRuleTest::checkRule(string source, bool isViolated) {
-  StringSourceCode strCode(source, "m");
-  CXCursor varDeclCursor = TestCursorUtil::getVarDeclCursor(strCode);
+void UnusedLocalVariableRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
   ViolationSet violationSet;
-  _rule->apply(varDeclCursor, varDeclCursor, violationSet);
+  _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
@@ -29,6 +33,15 @@ void UnusedLocalVariableRuleTest::checkRule(string source, bool isViolated) {
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
+}
+
+void UnusedLocalVariableRuleTest::checkRule(string source, bool isViolated) {
+  StringSourceCode strCode(source, "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<VarDecl>(decl);
+  });
+  checkRule(cursorPair, isViolated);
 }
 
 void UnusedLocalVariableRuleTest::testMethodWithUsedParameter() {
@@ -42,7 +55,7 @@ void UnusedLocalVariableRuleTest::testMethodWithUnusedParameter() {
 void UnusedLocalVariableRuleTest::testObjCMethodWithUnusedParameter() {
   string strSource = "@interface AClass\n@end\n\
     @implementation AClass\n- (void)aMethod:(int)a {}\n@end";
-    checkRule(strSource, true);
+  checkRule(strSource, true);
 }
 
 void UnusedLocalVariableRuleTest::testObjCMethodDeclarationInsideInterface() {
