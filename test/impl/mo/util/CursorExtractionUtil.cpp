@@ -24,5 +24,8 @@ const pair<CXCursor, CXCursor> extractCursor(StringSourceCode code, bool(^nodesF
     }
   }
   
+  if (filteredIndex < 0) {
+    filteredIndex += filteredNodes->size();
+  }
   return filteredNodes->at(filteredIndex);
 }

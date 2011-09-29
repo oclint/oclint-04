@@ -17,9 +17,6 @@ void UnusedLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, Violat
     VarDecl *valDecl = dyn_cast<VarDecl>(decl);
     if (valDecl) {
       if (!valDecl->isUsed()) {
-        if (valDecl->isExternC()) {
-          return;
-        }
         DeclContext *context = valDecl->getDeclContext();
         do {
           if (isa<ObjCInterfaceDecl>(context) || isa<ObjCProtocolDecl>(context) || isa<ObjCCategoryDecl>(context)) {
