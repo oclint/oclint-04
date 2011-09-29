@@ -5,6 +5,7 @@
 #include "mo/util/CursorUtil.h"
 
 #include <clang/AST/Stmt.h>
+#include <clang/AST/StmtObjC.h>
 
 using namespace clang;
 
@@ -27,9 +28,10 @@ void UnreachableCodeRule::apply(CXCursor& node, CXCursor& parentNode, ViolationS
           if (isa<ReturnStmt>(bodyStmt)) {
             hasBreakPoint = true;
           }
-          if (isa<BreakStmt>(bodyStmt)) {
+          if (isa<BreakStmt>(bodyStmt) || isa<ContinueStmt>(bodyStmt)) {
             Stmt *parentStmt = CursorUtil::getStmt(parentNode);
-            if (isa<ForStmt>(parentStmt)) {
+            if (isa<ForStmt>(parentStmt) || isa<ObjCForCollectionStmt>(parentStmt) || 
+                isa<DoStmt>(parentStmt) || isa<WhileStmt>(parentStmt)) {
               hasBreakPoint = true;
             }
           }

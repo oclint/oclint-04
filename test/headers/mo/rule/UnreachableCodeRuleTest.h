@@ -7,6 +7,8 @@ private:
   
   void checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated);
   void checkRuleOnFunctionRootComponent(string source, bool isViolated);
+  template<typename nodeType, typename parentNodeType> 
+  void checkRuleOn(string source, bool isViolated);
   
 public:
   void setUp();
@@ -14,6 +16,17 @@ public:
   void testRuleName();
   void testGoodCompoundStmtWithoutReturnStmt();
   void testGoodCompoundStmtWithReturnStmtAtLastLine();
-  void testUnreachableCodeAfterReturnStatement();
-  void testUnreachableCodeAfterBreakStatement();
+  void testCodeAfterReturnStatement();
+  void testCodeAfterBreakStatementInForStatement();
+  void testCodeAfterContinueStatementInForStatement();
+  void testCodeAfterReturnStatementInForStatement();
+  void testCodeAfterBreakStatementInObjCForCollectionStatement();
+  void testCodeAfterContinueStatementInObjCForCollectionStatement();
+  void testCodeAfterReturnStatementInObjCForCollectionStatement();
+  void testCodeAfterBreakStatementInWhileStatement();
+  void testCodeAfterContinueStatementInWhileStatement();
+  void testCodeAfterReturnStatementInWhileStatement();
+  void testCodeAfterBreakStatementInDoWhileStatement();
+  void testCodeAfterContinueStatementInDoWhileStatement();
+  void testCodeAfterReturnStatementInDoWhileStatement();
 };
