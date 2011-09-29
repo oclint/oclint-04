@@ -1,5 +1,4 @@
 #include "mo/rule/UnreachableCodeRuleTest.h"
-#include "mo/util/TestCursorUtil.h"
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/StringSourceCode.h"

@@ -1,9 +1,14 @@
 #include "mo/reporter/PlainTextReporterTest.h"
 #include "mo/Violation.h"
 #include "mo/rule/MockRule.h"
-#include "mo/util/TestCursorUtil.h"
 #include "mo/StringSourceCode.h"
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
+#include "mo/util/CursorExtractionUtil.h"
+#include "mo/util/CursorUtil.h"
+
+#include <clang/AST/Stmt.h>
+
+using namespace std;
 
 void PlainTextReporterTest::setUp() {
   _reporter = new PlainTextReporter();
@@ -34,18 +39,24 @@ void PlainTextReporterTest::testReportEmptyDiagnostics() {
 
 void PlainTextReporterTest::testCursorLocationToPlainText() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
-  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor(strCode);
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
   int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
   string cursorLocationPlainText = ":1:25";
-  string reportString = _reporter->cursorLocationToPlainText(switchStmtCursor);
+  string reportString = _reporter->cursorLocationToPlainText(cursorPair.first);
   TS_ASSERT_EQUALS(reportString.substr(tmpFileNameLength), cursorLocationPlainText);
 }
 
 void PlainTextReporterTest::testReportViolations() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
-  CXCursor switchStmtCursor = TestCursorUtil::getSwitchStmtCursor(strCode);
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
   int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
-  Violation violation(switchStmtCursor, new MockRule());
+  Violation violation(cursorPair.first, new MockRule());
   vector<Violation> violations;
   violations.push_back(violation); 
   string violationMessage = ":1:25: violation: mock rule\n";
