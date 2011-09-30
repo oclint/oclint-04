@@ -18,6 +18,7 @@ if [ $SUCCESS -eq 0 ]; then
 		SUCCESS=2
 	fi 
 fi
+cp ../llvm/lib/liblibclang.3.0.dylib bin/
 if [ $SUCCESS -eq 0 ]; then
 	cp -r ../../test/samples test/samples
 	./bin/mo_test > ../testresults.txt

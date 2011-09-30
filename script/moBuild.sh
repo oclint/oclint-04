@@ -18,6 +18,7 @@ if [ $SUCCESS -eq 0 ]; then
 		SUCCESS=2
 	fi 
 fi 
+cp ../llvm/lib/liblibclang.3.0.dylib bin/
 cd $CWD
 if [ $SUCCESS -eq 0 ]; then
 	build/mo/bin/mo_test
