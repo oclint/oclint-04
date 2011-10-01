@@ -50,7 +50,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi
 if [ $SUCCESS -eq 0 ]; then
   ./script/samplesDetector.sh > build/samplesinspection.txt
-  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include > build/selfinspection.txt
+  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include /usr/lib/clang/3.0/include | grep '^src' > build/selfinspection.txt
 	if [ -n "$CC_BUILD_ARTIFACTS" ]; then
 		mv build/testresults.txt $CC_BUILD_ARTIFACTS/testresults.txt
 		mv build/report $CC_BUILD_ARTIFACTS/coverage
