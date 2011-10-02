@@ -41,7 +41,6 @@ int dynamicLoadRules(string executablePath, string relativeRulesPath) {
   
   DIR *dp;
   struct dirent *dirp;
-  string filepath;
 
   dp = opendir(absoluteRulesPath.c_str());
   if (dp != NULL) {

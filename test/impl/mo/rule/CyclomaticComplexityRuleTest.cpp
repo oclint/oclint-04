@@ -43,20 +43,20 @@ void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated) {
   checkRule(cursorPair, isViolated);
 }
 
-void CyclomaticComplexityRuleTest::testCCNNineIsNotASmell() {
+void CyclomaticComplexityRuleTest::testCCNSevenIsNotASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithNineCCN { \
-    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
+    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
   checkRule(strSource, false);
 }
 
-void CyclomaticComplexityRuleTest::testCCNTenIsASmell() {
+void CyclomaticComplexityRuleTest::testCCNEightIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
-    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
+    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
   checkRule(strSource, true);
 }
 
-void CyclomaticComplexityRuleTest::testCCNElevenIsASmell() {
+void CyclomaticComplexityRuleTest::testCCNNineIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
-    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
+    if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
   checkRule(strSource, true);
 }

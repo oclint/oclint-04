@@ -12,7 +12,7 @@ public:
   void setUp();
   void tearDown();
   void testRuleName();
-  void testCCNNineIsNotASmell();
-  void testCCNTenIsASmell();
-  void testCCNElevenIsASmell();
+  void testCCNSevenIsNotASmell();
+  void testCCNEightIsASmell();
+  void testCCNNineIsASmell();
 };

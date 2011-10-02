@@ -11,7 +11,7 @@
 
 using namespace clang;
 
-#define DEFAULT_MAX_ALLOWED_CCN 9
+#define DEFAULT_MAX_ALLOWED_CCN 7
 
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
