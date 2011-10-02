@@ -11,6 +11,24 @@ using namespace clang;
 
 RuleSet UnreachableCodeRule::rules(new UnreachableCodeRule());
 
+bool UnreachableCodeRule::isBreakPoint(Stmt *stmt, CXCursor& parentNode) {
+  if (isa<ReturnStmt>(stmt)) {
+    return true;
+  }
+  if (isa<BreakStmt>(stmt) || isa<ContinueStmt>(stmt)) {
+    Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+    if (isLoopStmt(parentStmt)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool UnreachableCodeRule::isLoopStmt(Stmt *stmt) {
+  return isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || 
+    isa<DoStmt>(stmt) || isa<WhileStmt>(stmt);
+}
+
 void UnreachableCodeRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorUtil::getStmt(node);
   if (stmt) {
@@ -25,16 +43,7 @@ void UnreachableCodeRule::apply(CXCursor& node, CXCursor& parentNode, ViolationS
         }
         else {
           Stmt *bodyStmt = (Stmt *)*body;
-          if (isa<ReturnStmt>(bodyStmt)) {
-            hasBreakPoint = true;
-          }
-          if (isa<BreakStmt>(bodyStmt) || isa<ContinueStmt>(bodyStmt)) {
-            Stmt *parentStmt = CursorUtil::getStmt(parentNode);
-            if (isa<ForStmt>(parentStmt) || isa<ObjCForCollectionStmt>(parentStmt) || 
-                isa<DoStmt>(parentStmt) || isa<WhileStmt>(parentStmt)) {
-              hasBreakPoint = true;
-            }
-          }
+          hasBreakPoint = isBreakPoint(bodyStmt, parentNode);
         }
       }
     }
