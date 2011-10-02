@@ -18,27 +18,32 @@ int CCNCounterUtil::getCCNOfCursor(CXCursor node) {
   return _count + 1;
 }
 
+bool isDecisionPoint(Stmt *stmt) {
+  return isa<IfStmt>(stmt) || isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || 
+    isa<WhileStmt>(stmt) || isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt);
+}
+
+bool isDecisionPoint(clang::Expr *expr) {
+  if (isa<ConditionalOperator>(expr)) {
+    return true;
+  }
+  
+  BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr);
+  if (biOperator && (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr)) {
+    return true;
+  }
+  
+  return false;
+}
+
 enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
   Stmt *stmt = CursorUtil::getStmt(node);
-  if (stmt) {
-    if (isa<IfStmt>(stmt) || isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || isa<WhileStmt>(stmt) || 
-        isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt)) {
-      _count++;
-    }
+  if (stmt && isDecisionPoint(stmt)) {
+    _count++;
   }
   Expr *expr = CursorUtil::getExpr(node);
-  if (expr) {
-    if (isa<ConditionalOperator>(expr)) {
-      _count++;
-    }
-    else {
-      BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr);
-      if (biOperator) {
-        if (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr) {
-          _count++;
-        }
-      }
-    }
+  if (expr && isDecisionPoint(expr)) {
+    _count++;
   }
   return CXChildVisit_Recurse;
 }

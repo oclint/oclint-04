@@ -13,6 +13,14 @@ using namespace clang;
 
 #define DEFAULT_MAX_ALLOWED_CCN 7
 
+/*
+ In McBABE, 1976, A Complexity Measure, he suggested a reasonable number of 10,
+ However, the statistics in STAMELOS, 2002, Code Quality Analysis in Open 
+ Source Software Development describe that, the mean of cyclomatic complexity
+ of methods among 100 Linux application's source code is 7.70, so here, we
+ use 7 as a default max allow complexity number.
+*/
+
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
