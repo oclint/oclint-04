@@ -1,8 +1,8 @@
 #include <cxxtest/TestSuite.h>
-#include "mo/util/CCNCounterUtil.h"
+#include "mo/util/CyclomaticComplexityMeasurement.h"
 #include "mo/StringSourceCode.h"
 
-class CCNCounterUtilTest : public CxxTest::TestSuite { 
+class CyclomaticComplexityMeasurementTest : public CxxTest::TestSuite { 
 private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;

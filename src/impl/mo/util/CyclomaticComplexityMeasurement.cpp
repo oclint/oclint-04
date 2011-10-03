@@ -8,11 +8,11 @@
 using namespace clang;
 
 #include "mo/util/CursorUtil.h"
-#include "mo/util/CCNCounterUtil.h"
+#include "mo/util/CyclomaticComplexityMeasurement.h"
 
 static int _count;
 
-int CCNCounterUtil::getCCNOfCursor(CXCursor node) {
+int CyclomaticComplexityMeasurement::getCCNOfCursor(CXCursor node) {
   _count = 0;
   clang_visitChildren(node, ccnTraverseAST, 0);
   return _count + 1;

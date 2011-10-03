@@ -1,5 +1,5 @@
 add_library(MOUtilTest
-  CCNCounterUtilTest.cpp
+  CyclomaticComplexityMeasurementTest.cpp
   CursorUtilTest.cpp
   CursorExtractionUtil.cpp
   StringSourceCodeToTranslationUnitUtil.cpp

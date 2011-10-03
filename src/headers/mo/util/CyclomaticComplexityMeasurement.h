@@ -1,5 +1,5 @@
-#ifndef MO_UTIL_CCNCOUNTERUTIL_H
-#define MO_UTIL_CCNCOUNTERUTIL_H
+#ifndef MO_UTIL_CYCLOMATICCOMPLEXITYMEASUREMENT_H
+#define MO_UTIL_CYCLOMATICCOMPLEXITYMEASUREMENT_H
 
 #include <clang-c/Index.h>
 
@@ -8,7 +8,7 @@ namespace clang {
   class Expr;
 }
 
-class CCNCounterUtil {
+class CyclomaticComplexityMeasurement {
 public:
   static int getCCNOfCursor(CXCursor node);
 };

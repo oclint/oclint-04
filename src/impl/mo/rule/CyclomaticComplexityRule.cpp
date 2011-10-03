@@ -3,7 +3,7 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
-#include "mo/util/CCNCounterUtil.h"
+#include "mo/util/CyclomaticComplexityMeasurement.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -27,7 +27,7 @@ void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, Viola
   Decl *decl = CursorUtil::getDecl(node);
   if (decl) {
     if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
-      int ccn = CCNCounterUtil::getCCNOfCursor(node);
+      int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
       if (ccn > DEFAULT_MAX_ALLOWED_CCN) {
         Violation violation(node, this);
         violationSet.addViolation(violation);
