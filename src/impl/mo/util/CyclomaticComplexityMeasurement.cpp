@@ -23,7 +23,7 @@ bool isDecisionPoint(Stmt *stmt) {
     isa<WhileStmt>(stmt) || isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt);
 }
 
-bool isDecisionPoint(clang::Expr *expr) {
+bool isDecisionPoint(Expr *expr) {
   if (isa<ConditionalOperator>(expr)) {
     return true;
   }
