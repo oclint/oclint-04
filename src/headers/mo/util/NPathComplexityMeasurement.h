@@ -15,6 +15,7 @@ namespace clang {
   class Expr;
   class ConditionalOperator;
   class BinaryOperator;
+  class ParenExpr;
 }
 
 using namespace clang;
@@ -32,6 +33,7 @@ private:
   static int nPath(Expr *node);
   static int nPath(ConditionalOperator *expr);
   static int nPath(BinaryOperator *expr);
+  static int nPath(ParenExpr *expr);
   
 public:
   static int getNPathOfCursor(CXCursor cursor);

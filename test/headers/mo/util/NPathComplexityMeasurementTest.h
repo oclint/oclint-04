@@ -8,6 +8,8 @@ private:
   
 public:
   void testEmptyMethod();
+  
+  // If Statement
   void testIfStatementWithConstantConditionAndEmptyThenCompoundStmt();
   void testIfStatementWithOneLogicAndOperatorConditionAndEmptyThenCompoundStmt();
   void testIfStatementWithOneLogicOrOperatorConditionAndEmptyThenCompoundStmt();
@@ -18,14 +20,22 @@ public:
   void testIfElseStatementWithMultipleLogicAndOrOperatorsConditionAndEmptyThenCompoundStmt();
   void testNestedIfStatement();
   void testNestedIfElseStatement();
+  
+  // While Statement
   void testWhileStatementWithConstantConditionAndEmptyCompoundStmt();
   void testWhileStatementWithOneLogicAndOperatorConditionAndEmptyCompoundStmt();
   void testWhileStatementWithOneLogicOrOperatorConditionAndEmptyCompoundStmt();
+  
+  // Do-While Statement
   void testDoWhileStatementWithConstantConditionAndEmptyCompoundStmt();
   void testDoWhileStatementWithOneLogicAndOperatorConditionAndEmptyCompoundStmt();
   void testDoWhileStatementWithOneLogicOrOperatorConditionAndEmptyCompoundStmt();
+  
+  // For Statement
   void testForStatementWithSimpleConditionAndEmptyCompoundStmt();
   void testForStatementWithOneLogicAndOperatorConditionAndEmptyCompoundStmt();
+  
+  // Switch Statement
   void testSwitchStatementWithSimpleConditionAndEmptyBody();
   void testSwitchStatementWithSimpleConditionAndOneCase();
   void testSwitchStatementWithSimpleConditionAndOneCaseOneDefault();
@@ -34,4 +44,8 @@ public:
   void testSwitchStatementWithSimpleConditionAndOneCaseOneIfOneDefault();
   void testSwitchStatementWithSimpleConditionAndOneCaseAsIfOneDefault();
   void testSwitchStatementWithSimpleConditionAndOneCaseAsTwoIfsOneDefault();
+  
+  // Conditional Operator
+  void testBasicConditionalOperator();
+  void testNastingConditionalOperator();
 };

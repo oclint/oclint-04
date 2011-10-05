@@ -40,6 +40,7 @@ SET(LIST_OF_RULES
   LongMethodRule
   ConstantIfStatementRule
   UnreachableCodeRule
+  NPathComplexityRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

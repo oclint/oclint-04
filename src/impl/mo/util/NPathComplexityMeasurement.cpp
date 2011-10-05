@@ -13,12 +13,14 @@ using namespace clang;
 #define DISPATH(STMT_TYPE) if (isa<STMT_TYPE>(node)) return nPath(dyn_cast<STMT_TYPE>(node));
 
 int NPathComplexityMeasurement::nPath(Stmt *node) {
-  DISPATH(CompoundStmt);
-  DISPATH(IfStmt);
-  DISPATH(WhileStmt);
-  DISPATH(DoStmt);
-  DISPATH(ForStmt);
-  DISPATH(SwitchStmt);
+  if (node) {
+    DISPATH(CompoundStmt);
+    DISPATH(IfStmt);
+    DISPATH(WhileStmt);
+    DISPATH(DoStmt);
+    DISPATH(ForStmt);
+    DISPATH(SwitchStmt);
+  }
   return 1;
 }
 
@@ -94,12 +96,16 @@ int NPathComplexityMeasurement::nPath(SwitchStmt *stmt) {
 }
 
 int NPathComplexityMeasurement::nPath(Expr *node) {
-  DISPATH(BinaryOperator);
+  if (node) {
+    DISPATH(ConditionalOperator);
+    DISPATH(BinaryOperator);
+    DISPATH(ParenExpr);
+  }
   return 0;
 }
 
 int NPathComplexityMeasurement::nPath(ConditionalOperator *expr) {
-  return 0;
+  return nPath(expr->getCond()) + nPath(expr->getTrueExpr()) + nPath(expr->getFalseExpr()) + 2;
 }
 
 int NPathComplexityMeasurement::nPath(BinaryOperator *expr) {
@@ -107,6 +113,10 @@ int NPathComplexityMeasurement::nPath(BinaryOperator *expr) {
     return 1 + nPath(expr->getLHS()) + nPath(expr->getRHS());
   }
   return 0;
+}
+
+int NPathComplexityMeasurement::nPath(ParenExpr *expr) {
+  return nPath(expr->getSubExpr());
 }
 
 int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor) {

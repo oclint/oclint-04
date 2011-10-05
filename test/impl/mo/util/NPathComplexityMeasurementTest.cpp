@@ -122,3 +122,11 @@ void NPathComplexityMeasurementTest::testSwitchStatementWithSimpleConditionAndOn
 void NPathComplexityMeasurementTest::testSwitchStatementWithSimpleConditionAndOneCaseAsTwoIfsOneDefault() {
   checkNPath("void main() { int i; switch (i) { case 1: if (i > 0) {} if (i < 0) {} break; default: break; } }", 5);
 }
+
+void NPathComplexityMeasurementTest::testBasicConditionalOperator() {
+  checkNPath("void main() { if (1 ? 2 : 3) {} }", 4);
+}
+
+void NPathComplexityMeasurementTest::testNastingConditionalOperator() {
+  checkNPath("void main() { if (1 ? (2 ? 3 : 4) : (5 ? 6 : 7)) {} }", 8);
+}
