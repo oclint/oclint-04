@@ -120,20 +120,31 @@ int NPathComplexityMeasurement::nPath(ParenExpr *expr) {
 }
 
 int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor) {
-  CompoundStmt *compoundStmt = NULL;
-  Stmt *stmt = CursorUtil::getStmt(cursor);
-  if (stmt && isa<CompoundStmt>(stmt)) {
-    compoundStmt = dyn_cast<CompoundStmt>(stmt);
-  }
-  Decl *decl = CursorUtil::getDecl(cursor);
-  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
-    CompoundStmt *bodyStmt = dyn_cast<CompoundStmt>(decl->getBody());
-    if (bodyStmt) {
-      compoundStmt = bodyStmt;
-    }
+  CompoundStmt *compoundStmt = extractCompoundStmtFromCursor(cursor);
+  if (compoundStmt == NULL) {
+    compoundStmt = extractCompoundStmtFromMethodDeclCursor(cursor);
   }
   if (compoundStmt != NULL) {
     return nPath(compoundStmt);
   }
   return 1; // TODO: return 1 for now, will throw exceptions
+}
+
+CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(CXCursor cursor) {
+  Stmt *stmt = CursorUtil::getStmt(cursor);
+  if (stmt && isa<CompoundStmt>(stmt)) {
+    return dyn_cast<CompoundStmt>(stmt);
+  }
+  return NULL;
+}
+
+CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromMethodDeclCursor(CXCursor cursor) {
+  Decl *decl = CursorUtil::getDecl(cursor);
+  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
+    CompoundStmt *bodyStmt = dyn_cast<CompoundStmt>(decl->getBody());
+    if (bodyStmt) {
+      return bodyStmt;
+    }
+  }
+  return NULL;
 }

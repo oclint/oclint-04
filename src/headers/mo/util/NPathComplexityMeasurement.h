@@ -37,6 +37,10 @@ private:
   
 public:
   static int getNPathOfCursor(CXCursor cursor);
+
+private:
+  static CompoundStmt* extractCompoundStmtFromCursor(CXCursor cursor);
+  static CompoundStmt* extractCompoundStmtFromMethodDeclCursor(CXCursor cursor);
 };
 
 #endif
