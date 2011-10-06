@@ -11,6 +11,7 @@ namespace clang {
   class DoStmt;
   class ForStmt;
   class SwitchStmt;
+  class ObjCForCollectionStmt;
   
   class Expr;
   class ConditionalOperator;
@@ -29,6 +30,7 @@ private:
   static int nPath(DoStmt *stmt);
   static int nPath(ForStmt *stmt);
   static int nPath(SwitchStmt *stmt);
+  static int nPath(ObjCForCollectionStmt *stmt);
   
   static int nPath(Expr *node);
   static int nPath(ConditionalOperator *expr);

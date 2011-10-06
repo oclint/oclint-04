@@ -35,6 +35,10 @@ public:
   void testForStatementWithSimpleConditionAndEmptyCompoundStmt();
   void testForStatementWithOneLogicAndOperatorConditionAndEmptyCompoundStmt();
   
+  // Foreach Statement
+  void testForeachStatementWithEmptyCompoundStmt();
+  void testForeachStatementWithCompoundStmtWithIfStmt();
+  
   // Switch Statement
   void testSwitchStatementWithSimpleConditionAndEmptyBody();
   void testSwitchStatementWithSimpleConditionAndOneCase();

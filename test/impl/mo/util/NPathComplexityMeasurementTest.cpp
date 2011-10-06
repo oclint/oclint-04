@@ -91,6 +91,14 @@ void NPathComplexityMeasurementTest::testForStatementWithOneLogicAndOperatorCond
   checkNPath("void main() { for (int i = 0; i < 1 && 0; i++) {} }", 4);
 }
 
+void NPathComplexityMeasurementTest::testForeachStatementWithEmptyCompoundStmt() {
+  checkNPath("void main() { id anArray; for (id it in anArray) {} }", 3);
+}
+
+void NPathComplexityMeasurementTest::testForeachStatementWithCompoundStmtWithIfStmt() {
+  checkNPath("void main() { id anArray; for (id it in anArray) { if (1) {} } }", 4);
+}
+
 void NPathComplexityMeasurementTest::testSwitchStatementWithSimpleConditionAndEmptyBody() {
   checkNPath("void main() { int i; switch (i) {} }", 0);
 }

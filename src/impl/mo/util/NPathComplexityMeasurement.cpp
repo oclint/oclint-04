@@ -10,7 +10,7 @@
 
 using namespace clang;
 
-#define DISPATH(STMT_TYPE) if (isa<STMT_TYPE>(node)) return nPath(dyn_cast<STMT_TYPE>(node));
+#define DISPATH(STMT_TYPE) if (isa<STMT_TYPE>(node)) return nPath(dyn_cast<STMT_TYPE>(node))
 
 int NPathComplexityMeasurement::nPath(Stmt *node) {
   if (node) {
@@ -20,6 +20,7 @@ int NPathComplexityMeasurement::nPath(Stmt *node) {
     DISPATH(DoStmt);
     DISPATH(ForStmt);
     DISPATH(SwitchStmt);
+    DISPATH(ObjCForCollectionStmt);
   }
   return 1;
 }
@@ -76,6 +77,18 @@ int NPathComplexityMeasurement::nPath(ForStmt *stmt) {
   
   return nPath(stmt->getInit()) + nPath(stmt->getCond()) + nPath(stmt->getInc()) 
           + nPath(stmt->getBody()) + 1;
+}
+
+int NPathComplexityMeasurement::nPath(ObjCForCollectionStmt *stmt) {
+  // If we convert a foreach loop to a simple for loop, it will looks like
+  // for (int i = 0; i < [anArray count]; i++) {
+  //   id it = [anArray objectAtIndex:i];
+  //   ... (same as foreach loop block)
+  // }
+  // So, convert to same logic in for statement, we assume the NPath complexity as below
+  // NP(Foreach) :=￼NP((for-range)) + 2
+  
+  return nPath(stmt->getBody()) + 2;
 }
 
 int NPathComplexityMeasurement::nPath(SwitchStmt *stmt) {
