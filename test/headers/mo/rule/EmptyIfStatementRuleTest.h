@@ -15,4 +15,6 @@ public:
   void testGoodIfStatement();
   void testIfStatementWithEmptyComponent();
   void testIfStatementWithNull();
+  void testIfStatementWithEmptyElseComponent();
+  void testIfStatementWithNullElseComponent();
 };

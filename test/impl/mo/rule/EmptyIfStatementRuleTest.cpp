@@ -54,3 +54,11 @@ void EmptyIfStatementRuleTest::testIfStatementWithEmptyComponent() {
 void EmptyIfStatementRuleTest::testIfStatementWithNull() {
   checkRule("int main() { if (1); return 0; }", true);
 }
+
+void EmptyIfStatementRuleTest::testIfStatementWithEmptyElseComponent() {
+  checkRule("int main() { if (1) {;} else {} return 0; }", true);
+}
+
+void EmptyIfStatementRuleTest::testIfStatementWithNullElseComponent() {
+  checkRule("int main() { if (1) {;} else; return 0; }", true);
+}
