@@ -8,5 +8,6 @@ add_library(MORuleTest
   UnreachableCodeRuleTest.cpp
   NPathComplexityRuleTest.cpp
   IfStatementWithNegatedConditionRuleTest.cpp
+  RedundantIfStatementRuleTest.cpp
   MockRule.cpp
   )
