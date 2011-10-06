@@ -41,6 +41,7 @@ SET(LIST_OF_RULES
   ConstantIfStatementRule
   UnreachableCodeRule
   NPathComplexityRule
+  IfStatementWithNegatedConditionRule
   )
 
 build_static_rules("${LIST_OF_RULES}")
