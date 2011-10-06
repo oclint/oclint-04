@@ -70,3 +70,15 @@ void RedundantIfStatementRuleTest::testIfStatementWithYesThenAndNoElse() {
 void RedundantIfStatementRuleTest::testIfStatementWithNoThenAndYesElse() {
   checkRule("#import <objc/objc.h> \n BOOL aMethod() { if (1) return NO; else { return YES; } }", "m", true);
 }
+
+void RedundantIfStatementRuleTest::testIfStatementWithCIntDeclaration() {
+  checkRule("void aMethod() { int b; if (1) { b = 6; } else b = 0; }", "c", true);
+}
+
+void RedundantIfStatementRuleTest::testIfStatementWithCppBooleanDeclaration() {
+  checkRule("void aMethod() { bool b; if (1) { b = true; } else b = false; }", "cpp", true);
+}
+
+void RedundantIfStatementRuleTest::testIfStatementWithObjCBOOLDeclaration() {
+  checkRule("#import <objc/objc.h> \n void aMethod() { BOOL b; if (1) { b = YES; } else b = NO; }", "m", true);
+}

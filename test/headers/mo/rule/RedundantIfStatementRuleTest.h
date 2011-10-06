@@ -19,4 +19,7 @@ public:
   void testIfStatementWithFalseThenAndTrueElse();
   void testIfStatementWithYesThenAndNoElse();
   void testIfStatementWithNoThenAndYesElse();
+  void testIfStatementWithCIntDeclaration();
+  void testIfStatementWithCppBooleanDeclaration();
+  void testIfStatementWithObjCBOOLDeclaration();
 };

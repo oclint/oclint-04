@@ -13,14 +13,15 @@ using namespace clang;
 
 RuleSet RedundantIfStatementRule::rules(new RedundantIfStatementRule());
 
-ReturnStmt* RedundantIfStatementRule::extractReturnStmt(Stmt *fromStmt) {
+template<typename nodeType>
+nodeType* RedundantIfStatementRule::extractStmt(Stmt *fromStmt) {
   if (fromStmt) {
-    if (isa<ReturnStmt>(fromStmt)) {
-      return dyn_cast<ReturnStmt>(fromStmt);
+    if (isa<nodeType>(fromStmt)) {
+      return dyn_cast<nodeType>(fromStmt);
     }
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(fromStmt);
     if (compoundStmt && compoundStmt->size() == 1) {
-      return extractReturnStmt(*(compoundStmt->body_begin()));
+      return extractStmt<nodeType>(*(compoundStmt->body_begin()));
     }
   }
   return NULL;
@@ -54,21 +55,32 @@ bool RedundantIfStatementRule::isObjCBOOLViolated(Expr *thenExpr, Expr *elseExpr
   return false;
 }
 
+bool RedundantIfStatementRule::isNotEquals(Expr *firstExpr, Expr *secondExpr) {
+  return (isCIntegerViolated(firstExpr, secondExpr) || isCXXBoolViolated(firstExpr, secondExpr) ||
+    isObjCBOOLViolated(firstExpr, secondExpr));
+}
+
+bool RedundantIfStatementRule::doesReturnStatementsViolateRule(ReturnStmt *first, ReturnStmt *second) {
+  return first && second && isNotEquals(first->getRetValue(), second->getRetValue());
+}
+
+bool RedundantIfStatementRule::doesBinaryOperatorsViolateRule(BinaryOperator *first, BinaryOperator *second) {
+  return first && second && isNotEquals(first->getRHS(), second->getRHS());
+}
+
 void RedundantIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorUtil::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
     if (ifStmt) {
-      ReturnStmt *thenStmt = extractReturnStmt(ifStmt->getThen());
-      ReturnStmt *elseStmt = extractReturnStmt(ifStmt->getElse());
-      if (thenStmt && elseStmt) {
-        Expr *thenExpr = thenStmt->getRetValue();
-        Expr *elseExpr = elseStmt->getRetValue();
-        if (isCIntegerViolated(thenExpr, elseExpr) || isCXXBoolViolated(thenExpr, elseExpr) ||
-            isObjCBOOLViolated(thenExpr, elseExpr)) {
-          Violation violation(node, this);
-          violationSet.addViolation(violation);    
-        }
+      ReturnStmt *thenReturnStmt = extractStmt<ReturnStmt>(ifStmt->getThen());
+      ReturnStmt *elseReturnStmt = extractStmt<ReturnStmt>(ifStmt->getElse());
+      BinaryOperator *thenBinaryOperator = extractStmt<BinaryOperator>(ifStmt->getThen());
+      BinaryOperator *elseBinaryOperator = extractStmt<BinaryOperator>(ifStmt->getElse());
+      if (doesReturnStatementsViolateRule(thenReturnStmt, elseReturnStmt) || 
+          doesBinaryOperatorsViolateRule(thenBinaryOperator, elseBinaryOperator)) {
+        Violation violation(node, this);
+        violationSet.addViolation(violation);
       }
     }
   }
