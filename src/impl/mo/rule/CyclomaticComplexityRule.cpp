@@ -25,13 +25,11 @@ RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
-  if (decl) {
-    if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
-      int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
-      if (ccn > DEFAULT_MAX_ALLOWED_CCN) {
-        Violation violation(node, this);
-        violationSet.addViolation(violation);
-      }
+  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
+    int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
+    if (ccn > DEFAULT_MAX_ALLOWED_CCN) {
+      Violation violation(node, this);
+      violationSet.addViolation(violation);
     }
   }
 }

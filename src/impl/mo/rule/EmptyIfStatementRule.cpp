@@ -13,12 +13,7 @@ RuleSet EmptyIfStatementRule::rules(new EmptyIfStatementRule());
 bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
   if (stmt) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(stmt);
-    if (compoundStmt && compoundStmt->body_empty()) {
-      return true;
-    }
-    if (isa<NullStmt>(stmt)) {
-      return true;
-    }
+    return isa<NullStmt>(stmt) || (compoundStmt && compoundStmt->body_empty());
   }
   return false;
 }
