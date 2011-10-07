@@ -43,6 +43,7 @@ SET(LIST_OF_RULES
   NPathComplexityRule
   IfStatementWithNegatedConditionRule
   RedundantIfStatementRule
+  RedundantLocalVariableRule
   )
 
 build_static_rules("${LIST_OF_RULES}")

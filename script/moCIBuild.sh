@@ -27,6 +27,7 @@ if [ $SUCCESS -eq 0 ]; then
 	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/RedundantLocalVariableRule.dir/RedundantLocalVariableRule.cpp.gcno
 	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
 	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then
