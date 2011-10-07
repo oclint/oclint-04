@@ -22,4 +22,5 @@ public:
   void testIfStatementWithCIntDeclaration();
   void testIfStatementWithCppBooleanDeclaration();
   void testIfStatementWithObjCBOOLDeclaration();
+  void testIfStatementWithSameBooleanReturn();
 };

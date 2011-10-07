@@ -82,3 +82,7 @@ void RedundantIfStatementRuleTest::testIfStatementWithCppBooleanDeclaration() {
 void RedundantIfStatementRuleTest::testIfStatementWithObjCBOOLDeclaration() {
   checkRule("#import <objc/objc.h> \n void aMethod() { BOOL b; if (1) { b = YES; } else b = NO; }", "m", true);
 }
+
+void RedundantIfStatementRuleTest::testIfStatementWithSameBooleanReturn() {
+  checkRule("#import <objc/objc.h> \n void aMethod() { BOOL b; if (1) { b = YES; } else b = YES; }", "m", false);
+}
