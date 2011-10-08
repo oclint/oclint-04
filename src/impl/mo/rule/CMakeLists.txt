@@ -46,5 +46,8 @@ SET(LIST_OF_RULES
   RedundantLocalVariableRule
   )
 
+if(IS_CI_BUILD)
 build_static_rules("${LIST_OF_RULES}")
+endif()
+
 build_dynamic_rules("${LIST_OF_RULES}")

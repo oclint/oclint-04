@@ -41,4 +41,7 @@ add_definitions(
 endif()
 
 add_subdirectory(src)
+
+if(IS_CI_BUILD)
 add_subdirectory(test)
+endif()
