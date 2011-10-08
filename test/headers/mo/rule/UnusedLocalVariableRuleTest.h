@@ -15,8 +15,18 @@ public:
   void testMethodWithUsedParameter();
   void testMethodWithUnusedParameter();
   void testObjCMethodWithUnusedParameter();
-  void testObjCMethodDeclarationInsideInterface();
   void testUsedLocalVariable();
   void testUnusedLocalVariable();
   void testUnusedLocalVariableWithIntialAssignment();
+  
+  void testFunctionDeclationWithoutDefincationShouldBeIgnored();
+  void testCppMethodDeclationWithoutDefincationShouldBeIgnored();
+  void testCppMethodInheritanceFromBaseClassShouldBeIgnored();
+  void testCppMethodWithoutVirtualInBaseClassIsAViolation();
+  void testSaticFunctionShouldBeIgnored();
+  void testObjCMethodDeclarationInsideInterfaceShouldBeIgnored();
+  void testObjCMethodDeclarationInsideProtocolShouldBeIgnored();
+  void testObjCMethodDeclarationInsideCategoryShouldBeIgnored();
+  void testObjCMethodInheritanceFromBaseInterfaceShouldBeIgnored();
+  void testObjCMethodImplementedForProtocolShouldBeIgnored();
 };

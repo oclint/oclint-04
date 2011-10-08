@@ -16,7 +16,6 @@ using namespace clang;
 RuleSet LongMethodRule::rules(new LongMethodRule());
 
 void LongMethodRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  int numberOfStatements = 0;
   Decl *decl = CursorUtil::getDecl(node);
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(decl->getBody());
