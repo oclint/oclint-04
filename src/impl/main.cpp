@@ -16,13 +16,21 @@ int execute(const char * const * argv, int argc) {
   PlainTextReporter reporter;
   ClangInstance instance;
   instance.compileSourceFileToTranslationUnit(argv, argc);
-  if (instance.hasDiagnostic()) {
-    cout << instance.reportDiagnostics(reporter);
+  if (instance.hasErrors()) {
+    cout << instance.reportErrors(reporter);
     return 1;
+  }
+  bool hasViolations = false;
+  if (instance.hasWarnings()) {
+    cout << instance.reportWarnings(reporter);
+    hasViolations = true;
   }
   SmellFinder smellFinder;
   if (smellFinder.hasSmell(instance.getTranslationUnit())) {
     cout << smellFinder.reportSmells(reporter);
+    hasViolations = true;
+  }
+  if (hasViolations) {
     return 2;
   }
   return 0;
@@ -33,7 +41,6 @@ int dynamicLoadRules(string executablePath, string relativeRulesPath) {
   
   DIR *dp;
   struct dirent *dirp;
-  string filepath;
 
   dp = opendir(absoluteRulesPath.c_str());
   if (dp != NULL) {

@@ -9,10 +9,14 @@ public:
   void setUp();
   void tearDown();
   void testHasNoDiagnostic();
-  void testHasDiagnostic();
+  void testHasDiagnostics();
+  void testHasNoWarning();
+  void testHasWarnings();
+  void testHasNoError();
+  void testHasErrors();
   void testCodeCompilationFailException();
   void testReportDiagnostics();
   void testGetTranslationUnitWithCompilationError();
-  void testGetTranslationUnitWithDiagnostics();
+  void testGetTranslationUnitWithDiagnosticErrors();
   void testGetTranslationUnit();
 };

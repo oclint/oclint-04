@@ -1,4 +1,6 @@
 add_library(MOUtil
-  CCNCounterUtil.cpp
   CursorUtil.cpp
+  DeclUtil.cpp
+  CyclomaticComplexityMeasurement.cpp
+  NPathComplexityMeasurement.cpp
   )

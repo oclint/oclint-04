@@ -2,5 +2,13 @@ add_library(MORuleTest
   EmptyIfStatementRuleTest.cpp
   UnusedLocalVariableRuleTest.cpp
   CyclomaticComplexityRuleTest.cpp
+  LongParameterListRuleTest.cpp
+  LongMethodRuleTest.cpp
+  ConstantIfStatementRuleTest.cpp
+  UnreachableCodeRuleTest.cpp
+  NPathComplexityRuleTest.cpp
+  IfStatementWithNegatedConditionRuleTest.cpp
+  RedundantIfStatementRuleTest.cpp
+  RedundantLocalVariableRuleTest.cpp
   MockRule.cpp
   )

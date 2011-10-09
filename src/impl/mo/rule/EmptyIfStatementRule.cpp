@@ -10,24 +10,21 @@ using namespace clang;
 
 RuleSet EmptyIfStatementRule::rules(new EmptyIfStatementRule());
 
+bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
+  if (stmt) {
+    CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(stmt);
+    return isa<NullStmt>(stmt) || (compoundStmt && compoundStmt->body_empty());
+  }
+  return false;
+}
+
 void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorUtil::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
-    if (ifStmt) {
-      CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(ifStmt->getThen());
-      if (compoundStmt) {
-        if (compoundStmt->body_empty()) {
-          Violation violation(node, this);
-          violationSet.addViolation(violation);
-        }
-      }
-      else {
-        if (isa<NullStmt>(ifStmt->getThen())) {
-          Violation violation(node, this);
-          violationSet.addViolation(violation);
-        }
-      }
+    if (ifStmt && (isLexicalEmpty(ifStmt->getThen()) || isLexicalEmpty(ifStmt->getElse()))) {
+      Violation violation(node, this);
+      violationSet.addViolation(violation);
     }
   }
 }

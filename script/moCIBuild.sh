@@ -18,11 +18,16 @@ if [ $SUCCESS -eq 0 ]; then
 		SUCCESS=2
 	fi 
 fi
+cp ../llvm/lib/liblibclang.3.0.dylib bin/
 if [ $SUCCESS -eq 0 ]; then
 	cp -r ../../test/samples test/samples
 	./bin/mo_test > ../testresults.txt
 	mkdir coverage
 	rm src/impl/mo/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/RedundantLocalVariableRule.dir/RedundantLocalVariableRule.cpp.gcno
 	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
 	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then
@@ -48,7 +53,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi
 if [ $SUCCESS -eq 0 ]; then
   ./script/samplesDetector.sh > build/samplesinspection.txt
-  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include > build/selfinspection.txt
+  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include /usr/lib/clang/3.0/include | grep '^src' > build/selfinspection.txt
 	if [ -n "$CC_BUILD_ARTIFACTS" ]; then
 		mv build/testresults.txt $CC_BUILD_ARTIFACTS/testresults.txt
 		mv build/report $CC_BUILD_ARTIFACTS/coverage

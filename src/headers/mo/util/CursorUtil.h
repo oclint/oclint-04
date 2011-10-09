@@ -7,6 +7,7 @@ namespace clang {
   class Decl;
   class Stmt;
   class Expr;
+  class ASTContext;
 }
 
 using namespace clang;
@@ -16,6 +17,7 @@ public:
   static Decl* getDecl(CXCursor node);
   static Stmt* getStmt(CXCursor node);
   static Expr* getExpr(CXCursor node);
+  static ASTContext& getASTContext(CXCursor node);
 };
 
 #endif

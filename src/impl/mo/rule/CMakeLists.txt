@@ -36,7 +36,18 @@ SET(LIST_OF_RULES
   EmptyIfStatementRule
   UnusedLocalVariableRule
   CyclomaticComplexityRule
+  LongParameterListRule
+  LongMethodRule
+  ConstantIfStatementRule
+  UnreachableCodeRule
+  NPathComplexityRule
+  IfStatementWithNegatedConditionRule
+  RedundantIfStatementRule
+  RedundantLocalVariableRule
   )
 
+if(IS_CI_BUILD)
 build_static_rules("${LIST_OF_RULES}")
+endif()
+
 build_dynamic_rules("${LIST_OF_RULES}")
