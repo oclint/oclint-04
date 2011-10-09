@@ -15,6 +15,8 @@ public:
   void testObjCMethodWithThreeParametersIsNotASmell();
   void testObjCMethodWithFourParametersIsASmell();
   void testObjCMethodWithFiveParametersIsASmell();
+  void testObjCMethodDeclaredInSuperClassShouldBeIgnored();
+  void testObjCMethodDeclaredInProtocolShouldBeIgnored();
   void testCppMethodWithThreeParametersIsNotASmell();
   void testCppMethodWithFourParametersIsASmell();
   void testCppMethodWithFiveParametersIsASmell();

@@ -48,7 +48,7 @@ void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool
       }
     }
     return false;
-  });
+  }, -1);
   checkRule(cursorPair, isViolated);
 }
 
@@ -58,13 +58,29 @@ void LongParameterListRuleTest::testObjCMethodWithThreeParametersIsNotASmell() {
 }
 
 void LongParameterListRuleTest::testObjCMethodWithFourParametersIsASmell() {
-  string strSource = "@implementation ClassName\n- (void)aMethodWithThreeParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 {}\n@end";
+  string strSource = "@implementation ClassName\n- (void)aMethodWithFourParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 {}\n@end";
   checkRule(strSource, "m", true);
 }
 
 void LongParameterListRuleTest::testObjCMethodWithFiveParametersIsASmell() {
-  string strSource = "@implementation ClassName\n- (void)aMethodWithThreeParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 param5:... {}\n@end";
+  string strSource = "@implementation ClassName\n- (void)aMethodWithFiveParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 param5:... {}\n@end";
   checkRule(strSource, "m", true);
+}
+
+void LongParameterListRuleTest::testObjCMethodDeclaredInSuperClassShouldBeIgnored() {
+  string strSource = "\
+  @interface BaseClass\n- (void)aMethodWithFourParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4;\n@end\n\
+  @interface SubClass : BaseClass\n@end\n\
+  @implementation SubClass\n- (void)aMethodWithFourParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 {}\n@end";
+  checkRule(strSource, "m", false);
+}
+
+void LongParameterListRuleTest::testObjCMethodDeclaredInProtocolShouldBeIgnored() {
+  string strSource = "\
+  @protocol AProtocol\n- (void)aMethodWithFourParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4;\n@end\n\
+  @interface ClassName <AProtocol>\n@end\n\
+  @implementation ClassName\n- (void)aMethodWithFourParameters:(int)param1 param2:(int)param2 param3:(int)param3 param4:(int)param4 {}\n@end";
+  checkRule(strSource, "m", false);
 }
 
 void LongParameterListRuleTest::testCppMethodWithThreeParametersIsNotASmell() {

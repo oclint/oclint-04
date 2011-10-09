@@ -6,6 +6,7 @@
 #include "mo/util/CursorExtractionUtil.h"
 
 #include <clang/AST/DeclObjC.h>
+#include <clang/AST/DeclCXX.h>
 
 using namespace clang;
 
@@ -65,4 +66,19 @@ void LongMethodRuleTest::testMethodWithNestedStatementsShouldNotBeCounted() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithFiveStatements { \
     if(1) { if(0) {} } if(2) { if(0) {} } if(3) { if(0) {} } if(4) {} if(5) {} if(6) {} }\n@end";
   checkRule(strSource, false);
+}
+
+void LongMethodRuleTest::testCppLongMethodShouldReportOnImplementation() {
+  string strSource = "class AClass { int aMethod(int a); };\nint AClass::aMethod(int a) { int i = 1; i = 2; i = 3; i = 4; i = 5; i = 6; return 0; }";
+  StringSourceCode strCode(strSource, "cpp");
+  pair<CXCursor, CXCursor> cursorPairDeclaration = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<CXXMethodDecl>(decl);
+  });
+  pair<CXCursor, CXCursor> cursorPairDefinition = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<CXXMethodDecl>(decl);
+  }, -1);
+  checkRule(cursorPairDeclaration, false);
+  checkRule(cursorPairDefinition, true);
 }

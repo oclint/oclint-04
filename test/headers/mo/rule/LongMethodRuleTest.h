@@ -16,4 +16,5 @@ public:
   void testMethodWithSevenStatementsIsASmell();
   void testmethodWithEightStatemetnsIsASmell();
   void testMethodWithNestedStatementsShouldNotBeCounted();
+  void testCppLongMethodShouldReportOnImplementation();
 };

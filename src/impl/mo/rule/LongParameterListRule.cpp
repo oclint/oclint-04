@@ -3,6 +3,7 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
+#include "mo/util/DeclUtil.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -12,29 +13,26 @@
 
 RuleSet LongParameterListRule::rules(new LongParameterListRule());
 
-void LongParameterListRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+int LongParameterListRule::numberOfParameters(Decl *decl) {
   if (decl) {
-    int numberOfParams = 0;
-    
     ObjCMethodDecl *objcMethodDecl = dyn_cast<ObjCMethodDecl>(decl);
-    if (objcMethodDecl) {
-      // Question: what's the difference between 
-      // ObjCMethodDecl->param_size() 
-      // and 
-      // ObjCMethodDecl->getNumSelectorArgs() ?
-      numberOfParams = objcMethodDecl->getNumSelectorArgs();
+    if (objcMethodDecl && !DeclUtil::isObjCMethodDeclaredInSuperClass(objcMethodDecl) && !DeclUtil::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
+      return objcMethodDecl->getNumSelectorArgs();
     }
     
     FunctionDecl *cppMethodDecl = dyn_cast<FunctionDecl>(decl);
     if (cppMethodDecl) {
-      numberOfParams = cppMethodDecl->getNumParams();
+      return cppMethodDecl->getNumParams();
     }
-    
-    if (numberOfParams > DEFAULT_MAX_ALLOWED_PARAMS) {
-      Violation violation(node, this);
-      violationSet.addViolation(violation);
-    }
+  }
+  return 0;
+}
+
+void LongParameterListRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  Decl *decl = CursorUtil::getDecl(node);
+  if (numberOfParameters(decl) > DEFAULT_MAX_ALLOWED_PARAMS) {
+    Violation violation(node, this);
+    violationSet.addViolation(violation);
   }
 }
 

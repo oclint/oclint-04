@@ -3,6 +3,7 @@
 #include "mo/ViolationSet.h"
 #include "mo/Violation.h"
 #include "mo/util/CursorUtil.h"
+#include "mo/util/DeclUtil.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
@@ -12,34 +13,14 @@ using namespace clang;
 
 RuleSet UnusedLocalVariableRule::rules(new UnusedLocalVariableRule());
 
-bool UnusedLocalVariableRule::isObjCInterfaceContainerDecl(DeclContext *context) {
-  return isa<ObjCInterfaceDecl>(context) || isa<ObjCProtocolDecl>(context) || isa<ObjCCategoryDecl>(context);
+bool UnusedLocalVariableRule::isObjCMethodDeclaration(DeclContext *context) {
+  ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
+  return DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(decl);
 }
 
 bool UnusedLocalVariableRule::isObjCOverrideMethod(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
-  if (decl) {
-    Selector selector = decl->getSelector();
-    ObjCInterfaceDecl *interfaceDecl = decl->getClassInterface();
-    if (interfaceDecl) {
-      ObjCInterfaceDecl *superInterface = interfaceDecl->getSuperClass();
-      if (superInterface) {
-        ObjCMethodDecl *lookedUpInstanceMethod = superInterface->lookupInstanceMethod(selector);
-        if (lookedUpInstanceMethod) {
-          return true;
-        }
-      }
-      
-      for (ObjCProtocolList::iterator protocol = interfaceDecl->protocol_begin(), protocolEnd = interfaceDecl->protocol_end(); protocol != protocolEnd; protocol++) {
-        ObjCProtocolDecl *protocolDecl = (ObjCProtocolDecl *)*protocol;
-        ObjCMethodDecl *lookedUpInstanceMethod = protocolDecl->lookupInstanceMethod(selector);
-        if (lookedUpInstanceMethod) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
+  return DeclUtil::isObjCMethodDeclaredInSuperClass(decl) || DeclUtil::isObjCMethodDeclaredInProtocol(decl);
 }
 
 bool UnusedLocalVariableRule::isCppFunctionDeclaration(DeclContext *context) {
@@ -55,19 +36,18 @@ bool UnusedLocalVariableRule::isCppOverrideFunction(DeclContext *context) {
   return false;
 }
 
+bool UnusedLocalVariableRule::isExistingByContract(DeclContext *context) {
+  return isObjCMethodDeclaration(context) || 
+         isObjCOverrideMethod(context) || 
+         isCppFunctionDeclaration(context) || 
+         isCppOverrideFunction(context);
+}
+
 bool UnusedLocalVariableRule::isExistingByContract(VarDecl *decl) {
   if (isa<ParmVarDecl>(decl)) {
-    DeclContext *context = decl->getDeclContext();
-    while (context) {
-      if (isObjCInterfaceContainerDecl(context)) {
-        return true;
-      }
-      context = context->getParent();
-    }
-
     DeclContext *lexicalContext = decl->getLexicalDeclContext();
     while (lexicalContext) {
-      if (isObjCOverrideMethod(lexicalContext) || isCppFunctionDeclaration(lexicalContext) || isCppOverrideFunction(lexicalContext)) {
+      if (isExistingByContract(lexicalContext)) {
         return true;
       }
       lexicalContext = lexicalContext->getLexicalParent();
@@ -82,7 +62,6 @@ void UnusedLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, Violat
   if (decl) {
     VarDecl *valDecl = dyn_cast<VarDecl>(decl);
     if (valDecl && !valDecl->isUsed() && !valDecl->isStaticDataMember() && !isExistingByContract(valDecl)) {
-      
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }
