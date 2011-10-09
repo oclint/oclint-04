@@ -31,18 +31,6 @@ void SmellFinderTest::testHasSmellWithEmptyTranslationUnit() {
   }
 }
 
-void SmellFinderTest::testHasSmellWithQuestionableTranslationUnit() {
-  string stringToBeChecked = "compilation fails!";
-  StringSourceCode strCode(stringToBeChecked, "txt");
-  _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, _index);
-  try {
-    _finder->hasSmell(_translationUnit);
-    TS_FAIL("inpection on questionalbe tranlsation unit exception expected");
-  } catch (MOException& ex) {
-    // :)
-  }
-}
-
 void SmellFinderTest::testReportViolations() {
   string stringToBeChecked = "int main() { int i = 1; switch (i) { } return 0; }";
   StringSourceCode strCode(stringToBeChecked, "m");

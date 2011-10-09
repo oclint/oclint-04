@@ -10,4 +10,5 @@ cd ../../../
 mkdir -p build/llvm && cd build/llvm
 cmake ../../third-party/llvm
 make
+install_name_tool -id @executable_path/liblibclang.3.0.dylib lib/liblibclang.3.0.dylib
 cd ../../

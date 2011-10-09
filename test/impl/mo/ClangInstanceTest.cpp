@@ -10,17 +10,40 @@ void ClangInstanceTest::tearDown() {
   delete _instance;
 }
 
-
 void ClangInstanceTest::testHasNoDiagnostic() {
   const char * const argv[] = { "test/samples/HelloWorld.m" };
   _instance->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(!_instance->hasDiagnostic());
+  TS_ASSERT(!_instance->hasDiagnostics());
 }
 
-void ClangInstanceTest::testHasDiagnostic() {
+void ClangInstanceTest::testHasDiagnostics() {
   const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
   _instance->compileSourceFileToTranslationUnit(argv, 1);
-  TS_ASSERT(_instance->hasDiagnostic());
+  TS_ASSERT(_instance->hasDiagnostics());
+}
+
+void ClangInstanceTest::testHasNoWarning() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!_instance->hasWarnings());
+}
+
+void ClangInstanceTest::testHasWarnings() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(_instance->hasWarnings());
+}
+
+void ClangInstanceTest::testHasNoError() {
+  const char * const argv[] = { "test/samples/HelloWorld.m" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(!_instance->hasErrors());
+}
+
+void ClangInstanceTest::testHasErrors() {
+  const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
+  _instance->compileSourceFileToTranslationUnit(argv, 1);
+  TS_ASSERT(_instance->hasErrors());
 }
 
 void ClangInstanceTest::testCodeCompilationFailException() {
@@ -38,6 +61,8 @@ void ClangInstanceTest::testReportDiagnostics() {
   _instance->compileSourceFileToTranslationUnit(argv, 1);
   MockReporter reporter;
   TS_ASSERT_EQUALS(_instance->reportDiagnostics(reporter), string("mock report diagnostics"));
+  TS_ASSERT_EQUALS(_instance->reportWarnings(reporter), string("mock report diagnostics"));
+  TS_ASSERT_EQUALS(_instance->reportErrors(reporter), string("mock report diagnostics"));
 }
 
 void ClangInstanceTest::testGetTranslationUnitWithCompilationError() {
@@ -49,7 +74,7 @@ void ClangInstanceTest::testGetTranslationUnitWithCompilationError() {
   }
 }
 
-void ClangInstanceTest::testGetTranslationUnitWithDiagnostics() {
+void ClangInstanceTest::testGetTranslationUnitWithDiagnosticErrors() {
   try {
     const char * const argv[] = { "test/samples/CompilerDiagnostics.cpp" };
     _instance->compileSourceFileToTranslationUnit(argv, 1);
