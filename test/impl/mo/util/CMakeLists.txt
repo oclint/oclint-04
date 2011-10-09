@@ -4,4 +4,5 @@ add_library(MOUtilTest
   StringSourceCodeToTranslationUnitUtil.cpp
   CyclomaticComplexityMeasurementTest.cpp
   NPathComplexityMeasurementTest.cpp
+  DeclUtilTest.cpp
   )
