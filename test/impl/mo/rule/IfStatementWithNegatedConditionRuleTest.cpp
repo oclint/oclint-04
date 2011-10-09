@@ -54,3 +54,7 @@ void IfStatementWithNegatedConditionRuleTest::testNegativeConditionWithoutElseBl
 void IfStatementWithNegatedConditionRuleTest::testNegativeConditionWithElseBlockWithContent() {
   checkRule("bool aMethod() { if (!1) {;} else {;} return true; }", true);
 }
+
+void IfStatementWithNegatedConditionRuleTest::testNegativeComprisonBetweenTwoValues() {
+  checkRule("bool aMethod() { if (1 != 0) {;} else {;} return true; }", true);
+}

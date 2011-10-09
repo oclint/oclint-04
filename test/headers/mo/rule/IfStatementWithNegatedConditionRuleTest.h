@@ -15,4 +15,5 @@ public:
   void testSimpleIfStatement();
   void testNegativeConditionWithoutElseBlock();
   void testNegativeConditionWithElseBlockWithContent();
+  void testNegativeComprisonBetweenTwoValues();
 };

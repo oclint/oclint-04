@@ -11,19 +11,27 @@ using namespace clang;
 
 RuleSet IfStatementWithNegatedConditionRule::rules(new IfStatementWithNegatedConditionRule());
 
+bool IfStatementWithNegatedConditionRule::hasElseBlock(clang::IfStmt *ifStmt) {
+  return ifStmt && ifStmt->getElse();
+}
+
+bool IfStatementWithNegatedConditionRule::hasNegatedCondition(clang::IfStmt *ifStmt) {
+  if (ifStmt) {
+    BinaryOperator *binaryOperator = dyn_cast<BinaryOperator>(ifStmt->getCond());
+    UnaryOperator *unaryOperator = dyn_cast<UnaryOperator>(ifStmt->getCond());
+    return (binaryOperator && binaryOperator->getOpcode() == BO_NE) ||
+           (unaryOperator && unaryOperator->getOpcode() == UO_LNot);
+  }
+  return false;
+}
+
 void IfStatementWithNegatedConditionRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorUtil::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
-    if (ifStmt) {
-      Stmt *elseBlock = ifStmt->getElse();
-      if (elseBlock) {
-        UnaryOperator *unaryOperator = dyn_cast<UnaryOperator>(ifStmt->getCond());
-        if (unaryOperator && unaryOperator->getOpcode() == UO_LNot) {
-          Violation violation(node, this);
-          violationSet.addViolation(violation);
-        }
-      }
+    if (hasElseBlock(ifStmt) && hasNegatedCondition(ifStmt)) {
+      Violation violation(node, this);
+      violationSet.addViolation(violation);
     }
   }
 }
