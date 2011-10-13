@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[M.O.]]></title>
+  <link href="http://longyiqi.github.com/mo/atom.xml" rel="self"/>
+  <link href="http://longyiqi.github.com/mo/"/>
+  <updated>2011-10-12T23:50:38-05:00</updated>
+  <id>http://longyiqi.github.com/mo/</id>
+  <author>
+    <name><![CDATA[Longyi Qi]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>

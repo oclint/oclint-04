@@ -1,0 +1,181 @@
+<html>
+<head>
+  <script src="sorttable.js"></script>
+  <script src="sourceview.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>zcov: /impl/mo/rule/UnusedLocalVariableRule.cpp</title>
+</head>
+<body>
+<center><h1> zcov: <a href="index.html">/</a>&nbsp;<a href="mo.html">impl/mo</a>/<a href="rule.html">rule</a>/<a href="UnusedLocalVariableRule.cpp.html">UnusedLocalVariableRule.cpp</a> </h1></center>
+<hr>
+
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Files:</b> </td>
+    <td bgcolor=#F0F0FF> 1 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Taken:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 18&nbsp;/&nbsp;18 </td>
+  </tr>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Generated:</b> </td>
+    <td bgcolor=#F0F0FF> 2011-10-09&nbsp;07:05 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Executed:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 18&nbsp;/&nbsp;18 </td>
+  </tr>
+  <tr>
+    <td colspan=2> </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Line&nbsp;Coverage:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%</b> </td>
+    <td bgcolor=#F0F0FF align=right> 44&nbsp;/&nbsp;44 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Programs:</b> </td>
+    <td bgcolor=#F0F0FF> 0 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Runs</b> </td>
+    <td bgcolor=#F0F0FF align=right> 0 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<pre>
+<span class="lineNum">       1 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/rule/UnusedLocalVariableRule.h&quot;</FONT></B>
+<span class="lineNum">       2 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/RuleSet.h&quot;</FONT></B>
+<span class="lineNum">       3 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/ViolationSet.h&quot;</FONT></B>
+<span class="lineNum">       4 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/Violation.h&quot;</FONT></B>
+<span class="lineNum">       5 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/util/CursorUtil.h&quot;</FONT></B>
+<span class="lineNum">       6 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/util/DeclUtil.h&quot;</FONT></B>
+<span class="lineNum">       7 </span>                : 
+<span class="lineNum">       8 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/Decl.h&gt;</FONT></B>
+<span class="lineNum">       9 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/DeclCXX.h&gt;</FONT></B>
+<span class="lineNum">      10 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/DeclObjC.h&gt;</FONT></B>
+<span class="lineNum">      11 </span>                : 
+<span class="lineNum">      12 </span>                : using namespace clang;
+<span class="lineNum">      13 </span>                : 
+<span class="lineNum">      14 </span>                : RuleSet UnusedLocalVariableRule::rules(new UnusedLocalVariableRule());
+<span class="lineNum">      15 </span>                : 
+<span class="lineNum">      16 </span><span class="lineCov">              16: bool UnusedLocalVariableRule::isObjCMethodDeclaration(DeclContext *context) {</span>
+<span class="lineNum">      17 </span><span class="lineCov">              16:   ObjCMethodDecl *decl = dyn_cast&lt;ObjCMethodDecl&gt;(context);</span>
+<span class="lineNum">      18 </span><span class="lineCov">              16:   <B><FONT COLOR="#A020F0">return</FONT></B> DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(decl);</span>
+<span class="lineNum">      19 </span>                : }
+<span class="lineNum">      20 </span>                : 
+<span class="lineNum">      21 </span><span class="lineCov">              13: bool UnusedLocalVariableRule::isObjCOverrideMethod(DeclContext *context) {</span>
+<span class="lineNum">      22 </span><span class="lineCov">              13:   ObjCMethodDecl *decl = dyn_cast&lt;ObjCMethodDecl&gt;(context);</span>
+<span class="lineNum">      23 </span><span class="lineCov">              38:   <B><FONT COLOR="#A020F0">return</FONT></B> DeclUtil::isObjCMethodDeclaredInSuperClass(decl) || DeclUtil::isObjCMethodDeclaredInProtocol(decl);</span>
+<span class="lineNum">      24 </span>                : }
+<span class="lineNum">      25 </span>                : 
+<span class="lineNum">      26 </span><span class="lineCov">              11: bool UnusedLocalVariableRule::isCppFunctionDeclaration(DeclContext *context) {</span>
+<span class="lineNum">      27 </span><span class="lineCov">              11:   FunctionDecl *decl = dyn_cast&lt;FunctionDecl&gt;(context);</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">               5: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               5: branch 1 taken</span>
+</span><span class="lineNum">      28 </span><span class="lineCov">              26:   <B><FONT COLOR="#A020F0">return</FONT></B> isa&lt;CXXRecordDecl&gt;(context) || (decl &amp;&amp; !decl-&gt;hasBody());</span>
+<span class="lineNum">      29 </span><span class="lineCov">              11: }</span>
+<span class="lineNum">      30 </span>                : 
+<span class="lineNum">      31 </span><span class="lineCov">               9: bool UnusedLocalVariableRule::isCppOverrideFunction(DeclContext *context) {</span>
+<span class="lineNum">      32 </span><span class="lineCov">               9:   CXXMethodDecl *decl = dyn_cast&lt;CXXMethodDecl&gt;(context);</span>
+<span class="lineNum">      33 </span><span class="lineCov">               9:   <B><FONT COLOR="#A020F0">if</FONT></B> (decl) {</span>
+<span class="lineNum">      34 </span><span class="lineCov">               3:     <B><FONT COLOR="#A020F0">return</FONT></B> decl-&gt;isVirtual();</span>
+<span class="lineNum">      35 </span>                :   }
+<span class="lineNum">      36 </span><span class="lineCov">               6:   <B><FONT COLOR="#A020F0">return</FONT></B> false;</span>
+<span class="lineNum">      37 </span><span class="lineCov">               9: }</span>
+<span class="lineNum">      38 </span>                : 
+<span class="lineNum">      39 </span><span class="lineCov">              16: bool UnusedLocalVariableRule::isExistingByContract(DeclContext *context) {</span>
+<span class="lineNum">      40 </span><span class="lineCov">              16:   <B><FONT COLOR="#A020F0">return</FONT></B> isObjCMethodDeclaration(context) || </span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">              11: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               2: branch 1 taken</span>
+</span><span class="lineNum">      41 </span><span class="lineCov">              13:          isObjCOverrideMethod(context) || </span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">               9: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               2: branch 1 taken</span>
+</span><span class="lineNum">      42 </span><span class="lineCov">              11:          isCppFunctionDeclaration(context) || </span>
+<span class="lineNum">      43 </span><span class="lineCov">              25:          isCppOverrideFunction(context);</span>
+<span class="lineNum">      44 </span>                : }
+<span class="lineNum">      45 </span>                : 
+<span class="lineNum">      46 </span><span class="lineCov">              13: bool UnusedLocalVariableRule::isExistingByContract(VarDecl *decl) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">              13:   <B><FONT COLOR="#A020F0">if</FONT></B> (isa&lt;ParmVarDecl&gt;(decl)) {</span>
+<span class="lineNum">      48 </span><span class="lineCov">              11:     DeclContext *lexicalContext = decl-&gt;getLexicalDeclContext();</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">              16: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               3: branch 1 taken</span>
+</span><span class="lineNum">      49 </span><span class="lineCov">              30:     <B><FONT COLOR="#A020F0">while</FONT></B> (lexicalContext) {</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">               8: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               8: branch 1 taken</span>
+</span><span class="lineNum">      50 </span><span class="lineCov">              16:       <B><FONT COLOR="#A020F0">if</FONT></B> (isExistingByContract(lexicalContext)) {</span>
+<span class="lineNum">      51 </span><span class="lineCov">               8:         <B><FONT COLOR="#A020F0">return</FONT></B> true;</span>
+<span class="lineNum">      52 </span>                :       }
+<span class="lineNum">      53 </span><span class="lineCov">               8:       lexicalContext = lexicalContext-&gt;getLexicalParent();</span>
+<span class="lineNum">      54 </span><span class="lineCov">               8:     }</span>
+<span class="lineNum">      55 </span><span class="lineCov">               3:   }</span>
+<span class="lineNum">      56 </span>                :   
+<span class="lineNum">      57 </span><span class="lineCov">               5:   <B><FONT COLOR="#A020F0">return</FONT></B> false;</span>
+<span class="lineNum">      58 </span><span class="lineCov">              13: }</span>
+<span class="lineNum">      59 </span>                : 
+<span class="lineNum">      60 </span><span class="lineCov">              76: <B><FONT COLOR="#228B22">void</FONT></B> UnusedLocalVariableRule::apply(CXCursor&amp; node, CXCursor&amp; parentNode, ViolationSet&amp; violationSet) {</span>
+<span class="lineNum">      61 </span><span class="lineCov">              76:   Decl *decl = CursorUtil::getDecl(node);</span>
+<span class="lineNum">      62 </span><span class="lineCov">              76:   <B><FONT COLOR="#A020F0">if</FONT></B> (decl) {</span>
+<span class="lineNum">      63 </span><span class="lineCov">              53:     VarDecl *valDecl = dyn_cast&lt;VarDecl&gt;(decl);</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">              17: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">              36: branch 1 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">              14: branch 2 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               3: branch 3 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">              13: branch 4 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               1: branch 5 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               5: branch 6 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               8: branch 7 taken</span>
+</span><span class="lineNum">      64 </span><span class="lineCov">              97:     <B><FONT COLOR="#A020F0">if</FONT></B> (valDecl &amp;&amp; !valDecl-&gt;isUsed() &amp;&amp; !valDecl-&gt;isStaticDataMember() &amp;&amp; !isExistingByContract(valDecl)) {</span>
+<span class="lineNum">      65 </span><span class="lineCov">               5:       Violation violation(node, this);</span>
+<span class="lineNum">      66 </span><span class="lineCov">               5:       violationSet.addViolation(violation);</span>
+<span class="lineNum">      67 </span><span class="lineCov">               5:     }</span>
+<span class="lineNum">      68 </span><span class="lineCov">              53:   }</span>
+<span class="lineNum">      69 </span><span class="lineCov">              76: }</span>
+<span class="lineNum">      70 </span>                : 
+<span class="lineNum">      71 </span><span class="lineCov">               1: <B><FONT COLOR="#228B22">const</FONT></B> string UnusedLocalVariableRule::name() <B><FONT COLOR="#228B22">const</FONT></B> {</span>
+<span class="lineNum">      72 </span><span class="lineCov">               2:   <B><FONT COLOR="#A020F0">return</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;unused local variable&quot;</FONT></B>;</span>
+<span class="lineNum">      73 </span>                : }
+</pre>
+<hr>
+Generated: 2011-10-09&nbsp;07:05 by <a href="http://minormatter.com/zcov">zcov</a><br>
+</body>
+</html>

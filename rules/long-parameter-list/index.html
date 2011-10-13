@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>M.O. - a static source code analysis tool for Objective-C and related languages</title>
+  <title>Long Parameter List - M.O. - a static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="      M.O. is a source code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential...">
+  <meta name="description" content="        Long Parameter List      Long parameter lists can indicate that a new object should be created to wrap the numerous parameters. Here we are...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/mo/">
+  <link rel="canonical" href="http://longyiqi.github.com/mo/rules/long-parameter-list/">
   <link href="/mo/favicon.png" rel="icon">
   <link href="/mo/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/mo/javascripts/modernizr-2.0.js"></script>
@@ -64,28 +64,52 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="index">
+      <div>
+<article role="article">
   
-  <article>
-  <p>M.O. is a <a href="http://en.wikipedia.org/wiki/Static_program_analysis">source code analysis</a> tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential problems like:</p>
+  <header>
+    <h1 class="entry-title">Long Parameter List</h1>
+  </header>
   
-  <ul>
-    <li>Possible bugs - empty if/else/try/catch/finally statements</li>
-    <li>Unused code - unused local variables and parameters</li>
-    <li>Complicated code - high cyclomatic complexity and NPath complexity</li>
-    <li>Code smells - long method, long parameter list, redundant code</li>
-    <li>&#8230;</li>
-  </ul>
+  <p>Long parameter lists can indicate that a new object should be created to wrap the numerous parameters. Here we are going allow at most 3 parameters.</p>
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span>long-parameter-list.m </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">foo:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">param1</span> <span class="nl">param2:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">param2</span> <span class="nl">param3:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">param3</span> <span class="nl">param4:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">param4</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">bar</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
   
-  <p>Currently, it is a standalone tool that runs on 64-bit Intel Mac OS X Lion/Snow Leopord, and could be invoked from command line.</p>
+    <footer>
+      
+      
+    </footer>
   
-  <p>M.O. is easy to setup and configure, <a href="/mo/docs">start here</a>. And <a href="/mo/rules">here is an overview of all rules</a>.</p>
-  
-  <p>M.O. is a 100% open source project that based on Clang project and LLVM infrastructure. As an extension and enhancement to Clang&#8217;s Clang-Analyzer, which is focus on the stability and robust of source code, M.O. focus more on code quality, good development principles and practices. M.O. is a completely separate project from Clang-analyzer/Clang/LLVM, and it is not supported by Apple or LLVM/Clang team. Instead, please <a href="http://www.longyiqi.com/contact">send your suggestions to me</a>, or send a pull request directly with your thoughts.</p>
-  </article>
-  
+</article>
+
 </div>
+
 <aside class="sidebar">
+  <h3>Rules:</h3>
+  <ul>
+<li><a href="/mo/rules/constant-if-statement">Constant If Statement</a></li>
+<li><a href="/mo/rules/cyclomatic-complexity">Cyclomatic Complexity</a></li>
+<li><a href="/mo/rules/empty-if-statement">Empty If Statement</a></li>
+<li><a href="/mo/rules/if-statement-with-negated-condition">If Statement With Negated Condition</a></li>
+<li><a href="/mo/rules/long-method">Long Method</a></li>
+<li><a href="/mo/rules/long-parameter-list">Long Parameter List</a></li>
+<li><a href="/mo/rules/npath-complexity">NPath Complexity</a></li>
+<li><a href="/mo/rules/redundant-if-statement">Redundant If Statement</a></li>
+<li><a href="/mo/rules/redundant-local-variable">Redundant Local Variable</a></li>
+<li><a href="/mo/rules/unreachable-code">Unreachable Code</a></li>
+<li><a href="/mo/rules/unused-local-variable">Unused Local Variable</a></li>
+</ul>
   
     <section>
   <h1>Recent Posts</h1>
@@ -99,6 +123,7 @@
 
   
 </aside>
+
 
     </div>
   </div>

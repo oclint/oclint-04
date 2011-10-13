@@ -1,0 +1,14 @@
+src/impl/main.cpp:15:5: violation: long method
+src/impl/main.cpp:39:5: violation: long method
+src/impl/mo/reporter/PlainTextReporter.cpp:32:33: violation: long method
+src/headers/mo/TraverseAST.h:6:46: violation: unused local variable
+src/headers/mo/TraverseAST.h:6:61: violation: unused local variable
+src/headers/mo/TraverseAST.h:6:86: violation: unused local variable
+src/headers/mo/util/CyclomaticComplexityMeasurement.h:16:35: violation: unused local variable
+src/headers/mo/util/CyclomaticComplexityMeasurement.h:17:35: violation: unused local variable
+src/headers/mo/util/CyclomaticComplexityMeasurement.h:18:49: violation: unused local variable
+src/headers/mo/util/CyclomaticComplexityMeasurement.h:18:64: violation: unused local variable
+src/headers/mo/util/CyclomaticComplexityMeasurement.h:18:89: violation: unused local variable
+src/impl/mo/util/CyclomaticComplexityMeasurement.cpp:39:64: violation: unused local variable
+src/impl/mo/util/CyclomaticComplexityMeasurement.cpp:39:89: violation: unused local variable
+src/impl/mo/util/NPathComplexityMeasurement.cpp:15:33: violation: high cyclomatic complexity

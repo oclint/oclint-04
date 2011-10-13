@@ -1,0 +1,134 @@
+<html>
+<head>
+  <script src="sorttable.js"></script>
+  <script src="sourceview.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>zcov: /impl/mo/rule/EmptyIfStatementRule.cpp</title>
+</head>
+<body>
+<center><h1> zcov: <a href="index.html">/</a>&nbsp;<a href="mo.html">impl/mo</a>/<a href="rule.html">rule</a>/<a href="EmptyIfStatementRule.cpp.html">EmptyIfStatementRule.cpp</a> </h1></center>
+<hr>
+
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Files:</b> </td>
+    <td bgcolor=#F0F0FF> 1 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Taken:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>90.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 9&nbsp;/&nbsp;10 </td>
+  </tr>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Generated:</b> </td>
+    <td bgcolor=#F0F0FF> 2011-10-09&nbsp;07:05 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Executed:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 10&nbsp;/&nbsp;10 </td>
+  </tr>
+  <tr>
+    <td colspan=2> </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Line&nbsp;Coverage:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%</b> </td>
+    <td bgcolor=#F0F0FF align=right> 18&nbsp;/&nbsp;18 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Programs:</b> </td>
+    <td bgcolor=#F0F0FF> 0 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Runs</b> </td>
+    <td bgcolor=#F0F0FF align=right> 0 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<pre>
+<span class="lineNum">       1 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/rule/EmptyIfStatementRule.h&quot;</FONT></B>
+<span class="lineNum">       2 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/RuleSet.h&quot;</FONT></B>
+<span class="lineNum">       3 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/ViolationSet.h&quot;</FONT></B>
+<span class="lineNum">       4 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/Violation.h&quot;</FONT></B>
+<span class="lineNum">       5 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/util/CursorUtil.h&quot;</FONT></B>
+<span class="lineNum">       6 </span>                : 
+<span class="lineNum">       7 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/Stmt.h&gt;</FONT></B>
+<span class="lineNum">       8 </span>                : 
+<span class="lineNum">       9 </span>                : using namespace clang;
+<span class="lineNum">      10 </span>                : 
+<span class="lineNum">      11 </span>                : RuleSet EmptyIfStatementRule::rules(new EmptyIfStatementRule());
+<span class="lineNum">      12 </span>                : 
+<span class="lineNum">      13 </span><span class="lineCov">               8: bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {</span>
+<span class="lineNum">      14 </span><span class="lineCov">               8:   <B><FONT COLOR="#A020F0">if</FONT></B> (stmt) {</span>
+<span class="lineNum">      15 </span><span class="lineCov">               7:     CompoundStmt *compoundStmt = dyn_cast&lt;CompoundStmt&gt;(stmt);</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">               5: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               2: branch 1 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               5: branch 2 taken</span>
+<span class="lineNum">         </span><span class="branchNotTaken">               0: branch 3 not taken</span>
+</span><span class="lineNum">      16 </span><span class="lineCov">              17:     <B><FONT COLOR="#A020F0">return</FONT></B> isa&lt;NullStmt&gt;(stmt) || (compoundStmt &amp;&amp; compoundStmt-&gt;body_empty());</span>
+<span class="lineNum">      17 </span>                :   }
+<span class="lineNum">      18 </span><span class="lineCov">               1:   <B><FONT COLOR="#A020F0">return</FONT></B> false;</span>
+<span class="lineNum">      19 </span><span class="lineCov">               8: }</span>
+<span class="lineNum">      20 </span>                : 
+<span class="lineNum">      21 </span><span class="lineCov">              65: <B><FONT COLOR="#228B22">void</FONT></B> EmptyIfStatementRule::apply(CXCursor&amp; node, CXCursor&amp; parentNode, ViolationSet&amp; violationSet) {</span>
+<span class="lineNum">      22 </span><span class="lineCov">              65:   Stmt *stmt = CursorUtil::getStmt(node);</span>
+<span class="lineNum">      23 </span><span class="lineCov">              65:   <B><FONT COLOR="#A020F0">if</FONT></B> (stmt) {</span>
+<span class="lineNum">      24 </span><span class="lineCov">              12:     IfStmt *ifStmt = dyn_cast&lt;IfStmt&gt;(stmt);</span>
+<span class="branchGroup"><span class="lineNum">         </span><span class="branchTaken">               5: branch 0 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               7: branch 1 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               3: branch 2 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               2: branch 3 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               2: branch 4 taken</span>
+<span class="lineNum">         </span><span class="branchTaken">               1: branch 5 taken</span>
+</span><span class="lineNum">      25 </span><span class="lineCov">              20:     <B><FONT COLOR="#A020F0">if</FONT></B> (ifStmt &amp;&amp; (isLexicalEmpty(ifStmt-&gt;getThen()) || isLexicalEmpty(ifStmt-&gt;getElse()))) {</span>
+<span class="lineNum">      26 </span><span class="lineCov">               4:       Violation violation(node, this);</span>
+<span class="lineNum">      27 </span><span class="lineCov">               4:       violationSet.addViolation(violation);</span>
+<span class="lineNum">      28 </span><span class="lineCov">               4:     }</span>
+<span class="lineNum">      29 </span><span class="lineCov">              12:   }</span>
+<span class="lineNum">      30 </span><span class="lineCov">              65: }</span>
+<span class="lineNum">      31 </span>                : 
+<span class="lineNum">      32 </span><span class="lineCov">               1: <B><FONT COLOR="#228B22">const</FONT></B> string EmptyIfStatementRule::name() <B><FONT COLOR="#228B22">const</FONT></B> {</span>
+<span class="lineNum">      33 </span><span class="lineCov">               2:   <B><FONT COLOR="#A020F0">return</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;empty if statement&quot;</FONT></B>;</span>
+<span class="lineNum">      34 </span>                : }
+</pre>
+<hr>
+Generated: 2011-10-09&nbsp;07:05 by <a href="http://minormatter.com/zcov">zcov</a><br>
+</body>
+</html>

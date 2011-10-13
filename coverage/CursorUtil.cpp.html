@@ -1,0 +1,136 @@
+<html>
+<head>
+  <script src="sorttable.js"></script>
+  <script src="sourceview.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>zcov: /impl/mo/util/CursorUtil.cpp</title>
+</head>
+<body>
+<center><h1> zcov: <a href="index.html">/</a>&nbsp;<a href="mo.html">impl/mo</a>/<a href="util.html">util</a>/<a href="CursorUtil.cpp.html">CursorUtil.cpp</a> </h1></center>
+<hr>
+
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Files:</b> </td>
+    <td bgcolor=#F0F0FF> 1 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Taken:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>0.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 0&nbsp;/&nbsp;0 </td>
+  </tr>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Generated:</b> </td>
+    <td bgcolor=#F0F0FF> 2011-10-09&nbsp;07:05 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Branches&nbsp;Executed:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>0.0%<b> </td>
+    <td bgcolor=#F0F0FF align=right> 0&nbsp;/&nbsp;0 </td>
+  </tr>
+  <tr>
+    <td colspan=2> </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Line&nbsp;Coverage:</b> </td>
+    <td bgcolor=#F0F0FF align=right> <b>100.0%</b> </td>
+    <td bgcolor=#F0F0FF align=right> 19&nbsp;/&nbsp;19 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<center>
+<table cellpadding=0 cellspacing=0 bgcolor=#C0C0C0>
+<tr>
+  <td><img width=5 height=5 src="round-corner-tl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-tr-5.png"></td>
+</tr>
+<tr><td width=5></td><td>
+<table border="0" width="100%" cellpadding=2>
+  <tr>
+    <td bgcolor=#ACACFF> <b>Programs:</b> </td>
+    <td bgcolor=#F0F0FF> 0 </td>
+    <td width="30"></td>
+    <td bgcolor=#ACACFF> <b>Runs</b> </td>
+    <td bgcolor=#F0F0FF align=right> 0 </td>
+  </tr>
+</table>
+</td><td width=5></td></tr>
+<tr>
+  <td><img width=5 height=5 src="round-corner-bl-5.png"></td>
+  <td height=5></td>
+  <td><img width=5 height=5 src="round-corner-br-5.png"></td>
+</tr>
+</table>
+</center>
+<p>
+<hr>
+
+<pre>
+<span class="lineNum">       1 </span>                : #<B><FONT COLOR="#5F9EA0">ifndef</FONT></B> <FONT COLOR="#B8860B">LLVM_CLANG_CXTRANSLATIONUNIT_H</FONT>
+<span class="lineNum">       2 </span>                : #<B><FONT COLOR="#5F9EA0">define</FONT></B> <FONT COLOR="#B8860B">LLVM_CLANG_CXTRANSLATIONUNIT_H</FONT>
+<span class="lineNum">       3 </span>                : 
+<span class="lineNum">       4 </span>                : <B><FONT COLOR="#228B22">extern</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;C&quot;</FONT></B> {
+<span class="lineNum">       5 </span>                : <B><FONT COLOR="#228B22">struct</FONT></B> CXTranslationUnitImpl {
+<span class="lineNum">       6 </span>                :   <B><FONT COLOR="#228B22">void</FONT></B> *TUData;
+<span class="lineNum">       7 </span>                :   <B><FONT COLOR="#228B22">void</FONT></B> *StringPool;
+<span class="lineNum">       8 </span>                : };
+<span class="lineNum">       9 </span>                : }
+<span class="lineNum">      10 </span>                : 
+<span class="lineNum">      11 </span>                : #<B><FONT COLOR="#5F9EA0">endif</FONT></B>
+<span class="lineNum">      12 </span>                : 
+<span class="lineNum">      13 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/Stmt.h&gt;</FONT></B>
+<span class="lineNum">      14 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/Decl.h&gt;</FONT></B>
+<span class="lineNum">      15 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/Expr.h&gt;</FONT></B>
+<span class="lineNum">      16 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/AST/ASTContext.h&gt;</FONT></B>
+<span class="lineNum">      17 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&lt;clang/Frontend/ASTUnit.h&gt;</FONT></B>
+<span class="lineNum">      18 </span>                : 
+<span class="lineNum">      19 </span>                : #<B><FONT COLOR="#5F9EA0">include</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;mo/util/CursorUtil.h&quot;</FONT></B>
+<span class="lineNum">      20 </span>                : 
+<span class="lineNum">      21 </span><span class="lineCov">            1766: Decl* CursorUtil::getDecl(CXCursor node) {</span>
+<span class="lineNum">      22 </span><span class="lineCov">            1766:   <B><FONT COLOR="#A020F0">if</FONT></B> (clang_isDeclaration(clang_getCursorKind(node))) {</span>
+<span class="lineNum">      23 </span><span class="lineCov">            1157:     <B><FONT COLOR="#A020F0">return</FONT></B> (Decl *)node.data[0];</span>
+<span class="lineNum">      24 </span>                :   }
+<span class="lineNum">      25 </span><span class="lineCov">             609:   <B><FONT COLOR="#A020F0">return</FONT></B> NULL;</span>
+<span class="lineNum">      26 </span><span class="lineCov">            1766: }</span>
+<span class="lineNum">      27 </span>                : 
+<span class="lineNum">      28 </span><span class="lineCov">            6210: Stmt* CursorUtil::getStmt(CXCursor node) {</span>
+<span class="lineNum">      29 </span><span class="lineCov">            6210:   <B><FONT COLOR="#A020F0">if</FONT></B> (clang_isStatement(clang_getCursorKind(node))) {</span>
+<span class="lineNum">      30 </span><span class="lineCov">             799:     <B><FONT COLOR="#A020F0">return</FONT></B> (Stmt *)node.data[1];</span>
+<span class="lineNum">      31 </span>                :   }
+<span class="lineNum">      32 </span><span class="lineCov">            5411:   <B><FONT COLOR="#A020F0">return</FONT></B> NULL;</span>
+<span class="lineNum">      33 </span><span class="lineCov">            6210: }</span>
+<span class="lineNum">      34 </span>                : 
+<span class="lineNum">      35 </span><span class="lineCov">             491: Expr* CursorUtil::getExpr(CXCursor node) {</span>
+<span class="lineNum">      36 </span><span class="lineCov">             491:   <B><FONT COLOR="#A020F0">if</FONT></B> (clang_isExpression(clang_getCursorKind(node))) {</span>
+<span class="lineNum">      37 </span><span class="lineCov">              82:     <B><FONT COLOR="#A020F0">return</FONT></B> (Expr *)node.data[1];</span>
+<span class="lineNum">      38 </span>                :   }
+<span class="lineNum">      39 </span><span class="lineCov">             409:   <B><FONT COLOR="#A020F0">return</FONT></B> NULL;</span>
+<span class="lineNum">      40 </span><span class="lineCov">             491: }</span>
+<span class="lineNum">      41 </span>                : 
+<span class="lineNum">      42 </span><span class="lineCov">               8: ASTContext&amp; CursorUtil::getASTContext(CXCursor node) {</span>
+<span class="lineNum">      43 </span><span class="lineCov">               8:   CXTranslationUnit translationUnit = (CXTranslationUnit)node.data[2];</span>
+<span class="lineNum">      44 </span><span class="lineCov">               8:   ASTUnit *astUnit = (ASTUnit *)translationUnit-&gt;TUData;</span>
+<span class="lineNum">      45 </span><span class="lineCov">               8:   <B><FONT COLOR="#A020F0">return</FONT></B> astUnit-&gt;getASTContext();</span>
+<span class="lineNum">      46 </span>                : }
+</pre>
+<hr>
+Generated: 2011-10-09&nbsp;07:05 by <a href="http://minormatter.com/zcov">zcov</a><br>
+</body>
+</html>
