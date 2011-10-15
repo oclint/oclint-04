@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Documents - M.O. - a static source code analysis tool for Objective-C and related languages</title>
+  <title>Compiling and Testing M.O. - M.O. - a static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="        Documents          M.O. is a static source code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C co...">
+  <meta name="description" content="        Compiling and Testing M.O.          To compile M.O., fork and get a clone on your local machine.Compiling LLVM/ClangYou need to compile the...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/mo/docs/">
+  <link rel="canonical" href="http://longyiqi.github.com/mo/docs/compile/">
   <link href="/mo/favicon.png" rel="icon">
   <link href="/mo/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/mo/javascripts/modernizr-2.0.js"></script>
@@ -68,40 +68,53 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Documents</h1>
+    <h1 class="entry-title">Compiling and Testing M.O.</h1>
     
   </header>
   
-  <p>M.O. is a static source code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C code. As M.O. is under active development, so part of the documents here may behind the latest version. If you found something out of date and have trouble using M.O., <a href="http://www.longyiqi.com/contact">I&#8217;ll be happy to help</a>.</p>
+  <p>To compile M.O., <a href="https://github.com/longyiqi/mo">fork</a> and get a clone on your local machine.</p>
 
-<h2>Download</h2>
+<h2>Compiling LLVM/Clang</h2>
 
-<p>You can <a href="http://archives.longyiqi.com/projects/mo/mo.latest.zip">download everything from here</a>.</p>
+<p>You need to compile the specified version of LLVM/Clang as submodule of the git repository, please run</p>
 
-<h2>Usage</h2>
+<pre><code>./script/llvmClangBuild.sh
+</code></pre>
+
+<p>We will fetch submodules, configure the compilation, and build LLVM/Clang for you. The custom libclang build will be stored in MO_clone_folder/build/llvm folder. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/llvmClangBuild.sh">llvmClangBuild.sh</a> from github.)</p>
+
+<h2>Compiling M.O.</h2>
+
+<p>To build M.O. with unit tests, please run</p>
+
+<pre><code>./script/moBuild.sh
+</code></pre>
+
+<p>The script will build M.O. main program, its rules, and test program for you, and run unit tests immediately after the build is success. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/moBuild.sh">moBuild.sh</a> from github.)</p>
+
+<p>To build a release version of M.O., simply run</p>
+
+<pre><code>./script/moInstallationBuild.sh &lt;installation_path&gt;
+</code></pre>
+
+<p>It will build M.O. main program, its rules, and copy M.O. related libraries including its own rule libraries and libclang to the target installation path under a version number folder. If you get the same version number as this website provides, then it should be exactly same as we build our beta release version with this script. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/moInstallationBuild.sh">moInstallationBuild.sh</a> from github.)</p>
+
+<p>Also, we have <a href="https://github.com/longyiqi/mo/blob/master/script/moCIBuild.sh">moCIBuild.sh</a> to continuous build our test cases, code coverage report and self inspect M.O. source code with our awasome <a href="http://jenkins-ci.org/">Jenkins CI</a>. And <a href="https://github.com/longyiqi/mo/blob/master/script/moQuickBuild.sh">moQuickBuild.sh</a> gives you the ability to build based on the latest changes instead of a clean build, to save quite a lot of your precious time.</p>
+
+<h2>Testing M.O.</h2>
+
+<p>MO_clone_folder/build/mo Contains all M.O. related files with standard CMake build structure, too. You can find M.O. executable binary, test executable binary and necessary libraries in mo/bin folder. You can run</p>
+
+<pre><code>./build/bin/mo_test
+</code></pre>
+
+<p>to invoke the tests. If you run with CI build script, you will get the following folders/files in MO_clone_folder/build folder.</p>
 
 <ul>
-<li><a href="/mo/docs/install">Installation</a></li>
-<li><a href="/mo/docs/command">Command line usage</a></li>
-<li><a href="/mo/docs/rules">How to select rules</a></li>
-</ul>
-
-
-<h2>Customizing</h2>
-
-<ul>
-<li><a href="/mo/docs/compile">Compiling and testing M.O.</a></li>
-<li><a href="/mo/docs/write-custom-rule">How to write a rule</a></li>
-<li><a href="/mo/docs/how-it-works">How it works</a></li>
-</ul>
-
-
-<h2>Contributing</h2>
-
-<ul>
-<li>If you want to help out, <a href="http://github.com/longyiqi/mo">fork M.O. on Github</a> and send me a pull request.</li>
-<li><a href="/mo/docs/roadmap">Roadmap</a></li>
-<li><a href="/mo/docs/issues">Known Issues</a></li>
+<li>report - Contains code coverage report generated by <a href="http://minormatter.com/zcov/">zcov</a></li>
+<li>sameplesinspection.txt - Results for inspections on some sample files</li>
+<li>selfinspection.txt - Results for self inspection</li>
+<li>testresult.txt - Test results</li>
 </ul>
 
 
