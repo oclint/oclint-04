@@ -11,11 +11,11 @@ RuleSet::RuleSet(Rule* rule) {
 }
 
 int RuleSet::numberOfRules() {
-  return _rules->size();
+  return _rules == NULL ? 0 : _rules->size();
 }
 
 void RuleSet::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  for (int index = 0, numRules = numberOfRules(); index != numRules; index++) {
+  for (int index = 0, numRules = numberOfRules(); index < numRules; index++) {
     _rules->at(index)->apply(node, parentNode, violationSet);
   }
 }

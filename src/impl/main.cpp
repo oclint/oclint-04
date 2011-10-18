@@ -55,8 +55,8 @@ int dynamicLoadRules(string executablePath, string relativeRulesPath) {
         }
       }
     }
+    closedir(dp);
   }
-  closedir(dp);
   return 0;
 }
 
