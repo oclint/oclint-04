@@ -24,6 +24,7 @@ if [ $SUCCESS -eq 0 ]; then
 	./bin/mo_test > ../testresults.txt
 	mkdir coverage
 	rm src/impl/mo/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/UnusedMethodParameterRule.dir/UnusedMethodParameterRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
