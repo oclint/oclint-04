@@ -18,6 +18,10 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
     throw MOException("Inspect on an empty translation unit!");
   }
   clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), traverseAST, _violationSet);
+  return numberOfViolations();
+}
+
+int SmellFinder::numberOfViolations() const {
   return _violationSet->numberOfViolations();
 }
 
