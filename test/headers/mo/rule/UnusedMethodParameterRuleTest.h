@@ -15,8 +15,9 @@ public:
   void testMethodWithUsedParameter();
   void testMethodWithUnusedParameter();
   void testObjCMethodWithUnusedParameter();
-  void testFunctionDeclationWithoutDefincationShouldBeIgnored();
-  void testCppMethodDeclationWithoutDefincationShouldBeIgnored();
+  void testFunctionDeclarationWithoutDefincationShouldBeIgnored();
+  void testFunctionDefinationWithUnusedParameterDeclarationShouldBeIgnored();
+  void testCppMethodDeclarationWithoutDefinationShouldBeIgnored();
   void testCppMethodInheritanceFromBaseClassShouldBeIgnored();
   void testCppMethodWithoutVirtualInBaseClassIsAViolation();
   void testStaticFunctionShouldBeIgnored();

@@ -62,7 +62,7 @@ void UnusedMethodParameterRuleTest::testObjCMethodWithUnusedParameter() {
   checkRule(cursorPair, true);
 }
 
-void UnusedMethodParameterRuleTest::testFunctionDeclationWithoutDefincationShouldBeIgnored() {
+void UnusedMethodParameterRuleTest::testFunctionDeclarationWithoutDefincationShouldBeIgnored() {
   StringSourceCode strCode("int aMethod(int a);", "c");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Decl *decl = CursorUtil::getDecl(node);
@@ -71,7 +71,21 @@ void UnusedMethodParameterRuleTest::testFunctionDeclationWithoutDefincationShoul
   checkRule(cursorPair, false);
 }
 
-void UnusedMethodParameterRuleTest::testCppMethodDeclationWithoutDefincationShouldBeIgnored() {
+void UnusedMethodParameterRuleTest::testFunctionDefinationWithUnusedParameterDeclarationShouldBeIgnored() {
+  StringSourceCode strCode("int aMethod(int a);\nint aMethod(int a) { return 1; }", "c");
+  pair<CXCursor, CXCursor> declarationCursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<ParmVarDecl>(decl);
+  });
+  checkRule(declarationCursorPair, false);
+  pair<CXCursor, CXCursor> definationCursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<ParmVarDecl>(decl);
+  }, -1);
+  checkRule(definationCursorPair, true);
+}
+
+void UnusedMethodParameterRuleTest::testCppMethodDeclarationWithoutDefinationShouldBeIgnored() {
   StringSourceCode strCode("class AClass { int aMethod(int a); };\nint AClass::aMethod(int a) { return 0; }", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Decl *decl = CursorUtil::getDecl(node);

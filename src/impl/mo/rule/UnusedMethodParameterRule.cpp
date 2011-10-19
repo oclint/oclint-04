@@ -13,6 +13,11 @@ using namespace clang;
 
 RuleSet UnusedMethodParameterRule::rules(new UnusedMethodParameterRule());
 
+bool UnusedMethodParameterRule::isFunctionDeclaration(DeclContext *context) {
+  FunctionDecl *decl = dyn_cast<FunctionDecl>(context);
+  return decl && !decl->doesThisDeclarationHaveABody();
+}
+
 bool UnusedMethodParameterRule::isObjCMethodDeclaration(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
   return DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(decl);
@@ -37,7 +42,8 @@ bool UnusedMethodParameterRule::isCppOverrideFunction(DeclContext *context) {
 }
 
 bool UnusedMethodParameterRule::isExistingByContract(DeclContext *context) {
-  return isObjCMethodDeclaration(context) || 
+  return isFunctionDeclaration(context) ||
+         isObjCMethodDeclaration(context) || 
          isObjCOverrideMethod(context) || 
          isCppFunctionDeclaration(context) || 
          isCppOverrideFunction(context);

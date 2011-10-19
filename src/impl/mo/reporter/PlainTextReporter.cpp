@@ -31,12 +31,10 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
 
 const string PlainTextReporter::cursorLocationToPlainText(const CXCursor& cursor) const {
   stringstream locationStream;
-  CXSourceLocation violatedSourceLocation = clang_getCursorLocation(cursor);
   CXFile file;
   unsigned line, column;
-  clang_getSpellingLocation(violatedSourceLocation, &file, &line, &column, 0);
+  clang_getSpellingLocation(clang_getCursorLocation(cursor), &file, &line, &column, 0);
   CXString violatedFile = clang_getFileName(file);
-  
   locationStream << clang_getCString(violatedFile) << ":" << line << ":" << column;
   clang_disposeString(violatedFile);
   return locationStream.str();

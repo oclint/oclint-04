@@ -14,6 +14,7 @@ class UnusedMethodParameterRule : public Rule {
 private:
   static RuleSet rules;
   
+  bool isFunctionDeclaration(DeclContext *context);
   bool isObjCMethodDeclaration(DeclContext *context);
   bool isObjCOverrideMethod(DeclContext *context);
   bool isCppFunctionDeclaration(DeclContext *context);
