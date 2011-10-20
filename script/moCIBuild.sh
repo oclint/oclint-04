@@ -37,13 +37,17 @@ if [ $SUCCESS -eq 0 ]; then
 fi 
 cd $CWD
 if [ $SUCCESS -eq 0 ]; then
-	python third-party/zcov/zcov-scan build/output.zcov . > /dev/null 2>&1
+	lcov -b . -d . -c -o build/output.lcov
 	if [ $? -ne 0 ]; then
 		SUCCESS=4
 	fi
-	python third-party/zcov/zcov-genhtml build/output.zcov build/report --root=$CWD/src
+	lcov -e build/output.lcov "$CWD/src/*" -o build/output.lcov
 	if [ $? -ne 0 ]; then
-		SUCCESS=5
+		SUCCESS=6
+	fi
+	genhtml -o build/report -t "M.O. test coverage" --num-spaces 4 build/output.lcov
+	if [ $? -ne 0 ]; then
+		SUCCESS=7
 	fi
 fi 
 if [ $SUCCESS -eq 0 ]; then
