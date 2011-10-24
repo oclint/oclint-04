@@ -14,16 +14,26 @@ static int _count;
 
 int CyclomaticComplexityMeasurement::getCCNOfCursor(CXCursor node) {
   _count = 0;
-  clang_visitChildren(node, ccnTraverseAST, 0);
+  clang_visitChildrenWithBlock(node, ^(CXCursor cursor, CXCursor parentCursor) {
+    Stmt *stmt = CursorUtil::getStmt(cursor);
+    if (stmt && isDecisionPoint(stmt)) {
+      _count++;
+    }
+    Expr *expr = CursorUtil::getExpr(cursor);
+    if (expr && isDecisionPoint(expr)) {
+      _count++;
+    }
+    return CXChildVisit_Recurse;
+  });
   return _count + 1;
 }
 
-bool isDecisionPoint(Stmt *stmt) {
+bool CyclomaticComplexityMeasurement::isDecisionPoint(Stmt *stmt) {
   return isa<IfStmt>(stmt) || isa<ForStmt>(stmt) || isa<ObjCForCollectionStmt>(stmt) || 
     isa<WhileStmt>(stmt) || isa<DoStmt>(stmt) || isa<CaseStmt>(stmt) || isa<ObjCAtCatchStmt>(stmt);
 }
 
-bool isDecisionPoint(Expr *expr) {
+bool CyclomaticComplexityMeasurement::isDecisionPoint(Expr *expr) {
   if (isa<ConditionalOperator>(expr)) {
     return true;
   }
@@ -34,16 +44,4 @@ bool isDecisionPoint(Expr *expr) {
   }
   
   return false;
-}
-
-enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData) {
-  Stmt *stmt = CursorUtil::getStmt(node);
-  if (stmt && isDecisionPoint(stmt)) {
-    _count++;
-  }
-  Expr *expr = CursorUtil::getExpr(node);
-  if (expr && isDecisionPoint(expr)) {
-    _count++;
-  }
-  return CXChildVisit_Recurse;
 }

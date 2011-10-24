@@ -12,30 +12,6 @@ using namespace std;
 #include <dlfcn.h>
 #include <dirent.h>
 
-int execute(const char * const * argv, int argc) {
-  PlainTextReporter reporter;
-  ClangInstance instance;
-  instance.compileSourceFileToTranslationUnit(argv, argc);
-  if (instance.hasErrors()) {
-    cout << instance.reportErrors(reporter);
-    return 1;
-  }
-  bool hasViolations = false;
-  if (instance.hasWarnings()) {
-    cout << instance.reportWarnings(reporter);
-    hasViolations = true;
-  }
-  SmellFinder smellFinder;
-  if (smellFinder.hasSmell(instance.getTranslationUnit())) {
-    cout << smellFinder.reportSmells(reporter);
-    hasViolations = true;
-  }
-  if (hasViolations) {
-    return 2;
-  }
-  return 0;
-}
-
 int dynamicLoadRules(string executablePath, string relativeRulesPath) {
   string absoluteRulesPath = executablePath.substr(0, executablePath.find_last_of("/") + 1) + relativeRulesPath;
   
@@ -55,13 +31,38 @@ int dynamicLoadRules(string executablePath, string relativeRulesPath) {
         }
       }
     }
+    closedir(dp);
   }
-  closedir(dp);
   return 0;
 }
 
+int reportSmells(ClangInstance& instance, PlainTextReporter& reporter) {
+  int numberOfSmells = 0;
+  if (instance.hasWarnings()) {
+    cout << instance.reportWarnings(reporter);
+    numberOfSmells -= instance.warnings().size();
+  }
+  SmellFinder smellFinder;
+  if (smellFinder.hasSmell(instance.getTranslationUnit())) {
+    cout << smellFinder.reportSmells(reporter);
+    numberOfSmells -= smellFinder.numberOfViolations();
+  }
+  return numberOfSmells;
+}
+
+int execute(const char * const * argv, int argc) {
+  PlainTextReporter reporter;
+  ClangInstance instance;
+  instance.compileSourceFileToTranslationUnit(argv, argc);
+  if (instance.hasErrors()) {
+    cout << instance.reportErrors(reporter);
+    return 1;
+  }
+  return reportSmells(instance, reporter);
+}
+
 int main(int argc, char* argv[]) {
-  int execute_flag = -1;
+  int execute_flag = 99;
   string executablePath(argv[0]);
   execute_flag = dynamicLoadRules(executablePath, "rules");
   if (execute_flag == 0) {

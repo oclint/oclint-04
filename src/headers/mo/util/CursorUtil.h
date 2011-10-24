@@ -18,6 +18,7 @@ public:
   static Stmt* getStmt(CXCursor node);
   static Expr* getExpr(CXCursor node);
   static ASTContext& getASTContext(CXCursor node);
+  static bool isCursorDeclaredInCurrentFile(CXCursor node);
 };
 
 #endif

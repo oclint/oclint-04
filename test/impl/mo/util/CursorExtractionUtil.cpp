@@ -4,17 +4,14 @@
 #include "mo/rule/MockRule.h"
 #include "mo/util/StringSourceCodeToTranslationUnitUtil.h"
 
-enum CXChildVisitResult extractCursorVisitor(CXCursor node, CXCursor parentNode, CXClientData clientData) {
-  vector<pair<CXCursor, CXCursor> > *nodes = (vector<pair<CXCursor, CXCursor> > *)clientData;
-  nodes->push_back(make_pair(node, parentNode));
-  return CXChildVisit_Recurse;
-}
-
 const pair<CXCursor, CXCursor> extractCursor(StringSourceCode code, bool(^nodesFilter)(CXCursor, CXCursor), int filteredIndex) {
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
   vector<pair<CXCursor, CXCursor> > *nodes = new vector<pair<CXCursor, CXCursor> >();
-  clang_visitChildren(clang_getTranslationUnitCursor(translationUnit), extractCursorVisitor, nodes);
+  clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
+    nodes->push_back(make_pair(node, parentNode));
+    return CXChildVisit_Recurse;
+  });
   
   vector<pair<CXCursor, CXCursor> > *filteredNodes = new vector<pair<CXCursor, CXCursor> >();
   for (int index = 0; index < nodes->size(); index++) {

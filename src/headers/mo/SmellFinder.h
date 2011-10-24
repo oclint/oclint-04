@@ -22,6 +22,7 @@ public:
   virtual ~SmellFinder();
   
   bool hasSmell(const CXTranslationUnit& translationUnit) const;
+  int numberOfViolations() const;
   const string reportSmells(const Reporter& reporter) const; 
 };
 

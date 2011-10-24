@@ -9,12 +9,12 @@ namespace clang {
 }
 
 class CyclomaticComplexityMeasurement {
+private:
+  static bool isDecisionPoint(clang::Stmt *stmt);
+  static bool isDecisionPoint(clang::Expr *expr);
+  
 public:
   static int getCCNOfCursor(CXCursor node);
 };
-
-bool isDecisionPoint(clang::Stmt *stmt);
-bool isDecisionPoint(clang::Expr *expr);
-enum CXChildVisitResult ccnTraverseAST(CXCursor node, CXCursor parentNode, CXClientData clientData);
 
 #endif

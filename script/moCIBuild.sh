@@ -24,6 +24,7 @@ if [ $SUCCESS -eq 0 ]; then
 	./bin/mo_test > ../testresults.txt
 	mkdir coverage
 	rm src/impl/mo/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
+	rm src/impl/mo/rule/CMakeFiles/UnusedMethodParameterRule.dir/UnusedMethodParameterRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
 	rm src/impl/mo/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
@@ -36,13 +37,17 @@ if [ $SUCCESS -eq 0 ]; then
 fi 
 cd $CWD
 if [ $SUCCESS -eq 0 ]; then
-	python third-party/zcov/zcov-scan build/output.zcov . > /dev/null 2>&1
+	lcov -b . -d . -c -o build/output.lcov
 	if [ $? -ne 0 ]; then
 		SUCCESS=4
 	fi
-	python third-party/zcov/zcov-genhtml build/output.zcov build/report --root=$CWD/src
+	lcov -e build/output.lcov "$CWD/src/*" -o build/output.lcov
 	if [ $? -ne 0 ]; then
-		SUCCESS=5
+		SUCCESS=6
+	fi
+	genhtml -o build/report -t "M.O. test coverage" --num-spaces 4 build/output.lcov
+	if [ $? -ne 0 ]; then
+		SUCCESS=7
 	fi
 fi 
 if [ $SUCCESS -eq 0 ]; then
@@ -53,7 +58,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi
 if [ $SUCCESS -eq 0 ]; then
   ./script/samplesDetector.sh > build/samplesinspection.txt
-  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include /usr/lib/clang/3.0/include | grep '^src' > build/selfinspection.txt
+  ./script/selfDetector.sh src/headers/ $CWD/build/llvm/tools/clang/include $CWD/build/llvm/include $CWD/third-party/clang/include $CWD/third-party/llvm/include /usr/lib/clang/3.0/include > build/selfinspection.txt
 	if [ -n "$CC_BUILD_ARTIFACTS" ]; then
 		mv build/testresults.txt $CC_BUILD_ARTIFACTS/testresults.txt
 		mv build/report $CC_BUILD_ARTIFACTS/coverage

@@ -13,4 +13,7 @@ public:
   void testGetExprWithNotExprCursor();
   void testGetExprWithNullCursor();
   void testGetExprWithStmtCursor();
+  void testGetCursorASTContext();
+  void testIsCursorDeclaredInCurrentFile();
+  void testIsCursorDeclaredInHeaderFiles();
 };
