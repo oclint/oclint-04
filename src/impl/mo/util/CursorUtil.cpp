@@ -40,7 +40,6 @@ Expr* CursorUtil::getExpr(CXCursor node) {
 }
 
 ASTContext& CursorUtil::getASTContext(CXCursor node) {
-  CXTranslationUnit translationUnit = (CXTranslationUnit)node.data[2];
-  ASTUnit *astUnit = (ASTUnit *)translationUnit->TUData;
+  ASTUnit *astUnit = static_cast<ASTUnit *>(static_cast<CXTranslationUnit>(node.data[2])->TUData);
   return astUnit->getASTContext();
 }
