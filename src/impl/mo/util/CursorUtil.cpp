@@ -15,6 +15,8 @@ struct CXTranslationUnitImpl {
 #include <clang/AST/Expr.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/Frontend/ASTUnit.h>
+#include <clang/Basic/SourceManager.h>
+#include <clang/Basic/SourceLocation.h>
 
 #include "mo/util/CursorUtil.h"
 
@@ -40,7 +42,23 @@ Expr* CursorUtil::getExpr(CXCursor node) {
 }
 
 ASTContext& CursorUtil::getASTContext(CXCursor node) {
-  CXTranslationUnit translationUnit = (CXTranslationUnit)node.data[2];
-  ASTUnit *astUnit = (ASTUnit *)translationUnit->TUData;
+  ASTUnit *astUnit = static_cast<ASTUnit *>(static_cast<CXTranslationUnit>(node.data[2])->TUData);
   return astUnit->getASTContext();
+}
+
+bool CursorUtil::isCursorDeclaredInCurrentFile(CXCursor node) {
+  FileID fileId;
+  Decl *decl = CursorUtil::getDecl(node);
+  Stmt *stmt = CursorUtil::getStmt(node);
+  if (decl) {
+    fileId = CursorUtil::getASTContext(node).getSourceManager().getFileID(decl->getLocation());
+  }
+  else if (stmt) {
+    fileId = CursorUtil::getASTContext(node).getSourceManager().getFileID(stmt->getLocStart());
+  }
+  else {
+    return false;
+  }
+  SourceLocation sourceLocation = CursorUtil::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
+  return sourceLocation.isInvalid();
 }

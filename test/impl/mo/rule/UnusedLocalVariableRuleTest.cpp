@@ -43,25 +43,6 @@ void UnusedLocalVariableRuleTest::checkRule(string source, bool isViolated) {
   checkRule(cursorPair, isViolated);
 }
 
-void UnusedLocalVariableRuleTest::testMethodWithUsedParameter() {
-  checkRule("int aMethod(int a) { a++; return 0; }", false);
-}
-
-void UnusedLocalVariableRuleTest::testMethodWithUnusedParameter() {
-  checkRule("int aMethod(int a) { return 0; }", true);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodWithUnusedParameter() {
-  string strSource = "@interface AClass\n- (void)aMethod:(int)a;\n@end\n\
-    @implementation AClass\n- (void)aMethod:(int)a {}\n@end";
-  StringSourceCode strCode(strSource, "m");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, true);
-}
-
 void UnusedLocalVariableRuleTest::testUsedLocalVariable() {
   checkRule("int aMethod() { int a; a = 1; return 0; }", false);
 }
@@ -74,91 +55,10 @@ void UnusedLocalVariableRuleTest::testUnusedLocalVariableWithIntialAssignment() 
   checkRule("int aMethod() { int a = 1; return 0; }", true);
 }
 
-void UnusedLocalVariableRuleTest::testFunctionDeclationWithoutDefincationShouldBeIgnored() {
-  StringSourceCode strCode("int aMethod(int a);", "c");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  });
-  checkRule(cursorPair, false);
+void UnusedLocalVariableRuleTest::testDeclarationOutsideMethodShouldBeIgnored() {
+  checkRule("int i = 1;", false);
 }
 
-void UnusedLocalVariableRuleTest::testCppMethodDeclationWithoutDefincationShouldBeIgnored() {
-  StringSourceCode strCode("class AClass { int aMethod(int a); };\nint AClass::aMethod(int a) { return 0; }", "cpp");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  });
-  checkRule(cursorPair, false);
-}
-
-void UnusedLocalVariableRuleTest::testCppMethodInheritanceFromBaseClassShouldBeIgnored() {
-  StringSourceCode strCode("\
-  class BaseClass { virtual int aMethod(int a); };\n\
-  class SubClass : public BaseClass {}\n\
-  int SubClass::aMethod(int a) { return 0; }", "cpp");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, false);
-}
-
-void UnusedLocalVariableRuleTest::testCppMethodWithoutVirtualInBaseClassIsAViolation() {
-  StringSourceCode strCode("\
-  class BaseClass { int aMethod(int a); };\n\
-  class SubClass : public BaseClass {}\n\
-  int SubClass::aMethod(int a) { return 0; }", "cpp");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, true);
-}
-
-void UnusedLocalVariableRuleTest::testSaticFunctionShouldBeIgnored() {
-  StringSourceCode strCode("\
-  class AClass { static string aString; };\n\
-  string AClass::aString(\"foo\");", "cpp");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, false);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodDeclarationInsideInterfaceShouldBeIgnored() {
-  checkRule("@interface AnInterface\n- (void)aMethod:(int)a;\n@end", false);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodDeclarationInsideProtocolShouldBeIgnored() {
-  checkRule("@protocol AnInterface\n- (void)aMethod:(int)a;\n@end", false);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodDeclarationInsideCategoryShouldBeIgnored() {
-  checkRule("@interface AnInterface\n@end\n@interface AnInterface (ACategory)\n- (void)aMethod:(int)a;\n@end", false);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodInheritanceFromBaseInterfaceShouldBeIgnored() {
-  StringSourceCode strCode("\
-  @interface BaseClass\n- (void)aMethod:(int)a;\n@end\n\
-  @interface SubClass : BaseClass\n@end\n\
-  @implementation SubClass\n- (void)aMethod:(int)a {}\n@end", "m");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, false);
-}
-
-void UnusedLocalVariableRuleTest::testObjCMethodImplementedForProtocolShouldBeIgnored() {
-  StringSourceCode strCode("\
-  @protocol AProtocol\n- (void)aMethod:(int)a;\n@end\n\
-  @interface AnInterface <AProtocol>\n@end\n\
-  @implementation AnInterface\n- (void)aMethod:(int)a {}\n@end", "m");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
-    return decl && isa<VarDecl>(decl);
-  }, -1);
-  checkRule(cursorPair, false);
+void UnusedLocalVariableRuleTest::testUnusedMethodParameterShouldBeIgnoredInThisRule() {
+  checkRule("int aMethod(int a) { return 0; }", false);
 }

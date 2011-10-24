@@ -35,6 +35,7 @@ endmacro(build_static_rules)
 SET(LIST_OF_RULES 
   EmptyIfStatementRule
   UnusedLocalVariableRule
+  UnusedMethodParameterRule
   CyclomaticComplexityRule
   LongParameterListRule
   LongMethodRule

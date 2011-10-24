@@ -1,4 +1,9 @@
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/Decl.h>
+
 #include "mo/util/CursorUtilTest.h"
+#include "mo/StringSourceCode.h"
+#include "mo/util/CursorExtractionUtil.h"
 
 CXCursor getNullCursor() {
   return clang_getNullCursor();
@@ -77,4 +82,30 @@ void CursorUtilTest::testGetExprWithStmtCursor() {
   CXCursor cursor = getStmtCursor();
   Expr *expr = CursorUtil::getExpr(cursor);
   TS_ASSERT(!expr);
+}
+
+void CursorUtilTest::testGetCursorASTContext() {
+  StringSourceCode strCode("int main() { return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    return true;
+  });
+  TS_ASSERT_EQUALS(CursorUtil::getASTContext(cursorPair.first).getTranslationUnitDecl(), CursorUtil::getASTContext(cursorPair.second).getTranslationUnitDecl());
+}
+
+void CursorUtilTest::testIsCursorDeclaredInCurrentFile() {
+  StringSourceCode strCode("#import <Foundation/Foundation.h>\nint main() { return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<FunctionDecl>(decl);
+  });
+  TS_ASSERT(!CursorUtil::isCursorDeclaredInCurrentFile(cursorPair.first));
+}
+
+void CursorUtilTest::testIsCursorDeclaredInHeaderFiles() {
+  StringSourceCode strCode("#import <Foundation/Foundation.h>\nint main() { return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<FunctionDecl>(decl);
+  }, -1);
+  TS_ASSERT(CursorUtil::isCursorDeclaredInCurrentFile(cursorPair.first));
 }

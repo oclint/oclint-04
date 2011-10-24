@@ -10,6 +10,7 @@ private:
 public:
   void setUp();
   void tearDown();
+  void testNoSmellWithoutRunningFinder();
   void testHasNoSmell();
   void testHasSmellWithEmptyTranslationUnit();
   void testReportViolations();
