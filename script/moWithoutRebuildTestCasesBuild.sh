@@ -3,7 +3,7 @@
 CWD=`pwd`
 SUCCESS=0
 
-cd build/mo
+cd build/oclint
 if [ $SUCCESS -eq 0 ]; then
 	cmake -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
 	if [ $? -ne 0 ]; then
@@ -18,7 +18,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi 
 cd $CWD
 if [ $SUCCESS -eq 0 ]; then
-	build/mo/bin/mo_test
+	build/oclint/bin/oclint_test
 	if [ $? -ne 0 ]; then
 		SUCCESS=3
 	fi 

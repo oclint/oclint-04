@@ -1,30 +1,30 @@
-include_directories(${MO_SOURCE_DIR}/third-party/cxxtest)
-include_directories(${MO_SOURCE_DIR})
-include_directories(${MO_SOURCE_DIR}/test/headers)
+include_directories(${OCLINT_SOURCE_DIR}/third-party/cxxtest)
+include_directories(${OCLINT_SOURCE_DIR})
+include_directories(${OCLINT_SOURCE_DIR}/test/headers)
 
-add_executable(mo_test 
-  mo_test.cpp
+add_executable(oclint_test
+  oclint_test.cpp
   )
 
-target_link_libraries(mo_test  
+target_link_libraries(oclint_test
   CanaryTest
-  MOCoreTest
-  MOExceptionTest
-  MOReporterTest
-  MORuleTest
-  MOUtilTest
-  MOCore
-  MORuleSet
-  MORule
-  MOException
-  MOReporter
-  MOUtil
-  ${MO_COMMON_LINK_LIB}
+  OCLintCoreTest
+  OCLintExceptionTest
+  OCLintReporterTest
+  OCLintRuleTest
+  OCLintUtilTest
+  OCLintCore
+  OCLintRuleSet
+  OCLintRule
+  OCLintException
+  OCLintReporter
+  OCLintUtil
+  ${OCLINT_COMMON_LINK_LIB}
   dl
   )
 
 if(IS_CI_BUILD)
-target_link_libraries(mo_test 
+target_link_libraries(oclint_test 
   profile_rt
   )
 endif()

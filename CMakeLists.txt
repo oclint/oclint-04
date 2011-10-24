@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(MO)
+project(OCLINT)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
@@ -16,7 +16,7 @@ add_definitions(
   -fPIC
   )
 
-include_directories(${MO_SOURCE_DIR}/src/headers)
+include_directories(${OCLINT_SOURCE_DIR}/src/headers)
 include_directories(${LLVM_SRC_DIR}/include)
 include_directories(${LLVM_SRC_DIR}/tools/clang/include)
 include_directories(${LLVM_BINARY_DIR}/include)
@@ -28,7 +28,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -pedantic -Wno-long-long -Wall -W -Wno-unused-parameter -Wwrite-strings")
 endif()
 
-SET(MO_COMMON_LINK_LIB
+SET(OCLINT_COMMON_LINK_LIB
   libclang
   pthread
   )
