@@ -4,6 +4,7 @@
 #include "mo/ViolationSet.h"
 #include "mo/exception/MOException.h"
 #include "mo/RuleSet.h"
+#include "mo/util/CursorUtil.h"
 
 SmellFinder::SmellFinder() {
   _violationSet = new ViolationSet();
@@ -18,7 +19,9 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
     throw MOException("Inspect on an empty translation unit!");
   }
   clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
-    RuleSet::apply(node, parentNode, *_violationSet);
+    if (CursorUtil::isCursorDeclaredInCurrentFile(node)) {
+      RuleSet::apply(node, parentNode, *_violationSet);
+    }
     return CXChildVisit_Recurse;
   });
   return numberOfViolations();
