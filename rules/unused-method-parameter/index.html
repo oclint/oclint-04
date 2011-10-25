@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Unused Local Variable - OCLint - A static source code analysis tool for Objective-C and related languages</title>
+  <title>Unused Method Parameter - OCLint - A static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="        Unused Local Variable      Detects when a local variable is declared and/or assigned, but not used.Examples:unused-variable.m  1234- (int)f...">
+  <meta name="description" content="        Unused Method Parameter      Detects parameters of methods that never be used.Examples:unused-parameter.m  123- (int)foo:(int)a {  return 0...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/oclint/rules/unused-local-variable/">
+  <link rel="canonical" href="http://longyiqi.github.com/oclint/rules/unused-method-parameter/">
   <link href="/oclint/favicon.png" rel="icon">
   <link href="/oclint/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/oclint/javascripts/modernizr-2.0.js"></script>
@@ -68,20 +68,18 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Unused Local Variable</h1>
+    <h1 class="entry-title">Unused Method Parameter</h1>
   </header>
   
-  <p>Detects when a local variable is declared and/or assigned, but not used.</p>
+  <p>Detects parameters of methods that never be used.</p>
 
 <p>Examples:</p>
 
-<figure class='code'><figcaption><span>unused-variable.m </span></figcaption>
+<figure class='code'><figcaption><span>unused-parameter.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">foo</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">foo:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">a</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
