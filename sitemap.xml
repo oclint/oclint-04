@@ -1,103 +1,103 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://longyiqi.github.com/mo/blog/archives/</loc>
+        <loc>http://longyiqi.github.com/oclint/blog/archives/</loc>
         <lastmod>2011-10-08T22:19:05-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/blog/</loc>
+        <loc>http://longyiqi.github.com/oclint/blog/</loc>
         <lastmod>2011-10-08T22:40:56-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/command/</loc>
-        <lastmod>2011-10-13T23:30:33-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/command/</loc>
+        <lastmod>2011-10-24T22:25:54-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/compile/</loc>
-        <lastmod>2011-10-14T20:11:32-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/compile/</loc>
+        <lastmod>2011-10-24T22:35:21-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/how-it-works/</loc>
-        <lastmod>2011-10-14T20:57:11-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/how-it-works/</loc>
+        <lastmod>2011-10-24T22:26:25-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/</loc>
-        <lastmod>2011-10-13T23:31:33-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/</loc>
+        <lastmod>2011-10-24T22:37:04-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/install/</loc>
-        <lastmod>2011-10-13T22:43:52-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/install/</loc>
+        <lastmod>2011-10-24T22:30:31-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/issues/</loc>
-        <lastmod>2011-10-14T21:18:23-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/issues/</loc>
+        <lastmod>2011-10-24T22:40:12-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/roadmap/</loc>
-        <lastmod>2011-10-14T21:10:07-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/roadmap/</loc>
+        <lastmod>2011-10-24T22:26:46-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/rules/</loc>
-        <lastmod>2011-10-14T07:02:43-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/rules/</loc>
+        <lastmod>2011-10-24T22:26:59-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/docs/write-custom-rule/</loc>
-        <lastmod>2011-10-14T20:47:26-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/docs/write-custom-rule/</loc>
+        <lastmod>2011-10-24T22:36:22-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/</loc>
-        <lastmod>2011-10-13T22:47:02-05:00</lastmod>
+        <loc>http://longyiqi.github.com/oclint/</loc>
+        <lastmod>2011-10-24T22:19:18-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/license/</loc>
+        <loc>http://longyiqi.github.com/oclint/license/</loc>
         <lastmod>2011-10-08T23:29:32-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/constant-if-statement/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/constant-if-statement/</loc>
         <lastmod>2011-10-09T06:01:01-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/cyclomatic-complexity/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/cyclomatic-complexity/</loc>
         <lastmod>2011-10-09T01:34:30-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/empty-if-statement/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/empty-if-statement/</loc>
         <lastmod>2011-10-09T01:03:33-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/if-statement-with-negated-condition/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/if-statement-with-negated-condition/</loc>
         <lastmod>2011-10-09T01:34:59-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/</loc>
         <lastmod>2011-10-09T02:00:07-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/long-method/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/long-method/</loc>
         <lastmod>2011-10-09T01:31:57-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/long-parameter-list/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/long-parameter-list/</loc>
         <lastmod>2011-10-09T01:35:26-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/npath-complexity/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/npath-complexity/</loc>
         <lastmod>2011-10-09T01:39:34-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/redundant-if-statement/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/redundant-if-statement/</loc>
         <lastmod>2011-10-09T01:47:30-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/redundant-local-variable/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/redundant-local-variable/</loc>
         <lastmod>2011-10-09T01:50:37-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/unreachable-code/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/unreachable-code/</loc>
         <lastmod>2011-10-09T01:54:47-05:00</lastmod>
     </url>
     <url>
-        <loc>http://longyiqi.github.com/mo/rules/unused-local-variable/</loc>
+        <loc>http://longyiqi.github.com/oclint/rules/unused-local-variable/</loc>
         <lastmod>2011-10-09T01:58:04-05:00</lastmod>
     </url>
 </urlset>

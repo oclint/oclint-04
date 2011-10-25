@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>M.O. - a static source code analysis tool for Objective-C and related languages</title>
+  <title>OCLint - A static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="      M.O. is a source code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential...">
+  <meta name="description" content="      OCLint is a source code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potenti...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,13 +18,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/mo/">
-  <link href="/mo/favicon.png" rel="icon">
-  <link href="/mo/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/mo/javascripts/modernizr-2.0.js"></script>
-  <script src="/mo/javascripts/ender.js"></script>
-  <script src="/mo/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/mo/atom.xml" rel="alternate" title="M.O." type="application/atom+xml">
+  <link rel="canonical" href="http://longyiqi.github.com/oclint/">
+  <link href="/oclint/favicon.png" rel="icon">
+  <link href="/oclint/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oclint/javascripts/modernizr-2.0.js"></script>
+  <script src="/oclint/javascripts/ender.js"></script>
+  <script src="/oclint/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/oclint/atom.xml" rel="alternate" title="OCLint" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -33,32 +33,32 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/mo/">M.O.</a></h1>
+  <h1><a href="/oclint/">OCLint</a></h1>
   
-    <h2>a static source code analysis tool for Objective-C and related languages</h2>
+    <h2>A static source code analysis tool for Objective-C and related languages</h2>
   
 </hgroup>
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/mo/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="/oclint/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:longyiqi.github.com/mo" />
+    <input type="hidden" name="q" value="site:longyiqi.github.com/oclint" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
 <ul class="main-navigation">
-  <li><a href="/mo/">Home</a></li>
-  <li><a href="/mo/blog">Blog</a></li>
-  <li><a href="/mo/docs">Documentation</a></li>
-  <li><a href="/mo/rules">Rules</a></li>
-  <li><a href="/mo/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/mo/selfinspection.txt">Self Inspection</a></li>
-  <li><a href="/mo/license">License</a></li>
-  <li><a href="https://github.com/longyiqi/mo">Source</a></li>
+  <li><a href="/oclint/">Home</a></li>
+  <li><a href="/oclint/blog">Blog</a></li>
+  <li><a href="/oclint/docs">Documentation</a></li>
+  <li><a href="/oclint/rules">Rules</a></li>
+  <li><a href="/oclint/coverage/index.html">Code Coverage</a></li>
+  <li><a href="/oclint/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/oclint/license">License</a></li>
+  <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
 
 </nav>
@@ -67,7 +67,7 @@
       <div class="index">
   
   <article>
-  <p>M.O. is a <a href="http://en.wikipedia.org/wiki/Static_program_analysis">source code analysis</a> tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential problems like:</p>
+  <p>OCLint is a <a href="http://en.wikipedia.org/wiki/Static_program_analysis">source code analysis</a> tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential problems like:</p>
   
   <ul>
     <li>Possible bugs - empty if/else/try/catch/finally statements</li>
@@ -79,9 +79,9 @@
   
   <p>Currently, it is a standalone tool that runs on 64-bit Intel Mac OS X Lion/Snow Leopard, and could be invoked from command line and <a href="http://martinfowler.com/articles/continuousIntegration.html">continuous integration</a> system.</p>
   
-  <p>M.O. is easy to setup and configure, <a href="/mo/docs">start here</a>. And <a href="/mo/rules">here is an overview of all rules</a>.</p>
+  <p>OCLint is easy to setup and configure, <a href="/oclint/docs">start here</a>. And <a href="/oclint/rules">here is an overview of all rules</a>.</p>
   
-  <p>M.O. is a 100% open source project that based on Clang project and LLVM infrastructure. As an extension and enhancement to Clang&#8217;s Clang-Analyzer, which is focus on the stability and robust of source code, M.O. focus more on code quality, good development principles and practices. M.O. is a completely separate project from Clang-analyzer/Clang/LLVM, and it is not supported by Apple or LLVM/Clang team. Instead, please <a href="http://www.longyiqi.com/contact">send your suggestions to me</a>, or send a pull request directly with your thoughts.</p>
+  <p>OCLint is a 100% open source project that based on Clang project and LLVM infrastructure. As an extension and enhancement to Clang&#8217;s Clang-Analyzer, which is focus on the stability and robust of source code, OCLint focus more on code quality, good development principles and practices. OCLint is a completely separate project from Clang-analyzer/Clang/LLVM, and it is not supported by Apple or LLVM/Clang team. Instead, please <a href="http://www.longyiqi.com/contact">send your suggestions to me</a>, or send a pull request directly with your thoughts.</p>
   </article>
   
 </div>

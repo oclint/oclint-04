@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[M.O.]]></title>
-  <link href="http://longyiqi.github.com/mo/atom.xml" rel="self"/>
-  <link href="http://longyiqi.github.com/mo/"/>
-  <updated>2011-10-14T21:21:21-05:00</updated>
-  <id>http://longyiqi.github.com/mo/</id>
+  <title><![CDATA[OCLint]]></title>
+  <link href="http://longyiqi.github.com/oclint/atom.xml" rel="self"/>
+  <link href="http://longyiqi.github.com/oclint/"/>
+  <updated>2011-10-24T22:54:08-05:00</updated>
+  <id>http://longyiqi.github.com/oclint/</id>
   <author>
     <name><![CDATA[Longyi Qi]]></name>
     

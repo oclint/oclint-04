@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Compiling and Testing M.O. - M.O. - a static source code analysis tool for Objective-C and related languages</title>
+  <title>Compiling and Testing OCLint - OCLint - A static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="        Compiling and Testing M.O.          To compile M.O., fork and get a clone on your local machine.Compiling LLVM/ClangYou need to compile the...">
+  <meta name="description" content="        Compiling and Testing OCLint          To compile OCLint, fork and get a clone on your local machine.Compiling LLVM/ClangYou need to compile...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,13 +18,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/mo/docs/compile/">
-  <link href="/mo/favicon.png" rel="icon">
-  <link href="/mo/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/mo/javascripts/modernizr-2.0.js"></script>
-  <script src="/mo/javascripts/ender.js"></script>
-  <script src="/mo/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/mo/atom.xml" rel="alternate" title="M.O." type="application/atom+xml">
+  <link rel="canonical" href="http://longyiqi.github.com/oclint/docs/compile/">
+  <link href="/oclint/favicon.png" rel="icon">
+  <link href="/oclint/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oclint/javascripts/modernizr-2.0.js"></script>
+  <script src="/oclint/javascripts/ender.js"></script>
+  <script src="/oclint/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/oclint/atom.xml" rel="alternate" title="OCLint" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -33,32 +33,32 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/mo/">M.O.</a></h1>
+  <h1><a href="/oclint/">OCLint</a></h1>
   
-    <h2>a static source code analysis tool for Objective-C and related languages</h2>
+    <h2>A static source code analysis tool for Objective-C and related languages</h2>
   
 </hgroup>
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/mo/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="/oclint/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:longyiqi.github.com/mo" />
+    <input type="hidden" name="q" value="site:longyiqi.github.com/oclint" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
 <ul class="main-navigation">
-  <li><a href="/mo/">Home</a></li>
-  <li><a href="/mo/blog">Blog</a></li>
-  <li><a href="/mo/docs">Documentation</a></li>
-  <li><a href="/mo/rules">Rules</a></li>
-  <li><a href="/mo/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/mo/selfinspection.txt">Self Inspection</a></li>
-  <li><a href="/mo/license">License</a></li>
-  <li><a href="https://github.com/longyiqi/mo">Source</a></li>
+  <li><a href="/oclint/">Home</a></li>
+  <li><a href="/oclint/blog">Blog</a></li>
+  <li><a href="/oclint/docs">Documentation</a></li>
+  <li><a href="/oclint/rules">Rules</a></li>
+  <li><a href="/oclint/coverage/index.html">Code Coverage</a></li>
+  <li><a href="/oclint/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/oclint/license">License</a></li>
+  <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
 
 </nav>
@@ -68,11 +68,11 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Compiling and Testing M.O.</h1>
+    <h1 class="entry-title">Compiling and Testing OCLint</h1>
     
   </header>
   
-  <p>To compile M.O., <a href="https://github.com/longyiqi/mo">fork</a> and get a clone on your local machine.</p>
+  <p>To compile OCLint, <a href="https://github.com/longyiqi/mo">fork</a> and get a clone on your local machine.</p>
 
 <h2>Compiling LLVM/Clang</h2>
 
@@ -81,37 +81,37 @@
 <pre><code>./script/llvmClangBuild.sh
 </code></pre>
 
-<p>We will fetch submodules, configure the compilation, and build LLVM/Clang for you. The custom libclang build will be stored in MO_clone_folder/build/llvm folder. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/llvmClangBuild.sh">llvmClangBuild.sh</a> from github.)</p>
+<p>We will fetch submodules, configure the compilation, and build LLVM/Clang for you. The custom libclang build will be stored in MO_clone_folder/build/llvm folder. (Check out <a href="https://github.com/longyiqi/oclint/blob/master/script/llvmClangBuild.sh">llvmClangBuild.sh</a> from github.)</p>
 
-<h2>Compiling M.O.</h2>
+<h2>Compiling OCLint</h2>
 
-<p>To build M.O. with unit tests, please run</p>
+<p>To build OCLint with unit tests, please run</p>
 
 <pre><code>./script/moBuild.sh
 </code></pre>
 
-<p>The script will build M.O. main program, its rules, and test program for you, and run unit tests immediately after the build is success. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/moBuild.sh">moBuild.sh</a> from github.)</p>
+<p>The script will build OCLint main program, its rules, and test program for you, and run unit tests immediately after the build is success. (Check out <a href="https://github.com/longyiqi/oclint/blob/master/script/moBuild.sh">moBuild.sh</a> from github.)</p>
 
-<p>To build a release version of M.O., simply run</p>
+<p>To build a release version of OCLint, simply run</p>
 
 <pre><code>./script/moInstallationBuild.sh &lt;installation_path&gt;
 </code></pre>
 
-<p>It will build M.O. main program, its rules, and copy M.O. related libraries including its own rule libraries and libclang to the target installation path under a version number folder. If you get the same version number as this website provides, then it should be exactly same as we build our beta release version with this script. (Check out <a href="https://github.com/longyiqi/mo/blob/master/script/moInstallationBuild.sh">moInstallationBuild.sh</a> from github.)</p>
+<p>It will build OCLint main program, its rules, and copy OCLint related libraries including its own rule libraries and libclang to the target installation path under a version number folder. If you get the same version number as this website provides, then it should be exactly same as we build our beta release version with this script. (Check out <a href="https://github.com/longyiqi/oclint/blob/master/script/moInstallationBuild.sh">moInstallationBuild.sh</a> from github.)</p>
 
-<p>Also, we have <a href="https://github.com/longyiqi/mo/blob/master/script/moCIBuild.sh">moCIBuild.sh</a> to continuous build our test cases, code coverage report and self inspect M.O. source code with our awasome <a href="http://jenkins-ci.org/">Jenkins CI</a>. And <a href="https://github.com/longyiqi/mo/blob/master/script/moQuickBuild.sh">moQuickBuild.sh</a> gives you the ability to build based on the latest changes instead of a clean build, to save quite a lot of your precious time.</p>
+<p>Also, we have <a href="https://github.com/longyiqi/oclint/blob/master/script/moCIBuild.sh">moCIBuild.sh</a> to continuous build our test cases, code coverage report and self inspect OCLint source code with our awasome <a href="http://jenkins-ci.org/">Jenkins CI</a>. And <a href="https://github.com/longyiqi/oclint/blob/master/script/moQuickBuild.sh">moQuickBuild.sh</a> gives you the ability to build based on the latest changes instead of a clean build, to save quite a lot of your precious time.</p>
 
-<h2>Testing M.O.</h2>
+<h2>Testing OCLint</h2>
 
-<p>MO_clone_folder/build/mo Contains all M.O. related files with standard CMake build structure, too. You can find M.O. executable binary, test executable binary and necessary libraries in mo/bin folder. You can run</p>
+<p>OCLint_clone_folder/build/oclint Contains all OCLint related files with standard CMake build structure, too. You can find OCLint executable binary, test executable binary and necessary libraries in oclint/bin folder. You can run</p>
 
-<pre><code>./build/bin/mo_test
+<pre><code>./build/bin/oclint_test
 </code></pre>
 
-<p>to invoke the tests. If you run with CI build script, you will get the following folders/files in MO_clone_folder/build folder.</p>
+<p>to invoke the tests. If you run with CI build script, you will get the following folders/files in OCLint_clone_folder/build folder.</p>
 
 <ul>
-<li>report - Contains code coverage report generated by <a href="http://minormatter.com/zcov/">zcov</a></li>
+<li>report - Contains code coverage report generated by <a href="http://ltp.sourceforge.net/coverage/lcov.php">lcov</a></li>
 <li>sameplesinspection.txt - Results for inspections on some sample files</li>
 <li>selfinspection.txt - Results for self inspection</li>
 <li>testresult.txt - Test results</li>
