@@ -2,7 +2,7 @@
 
 MAJOR_VERSION=0.2.4
 AUTO_INCREASE_VERSION=`git log --oneline | wc -l | sed 's/ //g'`
-CURRENT_VERSION="mo.$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
+CURRENT_VERSION="oclint.$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
 
 SUCCESS=0
 INSTALLATION_PATH=$1
@@ -15,7 +15,7 @@ CWD=`pwd`
 
 if [ $SUCCESS -eq 0 ]; then
   ./script/cleanMoBuild.sh
-  mkdir -p build/mo && cd build/mo
+  mkdir -p build/oclint && cd build/oclint
 	cmake -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
 	if [ $? -ne 0 ]; then
 		SUCCESS=1

@@ -14,4 +14,4 @@
 Icon?
 build*
 *.pyc
-test/mo_test.cpp
+test/oclint_test.cpp
