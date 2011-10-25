@@ -1,18 +1,18 @@
-add_executable(mo main.cpp)
-target_link_libraries(mo 
-  MOCore
-  MORuleSet
-  MOException
-  MOReporter
-  MOUtil
-  ${MO_COMMON_LINK_LIB}
+add_executable(oclint main.cpp)
+target_link_libraries(oclint
+  OCLintCore
+  OCLintRuleSet
+  OCLintException
+  OCLintReporter
+  OCLintUtil
+  ${OCLINT_COMMON_LINK_LIB}
   dl
   )
 
 if(IS_CI_BUILD)
-target_link_libraries(mo 
+target_link_libraries(oclint
   profile_rt
   )
 endif()
 
-add_subdirectory(mo)
+add_subdirectory(oclint)

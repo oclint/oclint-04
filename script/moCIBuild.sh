@@ -5,7 +5,7 @@ SUCCESS=0
 
 ./script/cleanMoBuild.sh
 ./script/generateCxxTest.sh
-mkdir -p build/mo && cd build/mo
+mkdir -p build/oclint && cd build/oclint
 if [ $SUCCESS -eq 0 ]; then
 	cmake -D IS_CI_BUILD=1 -D CMAKE_CXX_COMPILER=$CWD/build/llvm/bin/clang++ -D LLVM_SRC_DIR=$CWD/third-party/llvm -D LLVM_BINARY_DIR=$CWD/build/llvm $CWD
 	if [ $? -ne 0 ]; then
@@ -21,14 +21,14 @@ fi
 cp ../llvm/lib/liblibclang.3.0.dylib bin/
 if [ $SUCCESS -eq 0 ]; then
 	cp -r ../../test/samples test/samples
-	./bin/mo_test > ../testresults.txt
+	./bin/oclint_test > ../testresults.txt
 	mkdir coverage
-	rm src/impl/mo/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
-	rm src/impl/mo/rule/CMakeFiles/UnusedMethodParameterRule.dir/UnusedMethodParameterRule.cpp.gcno
-	rm src/impl/mo/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
-	rm src/impl/mo/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
-	rm src/impl/mo/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
-	rm src/impl/mo/rule/CMakeFiles/RedundantLocalVariableRule.dir/RedundantLocalVariableRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/UnusedLocalVariableRule.dir/UnusedLocalVariableRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/UnusedMethodParameterRule.dir/UnusedMethodParameterRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/UnreachableCodeRule.dir/UnreachableCodeRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/NPathComplexityRule.dir/NPathComplexityRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/RedundantIfStatementRule.dir/RedundantIfStatementRule.cpp.gcno
+	rm src/impl/oclint/rule/CMakeFiles/RedundantLocalVariableRule.dir/RedundantLocalVariableRule.cpp.gcno
 	for file in `find . -name '*.gcda'`; do mv $file coverage/; done
 	for file in `find . -name '*.gcno'`; do mv $file coverage/; done
 	if [ $? -ne 0 ]; then
@@ -45,7 +45,7 @@ if [ $SUCCESS -eq 0 ]; then
 	if [ $? -ne 0 ]; then
 		SUCCESS=6
 	fi
-	genhtml -o build/report -t "M.O. test coverage" --num-spaces 4 build/output.lcov
+	genhtml -o build/report -t "OCLint test coverage" --num-spaces 4 build/output.lcov
 	if [ $? -ne 0 ]; then
 		SUCCESS=7
 	fi

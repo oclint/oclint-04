@@ -1,16 +1,14 @@
-#include <iostream>
-
-using namespace std;
-
-#include "mo/ClangInstance.h"
-#include "mo/SmellFinder.h"
-#include "mo/RuleSet.h"
-#include "mo/exception/MOException.h"
-
-#include "mo/reporter/PlainTextReporter.h"
-
 #include <dlfcn.h>
 #include <dirent.h>
+#include <iostream>
+
+#include "oclint/ClangInstance.h"
+#include "oclint/SmellFinder.h"
+#include "oclint/RuleSet.h"
+#include "oclint/exception/GenericException.h"
+#include "oclint/reporter/PlainTextReporter.h"
+
+using namespace std;
 
 int dynamicLoadRules(string executablePath, string relativeRulesPath) {
   string absoluteRulesPath = executablePath.substr(0, executablePath.find_last_of("/") + 1) + relativeRulesPath;
@@ -69,7 +67,7 @@ int main(int argc, char* argv[]) {
     try {
       execute_flag = execute(argv + 1, argc - 1);
     }
-    catch (MOException& ex) {
+    catch (GenericException& ex) {
       cout << "Exception: " << ex.message << endl;
     }
   }

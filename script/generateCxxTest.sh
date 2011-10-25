@@ -1,9 +1,9 @@
 #! /bin/bash
 
-third-party/cxxtest/cxxtestgen.py --error-printer -o test/mo_test.cpp \
+third-party/cxxtest/cxxtestgen.py --error-printer -o test/oclint_test.cpp \
 test/headers/*Test.h \
-test/headers/mo/*Test.h \
-test/headers/mo/rule/*Test.h \
-test/headers/mo/util/*Test.h \
-test/headers/mo/exception/*Test.h \
-test/headers/mo/reporter/*Test.h
+test/headers/oclint/*Test.h \
+test/headers/oclint/rule/*Test.h \
+test/headers/oclint/util/*Test.h \
+test/headers/oclint/exception/*Test.h \
+test/headers/oclint/reporter/*Test.h
