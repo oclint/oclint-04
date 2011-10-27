@@ -1,6 +1,7 @@
 #include <dlfcn.h>
 #include <dirent.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -27,20 +28,18 @@ static void parseCommandLineOptions(int argc, char* argv[]) {
 }
 
 int dynamicLoadRules(string ruleDirPath) {
-  DIR *dp;
-  struct dirent *dirp;
-
-  dp = opendir(ruleDirPath.c_str());
+  DIR *dp = opendir(ruleDirPath.c_str());
   if (dp != NULL) {
+    struct dirent *dirp;
     while ((dirp = readdir(dp))) {
-      if (dirp->d_name[0] != '.') {
-        string rulePath = ruleDirPath + "/" + string(dirp->d_name);
-        void *ruleHandle = dlopen(rulePath.c_str(), RTLD_NOW);
-        if(ruleHandle == NULL){
-           cerr << dlerror() << endl;
-           closedir(dp);
-           return 3;
-        }
+      if (dirp->d_name[0] == '.') {
+        continue;
+      }
+      string rulePath = ruleDirPath + "/" + string(dirp->d_name);
+      if (dlopen(rulePath.c_str(), RTLD_NOW) == NULL){
+        cerr << dlerror() << endl;
+        closedir(dp);
+        return 3;
       }
     }
     closedir(dp);
@@ -123,53 +122,78 @@ char** getArgv(vector<string> argVector, string input) {
   return argv;
 }
 
-int reportSmells(ClangInstance& instance, PlainTextReporter& reporter) {
+int reportSmells(ClangInstance& instance, PlainTextReporter& reporter, ostream& out) {
   int numberOfSmells = 0;
   if (instance.hasWarnings()) {
-    cout << instance.reportWarnings(reporter);
-    numberOfSmells -= instance.warnings().size();
+    out << instance.reportWarnings(reporter);
+    numberOfSmells += instance.warnings().size();
   }
   SmellFinder smellFinder;
   if (smellFinder.hasSmell(instance.getTranslationUnit())) {
-    cout << smellFinder.reportSmells(reporter);
-    numberOfSmells -= smellFinder.numberOfViolations();
+    out << smellFinder.reportSmells(reporter);
+    numberOfSmells += smellFinder.numberOfViolations();
   }
   return numberOfSmells;
 }
 
-int execute() {
+int executeFile(int argc, char** argv, ostream& out) {
   PlainTextReporter reporter;
+  ClangInstance instance;
+  instance.compileSourceFileToTranslationUnit(argv, argc);
+  if (instance.hasErrors()) {
+    out << instance.reportErrors(reporter);
+    return instance.errors().size();
+  }
+  return reportSmells(instance, reporter, out);
+}
+
+int execute(ostream& out) {
   vector<string> argVector = getCompilerArguments();
   int argc = argVector.size() + 1;
   int totalNumberOfSmells = 0;
   for (unsigned i = 0; i < argInputs.size(); i++) {
     char** argv = getArgv(argVector, argInputs[i]);
-    ClangInstance instance;
-    instance.compileSourceFileToTranslationUnit(argv, argc);
-    if (instance.hasErrors()) {
-      cout << instance.reportErrors(reporter);
-      totalNumberOfSmells += 1;
-      continue;
-    }
-    totalNumberOfSmells += reportSmells(instance, reporter);
+    totalNumberOfSmells += executeFile(argc, argv, out);
   }
   return totalNumberOfSmells;
 }
 
+ostream* outStream() {
+  if (argOutput == "-") {
+    return &cout;
+  }
+  ofstream *out = new ofstream(argOutput.c_str());
+  if (!out->is_open()) {
+    throw GenericException("Cannot open file " + argOutput);
+  }
+  return out;
+}
+
+void disposeOutStream(ostream* out) {
+  if (out && argOutput != "-") {
+    ofstream *fout = (ofstream *)out;
+    fout->close();
+  }
+}
+
 int main(int argc, char* argv[]) {
+  ostream *out;
   parseCommandLineOptions(argc, argv);
   if (consumeArgRulesPath(argv[0]) == 0 && RuleSet::numberOfRules() > 0) {
     try {
-      return execute();
+      out = outStream();
+      int returnValue = execute(*out);
+      disposeOutStream(out);
+      return returnValue;
     }
     catch (GenericException& ex) {
-      cout << "Exception: " << ex.message << endl;
-      return 97;
+      cerr << "Exception: " << ex.message << endl;
+      return -3;
     }
   }
   else {
-    cout << "No rule found" << endl;
-    return 98;
+    cerr << "No rule found" << endl;
+    return -2;
   }
-  return 99;
+  return -1;
 }

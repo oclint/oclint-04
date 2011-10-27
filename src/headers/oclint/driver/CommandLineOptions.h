@@ -8,7 +8,7 @@ using namespace cl;
 // input and output
 list<string> argInputs(Positional, desc("<input files>"), OneOrMore);
 //opt<string> argXCodeProject("xcode", desc("Specify the XCode project to inspect on"), value_desc("xcode project or workspace"), init("-"));
-//opt<string> argOutput("o", desc("Write output to <file>"), value_desc("file"), init("-"));
+opt<string> argOutput("o", desc("Write output to <file>"), value_desc("file"), init("-"));
 //opt<string> argHtmlOutput("html", desc("Write HTML output to <file>"), value_desc("file"), init("-"));
 
 // compiler configuration
