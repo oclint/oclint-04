@@ -11,6 +11,7 @@
 #include "oclint/RuleConfiguration.h"
 #include "oclint/exception/GenericException.h"
 #include "oclint/reporter/PlainTextReporter.h"
+#include "oclint/reporter/HTMLReporter.h"
 #include "oclint/driver/CommandLineOptions.h"
 
 using namespace std;
@@ -122,29 +123,35 @@ char** getArgv(vector<string> argVector, string input) {
   return argv;
 }
 
-int reportSmells(ClangInstance& instance, PlainTextReporter& reporter, ostream& out) {
+Reporter* reporter() {
+  if (argReportType == html) {
+    return new HTMLReporter();
+  }
+  return new PlainTextReporter();
+}
+
+int reportSmells(ClangInstance& instance, ostream& out) {
   int numberOfSmells = 0;
   if (instance.hasWarnings()) {
-    out << instance.reportWarnings(reporter);
+    out << instance.reportWarnings(*reporter());
     numberOfSmells += instance.warnings().size();
   }
   SmellFinder smellFinder;
   if (smellFinder.hasSmell(instance.getTranslationUnit())) {
-    out << smellFinder.reportSmells(reporter);
+    out << smellFinder.reportSmells(*reporter());
     numberOfSmells += smellFinder.numberOfViolations();
   }
   return numberOfSmells;
 }
 
 int executeFile(int argc, char** argv, ostream& out) {
-  PlainTextReporter reporter;
   ClangInstance instance;
   instance.compileSourceFileToTranslationUnit(argv, argc);
   if (instance.hasErrors()) {
-    out << instance.reportErrors(reporter);
+    out << instance.reportErrors(*reporter());
     return instance.errors().size();
   }
-  return reportSmells(instance, reporter, out);
+  return reportSmells(instance, out);
 }
 
 int execute(ostream& out) {
