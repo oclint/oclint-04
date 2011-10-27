@@ -19,6 +19,7 @@ public:
   static void addConfiguration(string key, string value);
   static bool hasKey(string key);
   static string valueForKey(string key);
+  static void removeAll();
 };
 
 #endif

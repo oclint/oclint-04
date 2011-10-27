@@ -3,6 +3,7 @@ add_library(OCLintCoreTest
   SmellFinderTest.cpp
   ViolationSetTest.cpp
   RuleSetTest.cpp
+  RuleConfigurationTest.cpp
   )
 
 add_subdirectory(exception)

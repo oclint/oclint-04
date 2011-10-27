@@ -30,3 +30,9 @@ bool RuleConfiguration::hasKey(string key) {
 string RuleConfiguration::valueForKey(string key) {
   return _configurations->at(indexOfKey(key)).second;
 }
+
+void RuleConfiguration::removeAll() {
+  if (_configurations != NULL) {
+    _configurations = NULL;
+  }
+}
