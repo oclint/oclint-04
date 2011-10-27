@@ -1,5 +1,6 @@
 #include "oclint/rule/LongMethodRule.h"
 #include "oclint/RuleSet.h"
+#include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/util/CursorUtil.h"
@@ -27,11 +28,16 @@ bool LongMethodRule::isMethodDefination(Decl* decl) {
   return false;
 }
 
+int LongMethodRule::maxAllowedMethodLength() {
+  string key = "METHOD_LENGTH";
+  return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_NUMBER_OF_STATEMENTS;
+}
+
 void LongMethodRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (isMethodDefination(decl)) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(decl->getBody());
-    if (compoundStmt && compoundStmt->size() > DEFAULT_MAX_ALLOWED_NUMBER_OF_STATEMENTS) {
+    if (compoundStmt && compoundStmt->size() > maxAllowedMethodLength()) {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }

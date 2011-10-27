@@ -22,4 +22,4 @@ opt<string> argArch("arch", desc("Specify which architecture (e.g. ppc, i386, x8
 
 // oclint configuration
 list<string> argRulesPath("R", Prefix, cl::desc("Add directory to rule loading path"), cl::value_desc("directory"), ZeroOrMore);
-//list<string> argRuleConfiguration("rc", desc("Change the baheviour of rules"), value_desc("paramemter>=<value"), ZeroOrMore);
+list<string> argRuleConfiguration("rc", desc("Change the baheviour of rules"), value_desc("paramemter>=<value"), ZeroOrMore);

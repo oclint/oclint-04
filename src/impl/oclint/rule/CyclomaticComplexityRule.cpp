@@ -1,5 +1,6 @@
 #include "oclint/rule/CyclomaticComplexityRule.h"
 #include "oclint/RuleSet.h"
+#include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/util/CursorUtil.h"
@@ -23,11 +24,16 @@ using namespace clang;
 
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
+int CyclomaticComplexityRule::maxAllowedCCN() {
+  string key = "CYCLOMATIC_COMPLEXITY";
+  return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_CCN;
+}
+
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorUtil::getDecl(node);
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
     int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
-    if (ccn > DEFAULT_MAX_ALLOWED_CCN) {
+    if (ccn > maxAllowedCCN()) {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }

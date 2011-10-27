@@ -7,6 +7,7 @@
 #include "oclint/ClangInstance.h"
 #include "oclint/SmellFinder.h"
 #include "oclint/RuleSet.h"
+#include "oclint/RuleConfiguration.h"
 #include "oclint/exception/GenericException.h"
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/driver/CommandLineOptions.h"
@@ -87,10 +88,21 @@ void consumeListArguments(vector<string>& argVector) {
   consumeListArgument("I", argIncludeSearchPath, argVector);
 }
 
+void consumeRuleConfigurations() {
+  for (unsigned i = 0; i < argRuleConfiguration.size(); ++i) {
+    string configuration = argRuleConfiguration[i];
+    int indexOfSeparator = configuration.find_last_of("=");
+    string key = configuration.substr(0, indexOfSeparator);
+    string value = configuration.substr(indexOfSeparator + 1, configuration.size() - indexOfSeparator - 1);
+    RuleConfiguration::addConfiguration(key, value);
+  }
+}
+
 vector<string> getCompilerArguments() {
   vector<string> argv;
   consumeOptArguments(argv);
   consumeListArguments(argv);
+  consumeRuleConfigurations();
   return argv;
 }
 

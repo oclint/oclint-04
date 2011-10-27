@@ -5,7 +5,8 @@ add_library(OCLintCore
   ViolationSet.cpp
   )
 
-add_library(OCLintRuleSet
+add_library(OCLintRuleSet  
+  RuleConfiguration.cpp
   RuleSet.cpp
 )
 
