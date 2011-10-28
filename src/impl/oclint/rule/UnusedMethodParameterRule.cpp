@@ -18,6 +18,10 @@ bool UnusedMethodParameterRule::isFunctionDeclaration(DeclContext *context) {
   return decl && !decl->doesThisDeclarationHaveABody();
 }
 
+bool UnusedMethodParameterRule::isBlockDeclaration(DeclContext *context) {
+  return dyn_cast<BlockDecl>(context);
+}
+
 bool UnusedMethodParameterRule::isObjCMethodDeclaration(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
   return DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(decl);
@@ -43,6 +47,7 @@ bool UnusedMethodParameterRule::isCppOverrideFunction(DeclContext *context) {
 
 bool UnusedMethodParameterRule::isExistingByContract(DeclContext *context) {
   return isFunctionDeclaration(context) ||
+         isBlockDeclaration(context) ||
          isObjCMethodDeclaration(context) || 
          isObjCOverrideMethod(context) || 
          isCppFunctionDeclaration(context) || 

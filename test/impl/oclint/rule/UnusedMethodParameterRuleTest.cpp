@@ -165,6 +165,16 @@ void UnusedMethodParameterRuleTest::testObjCMethodImplementedForProtocolShouldBe
   checkRule(cursorPair, false);
 }
 
+void UnusedMethodParameterRuleTest::testBlockDeclarationShouldBeIgnored() {
+  StringSourceCode strCode("void callBlock(void(^yield)(int)) { yield(1); }\n\
+    void caller() { callBlock(^(int number) {}); }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Decl *decl = CursorUtil::getDecl(node);
+    return decl && isa<ParmVarDecl>(decl);
+  }, -1);
+  checkRule(cursorPair, false);
+}
+
 void UnusedMethodParameterRuleTest::testUnusedLocalVariableShouldBeIgnoredInThisRule() {
   checkRule("int aMethod() { int a; return 0; }", false);
 }
