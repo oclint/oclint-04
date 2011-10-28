@@ -8,9 +8,10 @@ private:
 public:
   void setUp();
   void tearDown();
+  void testHeader();
+  void testFooter();
   void testReportDiagnostics();
   void testReportEmptyDiagnostics();
-  void testCursorLocationToPlainText();
   void testReportViolations();
   void testReportEmptyViolations();
 };

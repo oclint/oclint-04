@@ -4,11 +4,14 @@
 #include "oclint/Reporter.h"
 
 class PlainTextReporter : public Reporter {
+private:  
+  const string cursorLocationToPlainText(const CXCursor& cursor) const;
+  
 public:
+  virtual const string header() const;
   virtual const string reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const;
   virtual const string reportViolations(const vector<Violation>& violations) const;
-  
-  const string cursorLocationToPlainText(const CXCursor& cursor) const;
+  virtual const string footer() const;
 };
 
 #endif

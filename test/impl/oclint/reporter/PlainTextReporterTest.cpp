@@ -18,6 +18,14 @@ void PlainTextReporterTest::tearDown() {
   delete _reporter;
 }
 
+void PlainTextReporterTest::testHeader() {
+  TS_ASSERT_EQUALS(_reporter->header(), "OCLint Report:\n\n");
+}
+
+void PlainTextReporterTest::testFooter() {
+  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.2.6]\n");
+}
+
 void PlainTextReporterTest::testReportDiagnostics() {
   StringSourceCode strCode("int main() { return 0 }", "cpp");
   CXIndex index = clang_createIndex(0, 0);
@@ -35,18 +43,6 @@ void PlainTextReporterTest::testReportEmptyDiagnostics() {
   string diagnosticMessage;
   vector<CXDiagnostic> diagnostics;
   TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
-}
-
-void PlainTextReporterTest::testCursorLocationToPlainText() {
-  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
-  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
-    return stmt && isa<SwitchStmt>(stmt);
-  });
-  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
-  string cursorLocationPlainText = ":1:25";
-  string reportString = _reporter->cursorLocationToPlainText(cursorPair.first);
-  TS_ASSERT_EQUALS(reportString.substr(tmpFileNameLength), cursorLocationPlainText);
 }
 
 void PlainTextReporterTest::testReportViolations() {

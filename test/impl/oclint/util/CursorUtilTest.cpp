@@ -1,9 +1,11 @@
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Decl.h>
+#include <clang/AST/Stmt.h>
 
 #include "oclint/util/CursorUtilTest.h"
 #include "oclint/StringSourceCode.h"
 #include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
 
 CXCursor getNullCursor() {
   return clang_getNullCursor();
@@ -108,4 +110,32 @@ void CursorUtilTest::testIsCursorDeclaredInHeaderFiles() {
     return decl && isa<FunctionDecl>(decl);
   }, -1);
   TS_ASSERT(CursorUtil::isCursorDeclaredInCurrentFile(cursorPair.first));
+}
+
+void CursorUtilTest::testGetFileName() {
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  TS_ASSERT_EQUALS(CursorUtil::getFileName(cursorPair.first).length(), tmpFileNameLength);
+}
+
+void CursorUtilTest::testGetLineNumber() {
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
+  TS_ASSERT_EQUALS(CursorUtil::getLineNumber(cursorPair.first), "1");
+}
+
+void CursorUtilTest::testGetColumnNumber() {
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorUtil::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
+  TS_ASSERT_EQUALS(CursorUtil::getColumnNumber(cursorPair.first), "25");
 }

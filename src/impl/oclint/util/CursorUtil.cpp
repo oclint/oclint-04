@@ -62,3 +62,40 @@ bool CursorUtil::isCursorDeclaredInCurrentFile(CXCursor node) {
   SourceLocation sourceLocation = CursorUtil::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
   return sourceLocation.isInvalid();
 }
+
+string CursorUtil::itoa(int i) {
+  if (i == 0) {
+    return "0";
+  }
+  string intermediateString = "";
+  while (i > 0) {
+    intermediateString += i % 10 + 48;
+    i /= 10;
+  }
+  string returnString = "";
+  for (int index = 0; index < intermediateString.length(); index++) {
+    returnString += intermediateString[intermediateString.length() - index - 1];
+  }
+  return returnString;
+}
+
+string CursorUtil::getFileName(CXCursor cursor) {
+  CXFile file;
+  clang_getSpellingLocation(clang_getCursorLocation(cursor), &file, 0, 0, 0);
+  CXString fileStr = clang_getFileName(file);
+  string fileName(clang_getCString(fileStr));
+  clang_disposeString(fileStr);
+  return fileName;
+}
+
+string CursorUtil::getLineNumber(CXCursor cursor) {
+  unsigned line;
+  clang_getSpellingLocation(clang_getCursorLocation(cursor), 0, &line, 0, 0);
+  return itoa(line);
+}
+
+string CursorUtil::getColumnNumber(CXCursor cursor) {
+  unsigned column;
+  clang_getSpellingLocation(clang_getCursorLocation(cursor), 0, 0, &column, 0);
+  return itoa(column);
+}

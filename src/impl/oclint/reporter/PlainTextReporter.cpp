@@ -1,8 +1,17 @@
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
 #include "oclint/reporter/PlainTextReporter.h"
+#include "oclint/util/CursorUtil.h"
 
 #include <sstream> // Think about it
+
+const string PlainTextReporter::header() const {
+  return "OCLint Report:\n\n";
+}
+
+const string PlainTextReporter::footer() const {
+  return "\n[OCLint (http://oclint.org) v0.2.6]\n";
+}
 
 const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
   string formatedDiagnostics;
@@ -30,12 +39,5 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
 }
 
 const string PlainTextReporter::cursorLocationToPlainText(const CXCursor& cursor) const {
-  stringstream locationStream;
-  CXFile file;
-  unsigned line, column;
-  clang_getSpellingLocation(clang_getCursorLocation(cursor), &file, &line, &column, 0);
-  CXString violatedFile = clang_getFileName(file);
-  locationStream << clang_getCString(violatedFile) << ":" << line << ":" << column;
-  clang_disposeString(violatedFile);
-  return locationStream.str();
+  return CursorUtil::getFileName(cursor) + ":" + CursorUtil::getLineNumber(cursor) + ":" + CursorUtil::getColumnNumber(cursor);
 }

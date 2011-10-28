@@ -18,7 +18,7 @@ using namespace std;
 
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl
-    << "  oclint version 0.2.4" << endl
+    << "  oclint version 0.2.6" << endl
     << "  llvm version 3.0" << endl;
 }
 
@@ -156,12 +156,13 @@ int executeFile(int argc, char** argv, ostream& out) {
 
 int execute(ostream& out) {
   vector<string> argVector = getCompilerArguments();
-  int argc = argVector.size() + 1;
   int totalNumberOfSmells = 0;
+  out << reporter()->header();
   for (unsigned i = 0; i < argInputs.size(); i++) {
     char** argv = getArgv(argVector, argInputs[i]);
-    totalNumberOfSmells += executeFile(argc, argv, out);
+    totalNumberOfSmells += executeFile(argVector.size() + 1, argv, out);
   }
+  out << reporter()->footer();
   return totalNumberOfSmells;
 }
 

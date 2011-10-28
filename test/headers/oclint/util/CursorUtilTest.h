@@ -16,4 +16,7 @@ public:
   void testGetCursorASTContext();
   void testIsCursorDeclaredInCurrentFile();
   void testIsCursorDeclaredInHeaderFiles();
+  void testGetFileName();
+  void testGetLineNumber();
+  void testGetColumnNumber();
 };
