@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OCLint]]></title>
-  <link href="http://longyiqi.github.com/oclint/atom.xml" rel="self"/>
-  <link href="http://longyiqi.github.com/oclint/"/>
-  <updated>2011-10-24T22:54:08-05:00</updated>
-  <id>http://longyiqi.github.com/oclint/</id>
+  <link href="http://oclint.org/atom.xml" rel="self"/>
+  <link href="http://oclint.org/"/>
+  <updated>2011-10-29T12:19:18-05:00</updated>
+  <id>http://oclint.org/</id>
   <author>
     <name><![CDATA[Longyi Qi]]></name>
     

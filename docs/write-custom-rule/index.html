@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Write Custom Rule - OCLint - A static source code analysis tool for Objective-C and related languages</title>
+  <title>Write Custom Rule - OCLint, a static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
   
@@ -18,13 +18,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://longyiqi.github.com/oclint/docs/write-custom-rule/">
-  <link href="/oclint/favicon.png" rel="icon">
-  <link href="/oclint/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/oclint/javascripts/modernizr-2.0.js"></script>
-  <script src="/oclint/javascripts/ender.js"></script>
-  <script src="/oclint/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/oclint/atom.xml" rel="alternate" title="OCLint" type="application/atom+xml">
+  <link rel="canonical" href="http://oclint.org/docs/write-custom-rule/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="OCLint" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -33,7 +33,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/oclint/">OCLint</a></h1>
+  <h1><a href="/">OCLint</a></h1>
   
     <h2>A static source code analysis tool for Objective-C and related languages</h2>
   
@@ -41,23 +41,23 @@
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/oclint/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:longyiqi.github.com/oclint" />
+    <input type="hidden" name="q" value="site:oclint.org" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
 <ul class="main-navigation">
-  <li><a href="/oclint/">Home</a></li>
-  <li><a href="/oclint/blog">Blog</a></li>
-  <li><a href="/oclint/docs">Documentation</a></li>
-  <li><a href="/oclint/rules">Rules</a></li>
-  <li><a href="/oclint/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/oclint/selfinspection.txt">Self Inspection</a></li>
-  <li><a href="/oclint/license">License</a></li>
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Documentation</a></li>
+  <li><a href="/rules">Rules</a></li>
+  <li><a href="/coverage/index.html">Code Coverage</a></li>
+  <li><a href="/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/license">License</a></li>
   <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
 
@@ -78,7 +78,7 @@
 
 <h2>Write Rule</h2>
 
-<p>In front of all, you need to have a working copy of OCLint, you can read this document about <a href="/oclint/docs/compile">how to compile OCLint</a></p>
+<p>In front of all, you need to have a working copy of OCLint, you can read this document about <a href="/docs/compile">how to compile OCLint</a></p>
 
 <p>As SampleRule shown below, your rule must be a sub-class of Rule. And write your own logic in the apply() function, and give rule name in name() function. Please notice that, to make this rule can be dynamically loaded into the main program, please initialize it in the static constructor.</p>
 
@@ -142,9 +142,9 @@
 
 <h2>Use Rule</h2>
 
-<p>Same as other rules, you can take the advantages of <a href="/oclint/docs/rules"><em>plug-and-use</em></a>, and use your rules wisely based on your project.</p>
+<p>Same as other rules, you can take the advantages of <a href="/docs/rules"><em>plug-and-use</em></a>, and use your rules wisely based on your project.</p>
 
-<p><a href="/oclint/docs/how-it-works">How it works</a> will briefly show you the architecture of OCLint</p>
+<p><a href="/docs/how-it-works">How it works</a> will briefly show you the architecture of OCLint</p>
 
   
     <footer>
