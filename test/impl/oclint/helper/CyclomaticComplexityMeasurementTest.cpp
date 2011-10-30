@@ -1,5 +1,5 @@
-#include "oclint/util/CyclomaticComplexityMeasurementTest.h"
-#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
+#include "oclint/helper/CyclomaticComplexityMeasurementTest.h"
+#include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 
 void CyclomaticComplexityMeasurementTest::setUp() {
   _index = clang_createIndex(0, 0);
@@ -12,7 +12,7 @@ void CyclomaticComplexityMeasurementTest::tearDown() {
 }
 
 void CyclomaticComplexityMeasurementTest::checkCCN(StringSourceCode sourceCode, int expectedCCN) {
-  _translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(sourceCode, _index);
+  _translationUnit = StringSourceCodeToTranslationUnitHelper::compileStringSourceCodeToTranslationUnit(sourceCode, _index);
   TS_ASSERT_EQUALS(CyclomaticComplexityMeasurement::getCCNOfCursor(clang_getTranslationUnitCursor(_translationUnit)), expectedCCN);
 }
 

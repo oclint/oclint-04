@@ -3,8 +3,8 @@
 #include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/DeclUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/DeclHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -22,7 +22,7 @@ int LongParameterListRule::maxAllowedNumberOfParameters() {
 int LongParameterListRule::numberOfParameters(Decl *decl) {
   if (decl) {
     ObjCMethodDecl *objcMethodDecl = dyn_cast<ObjCMethodDecl>(decl);
-    if (objcMethodDecl && !DeclUtil::isObjCMethodDeclaredInSuperClass(objcMethodDecl) && !DeclUtil::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
+    if (objcMethodDecl && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl) && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
       return objcMethodDecl->getNumSelectorArgs();
     }
     
@@ -35,7 +35,7 @@ int LongParameterListRule::numberOfParameters(Decl *decl) {
 }
 
 void LongParameterListRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+  Decl *decl = CursorHelper::getDecl(node);
   if (numberOfParameters(decl) > maxAllowedNumberOfParameters()) {
     Violation violation(node, this);
     violationSet.addViolation(violation);

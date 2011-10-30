@@ -3,8 +3,8 @@
 #include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CyclomaticComplexityMeasurement.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CyclomaticComplexityMeasurement.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -30,7 +30,7 @@ int CyclomaticComplexityRule::maxAllowedCCN() {
 }
 
 void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+  Decl *decl = CursorHelper::getDecl(node);
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
     int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
     if (ccn > maxAllowedCCN()) {

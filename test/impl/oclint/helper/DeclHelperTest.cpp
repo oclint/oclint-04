@@ -1,7 +1,7 @@
-#include "oclint/util/DeclUtilTest.h"
-#include "oclint/util/DeclUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/DeclHelperTest.h"
+#include "oclint/helper/DeclHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
+#include "oclint/helper/CursorHelper.h"
 #include "oclint/StringSourceCode.h"
 
 #include <clang/AST/Decl.h>
@@ -10,105 +10,105 @@
 
 using namespace clang;
 
-void DeclUtilTest::testObjCMethodDeclaredInCurrentClass() {
+void DeclHelperTest::testObjCMethodDeclaredInCurrentClass() {
   StringSourceCode strCode("\
   @interface BaseClass\n- (void)aMethod:(int)a;\n@end\n\
   @interface SubClass : BaseClass\n- (void)bMethod:(int)a;\n@end\n\
   @implementation SubClass\n- (void)bMethod:(int)a {}\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   }, -1);
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(!DeclUtil::isObjCMethodDeclaredInSuperClass(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
-  TS_ASSERT(!DeclUtil::isObjCMethodDeclaredInProtocol(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(!DeclHelper::isObjCMethodDeclaredInSuperClass(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  TS_ASSERT(!DeclHelper::isObjCMethodDeclaredInProtocol(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclaredInSuperClass() {
+void DeclHelperTest::testObjCMethodDeclaredInSuperClass() {
   StringSourceCode strCode("\
   @interface BaseClass\n- (void)aMethod:(int)a;\n@end\n\
   @interface SubClass : BaseClass\n@end\n\
   @implementation SubClass\n- (void)aMethod:(int)a {}\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   }, -1);
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isObjCMethodDeclaredInSuperClass(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isObjCMethodDeclaredInSuperClass(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclaredInProtocol() {
+void DeclHelperTest::testObjCMethodDeclaredInProtocol() {
   StringSourceCode strCode("\
   @protocol AProtocol\n- (void)aMethod:(int)a;\n@end\n\
   @interface AClass <AProtocol>\n@end\n\
   @implementation AClass\n- (void)aMethod:(int)a {}\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   }, -1);
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isObjCMethodDeclaredInProtocol(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isObjCMethodDeclaredInProtocol(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclLocatedInInterface() {
+void DeclHelperTest::testObjCMethodDeclLocatedInInterface() {
   StringSourceCode strCode("@interface AnInterface\n- (void)aMethod:(int)a;\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   });
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclLocatedInProtocol() {
+void DeclHelperTest::testObjCMethodDeclLocatedInProtocol() {
   StringSourceCode strCode("@protocol AProtocol\n- (void)aMethod:(int)a;\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   });
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclLocatedInCategory() {
+void DeclHelperTest::testObjCMethodDeclLocatedInCategory() {
   StringSourceCode strCode("@interface AnInterface\n- (void)aMethod:(int)a;\n@end\n\
   @interface AnInterface (ACategory)\n-(void)bMethod:(int)b;\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   }, -1);
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testObjCMethodDeclLocatedInImplementation() {
+void DeclHelperTest::testObjCMethodDeclLocatedInImplementation() {
   StringSourceCode strCode("@interface AnInterface\n- (void)aMethod:(int)a;\n@end\n\
   @implementation AnInterface\n-(void)bMethod:(int)b;\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   }, -1);
-  Decl *objCMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(!DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
+  Decl *objCMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(!DeclHelper::isObjCMethodDeclLocatedInInterfaceContainer(dyn_cast<ObjCMethodDecl>(objCMethodDecl)));
 }
 
-void DeclUtilTest::testCppMethodDeclLocatedInCppDeclaration() {
+void DeclHelperTest::testCppMethodDeclLocatedInCppDeclaration() {
   StringSourceCode strCode("class AClass { int aMethod(int a); };\n\
   int AClass::aMethod(int a) { return 0; }", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<CXXMethodDecl>(decl);
   });
-  Decl *cppMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isCppMethodDeclLocatedInCppRecordDecl(dyn_cast<CXXMethodDecl>(cppMethodDecl)));
+  Decl *cppMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isCppMethodDeclLocatedInCppRecordDecl(dyn_cast<CXXMethodDecl>(cppMethodDecl)));
 }
 
-void DeclUtilTest::testCppMethodDeclHasNoBody() {
+void DeclHelperTest::testCppMethodDeclHasNoBody() {
   StringSourceCode strCode("class AClass { int aMethod(int a); };", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<CXXMethodDecl>(decl);
   });
-  Decl *cppMethodDecl = CursorUtil::getDecl(cursorPair.first);
-  TS_ASSERT(DeclUtil::isCppMethodDeclLocatedInCppRecordDecl(dyn_cast<CXXMethodDecl>(cppMethodDecl)));
+  Decl *cppMethodDecl = CursorHelper::getDecl(cursorPair.first);
+  TS_ASSERT(DeclHelper::isCppMethodDeclLocatedInCppRecordDecl(dyn_cast<CXXMethodDecl>(cppMethodDecl)));
 }

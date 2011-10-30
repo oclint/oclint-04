@@ -2,10 +2,10 @@
 #include <clang/AST/Decl.h>
 #include <clang/AST/Stmt.h>
 
-#include "oclint/util/CursorUtilTest.h"
+#include "oclint/helper/CursorHelperTest.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorExtractionUtil.h"
-#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
+#include "oclint/helper/CursorExtractionHelper.h"
+#include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 
 CXCursor getNullCursor() {
   return clang_getNullCursor();
@@ -26,116 +26,116 @@ CXCursor getExprCursor() {
   return cursor;
 }
 
-void CursorUtilTest::testGetDeclWithDeclCursor() {
+void CursorHelperTest::testGetDeclWithDeclCursor() {
   CXCursor cursor = getDeclCursor();
-  Decl *decl = CursorUtil::getDecl(cursor);
+  Decl *decl = CursorHelper::getDecl(cursor);
   TS_ASSERT(decl);
 }
 
-void CursorUtilTest::testGetDeclWithNotDeclCursor() {
+void CursorHelperTest::testGetDeclWithNotDeclCursor() {
   CXCursor cursor = getStmtCursor();
-  Decl *decl = CursorUtil::getDecl(cursor);
+  Decl *decl = CursorHelper::getDecl(cursor);
   TS_ASSERT(!decl);
 }
 
-void CursorUtilTest::testGetDeclWithNullCursor() {
+void CursorHelperTest::testGetDeclWithNullCursor() {
   CXCursor cursor = getNullCursor();
-  Decl *decl = CursorUtil::getDecl(cursor);
+  Decl *decl = CursorHelper::getDecl(cursor);
   TS_ASSERT(!decl);
 }
 
-void CursorUtilTest::testGetStmtWithStmtCursor() {
+void CursorHelperTest::testGetStmtWithStmtCursor() {
   CXCursor cursor = getStmtCursor();
-  Stmt *stmt = CursorUtil::getStmt(cursor);
+  Stmt *stmt = CursorHelper::getStmt(cursor);
   TS_ASSERT(stmt);
 }
 
-void CursorUtilTest::testGetStmtWithNotStmtCursor() {
+void CursorHelperTest::testGetStmtWithNotStmtCursor() {
   CXCursor cursor = getDeclCursor();
-  Stmt *stmt = CursorUtil::getStmt(cursor);
+  Stmt *stmt = CursorHelper::getStmt(cursor);
   TS_ASSERT(!stmt);
 }
 
-void CursorUtilTest::testGetStmtWithNullCursor() {
+void CursorHelperTest::testGetStmtWithNullCursor() {
   CXCursor cursor = getNullCursor();
-  Stmt *stmt = CursorUtil::getStmt(cursor);
+  Stmt *stmt = CursorHelper::getStmt(cursor);
   TS_ASSERT(!stmt);
 }
 
-void CursorUtilTest::testGetExprWithExprCursor() {
+void CursorHelperTest::testGetExprWithExprCursor() {
   CXCursor cursor = getExprCursor();
-  Expr *expr = CursorUtil::getExpr(cursor);
+  Expr *expr = CursorHelper::getExpr(cursor);
   TS_ASSERT(expr);
 }
 
-void CursorUtilTest::testGetExprWithNotExprCursor() {
+void CursorHelperTest::testGetExprWithNotExprCursor() {
   CXCursor cursor = getDeclCursor();
-  Expr *expr = CursorUtil::getExpr(cursor);
+  Expr *expr = CursorHelper::getExpr(cursor);
   TS_ASSERT(!expr);
 }
 
-void CursorUtilTest::testGetExprWithNullCursor() {
+void CursorHelperTest::testGetExprWithNullCursor() {
   CXCursor cursor = getNullCursor();
-  Expr *expr = CursorUtil::getExpr(cursor);
+  Expr *expr = CursorHelper::getExpr(cursor);
   TS_ASSERT(!expr);
 }
 
-void CursorUtilTest::testGetExprWithStmtCursor() {
+void CursorHelperTest::testGetExprWithStmtCursor() {
   CXCursor cursor = getStmtCursor();
-  Expr *expr = CursorUtil::getExpr(cursor);
+  Expr *expr = CursorHelper::getExpr(cursor);
   TS_ASSERT(!expr);
 }
 
-void CursorUtilTest::testGetCursorASTContext() {
+void CursorHelperTest::testGetCursorASTContext() {
   StringSourceCode strCode("int main() { return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     return true;
   });
-  TS_ASSERT_EQUALS(CursorUtil::getASTContext(cursorPair.first).getTranslationUnitDecl(), CursorUtil::getASTContext(cursorPair.second).getTranslationUnitDecl());
+  TS_ASSERT_EQUALS(CursorHelper::getASTContext(cursorPair.first).getTranslationUnitDecl(), CursorHelper::getASTContext(cursorPair.second).getTranslationUnitDecl());
 }
 
-void CursorUtilTest::testIsCursorDeclaredInCurrentFile() {
+void CursorHelperTest::testIsCursorDeclaredInCurrentFile() {
   StringSourceCode strCode("#import <Foundation/Foundation.h>\nint main() { return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<FunctionDecl>(decl);
   });
-  TS_ASSERT(!CursorUtil::isCursorDeclaredInCurrentFile(cursorPair.first));
+  TS_ASSERT(!CursorHelper::isCursorDeclaredInCurrentFile(cursorPair.first));
 }
 
-void CursorUtilTest::testIsCursorDeclaredInHeaderFiles() {
+void CursorHelperTest::testIsCursorDeclaredInHeaderFiles() {
   StringSourceCode strCode("#import <Foundation/Foundation.h>\nint main() { return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<FunctionDecl>(decl);
   }, -1);
-  TS_ASSERT(CursorUtil::isCursorDeclaredInCurrentFile(cursorPair.first));
+  TS_ASSERT(CursorHelper::isCursorDeclaredInCurrentFile(cursorPair.first));
 }
 
-void CursorUtilTest::testGetFileName() {
+void CursorHelperTest::testGetFileName() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<SwitchStmt>(stmt);
   });
-  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
-  TS_ASSERT_EQUALS(CursorUtil::getFileName(cursorPair.first).length(), tmpFileNameLength);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(strCode);
+  TS_ASSERT_EQUALS(CursorHelper::getFileName(cursorPair.first).length(), tmpFileNameLength);
 }
 
-void CursorUtilTest::testGetLineNumber() {
+void CursorHelperTest::testGetLineNumber() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<SwitchStmt>(stmt);
   });
-  TS_ASSERT_EQUALS(CursorUtil::getLineNumber(cursorPair.first), "1");
+  TS_ASSERT_EQUALS(CursorHelper::getLineNumber(cursorPair.first), "1");
 }
 
-void CursorUtilTest::testGetColumnNumber() {
+void CursorHelperTest::testGetColumnNumber() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<SwitchStmt>(stmt);
   });
-  TS_ASSERT_EQUALS(CursorUtil::getColumnNumber(cursorPair.first), "25");
+  TS_ASSERT_EQUALS(CursorHelper::getColumnNumber(cursorPair.first), "25");
 }

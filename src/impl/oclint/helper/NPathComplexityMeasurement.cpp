@@ -1,5 +1,5 @@
-#include "oclint/util/NPathComplexityMeasurement.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/NPathComplexityMeasurement.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/StmtCXX.h>
@@ -144,7 +144,7 @@ int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor) {
 }
 
 CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(CXCursor cursor) {
-  Stmt *stmt = CursorUtil::getStmt(cursor);
+  Stmt *stmt = CursorHelper::getStmt(cursor);
   if (stmt && isa<CompoundStmt>(stmt)) {
     return dyn_cast<CompoundStmt>(stmt);
   }
@@ -152,7 +152,7 @@ CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(CXCursor
 }
 
 CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromMethodDeclCursor(CXCursor cursor) {
-  Decl *decl = CursorUtil::getDecl(cursor);
+  Decl *decl = CursorHelper::getDecl(cursor);
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
     CompoundStmt *bodyStmt = dyn_cast<CompoundStmt>(decl->getBody());
     if (bodyStmt) {

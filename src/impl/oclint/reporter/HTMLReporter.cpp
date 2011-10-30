@@ -1,5 +1,5 @@
 #include "oclint/reporter/HTMLReporter.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
 
@@ -21,9 +21,9 @@ const string HTMLReporter::reportViolations(const vector<Violation>& violations)
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     Violation violation = violations.at(index);
     formatedViolations += "<tr><td>" + violation.rule->name() + "</td>";
-    formatedViolations += "<td>" + CursorUtil::getFileName(violation.cursor) + "</td>";
-    formatedViolations += "<td>" + CursorUtil::getLineNumber((violation.cursor)) + "</td>";
-    formatedViolations += "<td>" + CursorUtil::getColumnNumber(violation.cursor) + "</td></tr>\n";
+    formatedViolations += "<td>" + CursorHelper::getFileName(violation.cursor) + "</td>";
+    formatedViolations += "<td>" + CursorHelper::getLineNumber((violation.cursor)) + "</td>";
+    formatedViolations += "<td>" + CursorHelper::getColumnNumber(violation.cursor) + "</td></tr>\n";
   }
   return formatedViolations;
 }

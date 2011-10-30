@@ -18,52 +18,52 @@ struct CXTranslationUnitImpl {
 #include <clang/Basic/SourceManager.h>
 #include <clang/Basic/SourceLocation.h>
 
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
-Decl* CursorUtil::getDecl(CXCursor node) {
+Decl* CursorHelper::getDecl(CXCursor node) {
   if (clang_isDeclaration(clang_getCursorKind(node))) {
     return (Decl *)node.data[0];
   }
   return NULL;
 }
 
-Stmt* CursorUtil::getStmt(CXCursor node) {
+Stmt* CursorHelper::getStmt(CXCursor node) {
   if (clang_isStatement(clang_getCursorKind(node))) {
     return (Stmt *)node.data[1];
   }
   return NULL;
 }
 
-Expr* CursorUtil::getExpr(CXCursor node) {
+Expr* CursorHelper::getExpr(CXCursor node) {
   if (clang_isExpression(clang_getCursorKind(node))) {
     return (Expr *)node.data[1];
   }
   return NULL;
 }
 
-ASTContext& CursorUtil::getASTContext(CXCursor node) {
+ASTContext& CursorHelper::getASTContext(CXCursor node) {
   ASTUnit *astUnit = static_cast<ASTUnit *>(static_cast<CXTranslationUnit>(node.data[2])->TUData);
   return astUnit->getASTContext();
 }
 
-bool CursorUtil::isCursorDeclaredInCurrentFile(CXCursor node) {
+bool CursorHelper::isCursorDeclaredInCurrentFile(CXCursor node) {
   FileID fileId;
-  Decl *decl = CursorUtil::getDecl(node);
-  Stmt *stmt = CursorUtil::getStmt(node);
+  Decl *decl = CursorHelper::getDecl(node);
+  Stmt *stmt = CursorHelper::getStmt(node);
   if (decl) {
-    fileId = CursorUtil::getASTContext(node).getSourceManager().getFileID(decl->getLocation());
+    fileId = CursorHelper::getASTContext(node).getSourceManager().getFileID(decl->getLocation());
   }
   else if (stmt) {
-    fileId = CursorUtil::getASTContext(node).getSourceManager().getFileID(stmt->getLocStart());
+    fileId = CursorHelper::getASTContext(node).getSourceManager().getFileID(stmt->getLocStart());
   }
   else {
     return false;
   }
-  SourceLocation sourceLocation = CursorUtil::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
+  SourceLocation sourceLocation = CursorHelper::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
   return sourceLocation.isInvalid();
 }
 
-string CursorUtil::itoa(int i) {
+string CursorHelper::itoa(int i) {
   if (i == 0) {
     return "0";
   }
@@ -79,7 +79,7 @@ string CursorUtil::itoa(int i) {
   return returnString;
 }
 
-string CursorUtil::getFileName(CXCursor cursor) {
+string CursorHelper::getFileName(CXCursor cursor) {
   CXFile file;
   clang_getSpellingLocation(clang_getCursorLocation(cursor), &file, 0, 0, 0);
   CXString fileStr = clang_getFileName(file);
@@ -88,13 +88,13 @@ string CursorUtil::getFileName(CXCursor cursor) {
   return fileName;
 }
 
-string CursorUtil::getLineNumber(CXCursor cursor) {
+string CursorHelper::getLineNumber(CXCursor cursor) {
   unsigned line;
   clang_getSpellingLocation(clang_getCursorLocation(cursor), 0, &line, 0, 0);
   return itoa(line);
 }
 
-string CursorUtil::getColumnNumber(CXCursor cursor) {
+string CursorHelper::getColumnNumber(CXCursor cursor) {
   unsigned column;
   clang_getSpellingLocation(clang_getCursorLocation(cursor), 0, 0, &column, 0);
   return itoa(column);

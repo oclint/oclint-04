@@ -2,9 +2,9 @@
 #include "oclint/Violation.h"
 #include "oclint/rule/MockRule.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -30,8 +30,8 @@ void HTMLReporterTest::testFooter() {
 void HTMLReporterTest::testReportDiagnostics() {
   StringSourceCode strCode("int main() { return 0 }", "cpp");
   CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(strCode, index);
-  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitHelper::compileStringSourceCodeToTranslationUnit(strCode, index);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(strCode);
   vector<CXDiagnostic> diagnostics;
   for (int idx = 0, numberOfDiagnostics = clang_getNumDiagnostics(translationUnit); idx < numberOfDiagnostics; idx++) {
     diagnostics.push_back(clang_getDiagnostic(translationUnit, idx));
@@ -48,10 +48,10 @@ void HTMLReporterTest::testReportEmptyDiagnostics() {
 void HTMLReporterTest::testReportViolations() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<SwitchStmt>(stmt);
   });
-  int tmpFileNameLength = StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(strCode);
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(strCode);
   Violation violation(cursorPair.first, new MockRule());
   vector<Violation> violations;
   violations.push_back(violation); 

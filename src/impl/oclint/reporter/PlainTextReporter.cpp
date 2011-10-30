@@ -1,7 +1,7 @@
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
 #include "oclint/reporter/PlainTextReporter.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <sstream> // Think about it
 
@@ -39,5 +39,5 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
 }
 
 const string PlainTextReporter::cursorLocationToPlainText(const CXCursor& cursor) const {
-  return CursorUtil::getFileName(cursor) + ":" + CursorUtil::getLineNumber(cursor) + ":" + CursorUtil::getColumnNumber(cursor);
+  return CursorHelper::getFileName(cursor) + ":" + CursorHelper::getLineNumber(cursor) + ":" + CursorHelper::getColumnNumber(cursor);
 }

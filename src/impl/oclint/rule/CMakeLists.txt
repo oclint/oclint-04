@@ -12,7 +12,7 @@ macro(build_dynamic_rule name)
   target_link_libraries(${name} 
     ${OCLINT_COMMON_LINK_LIB}
     OCLintCore
-    OCLintUtil
+    OCLintHelper
     OCLintException
     )
 endmacro(build_dynamic_rule)

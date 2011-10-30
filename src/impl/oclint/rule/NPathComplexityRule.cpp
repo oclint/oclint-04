@@ -3,8 +3,8 @@
 #include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/NPathComplexityMeasurement.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/NPathComplexityMeasurement.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -22,7 +22,7 @@ int NPathComplexityRule::maxAllowedNPath() {
 }
 
 void NPathComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+  Decl *decl = CursorHelper::getDecl(node);
   if (decl) {
     if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
       int npath = NPathComplexityMeasurement::getNPathOfCursor(node);

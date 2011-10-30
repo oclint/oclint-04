@@ -3,8 +3,8 @@
 #include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/DeclUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/DeclHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Decl.h>
@@ -20,7 +20,7 @@ RuleSet LongMethodRule::rules(new LongMethodRule());
 bool LongMethodRule::isMethodDefination(Decl* decl) {
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
     CXXMethodDecl *cppMethodDecl = dyn_cast<CXXMethodDecl>(decl);
-    if (DeclUtil::isCppMethodDeclLocatedInCppRecordDecl(cppMethodDecl)) {
+    if (DeclHelper::isCppMethodDeclLocatedInCppRecordDecl(cppMethodDecl)) {
       return false;
     }
     return true;
@@ -34,7 +34,7 @@ int LongMethodRule::maxAllowedMethodLength() {
 }
 
 void LongMethodRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+  Decl *decl = CursorHelper::getDecl(node);
   if (isMethodDefination(decl)) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(decl->getBody());
     if (compoundStmt && compoundStmt->size() > maxAllowedMethodLength()) {

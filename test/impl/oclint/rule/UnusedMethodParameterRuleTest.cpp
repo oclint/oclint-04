@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/Decl.h>
 
@@ -37,7 +37,7 @@ void UnusedMethodParameterRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPai
 void UnusedMethodParameterRuleTest::checkRule(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   });
   checkRule(cursorPair, isViolated);
@@ -56,7 +56,7 @@ void UnusedMethodParameterRuleTest::testObjCMethodWithUnusedParameter() {
     @implementation AClass\n- (void)aMethod:(int)a {}\n@end";
   StringSourceCode strCode(strSource, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, true);
@@ -65,7 +65,7 @@ void UnusedMethodParameterRuleTest::testObjCMethodWithUnusedParameter() {
 void UnusedMethodParameterRuleTest::testFunctionDeclarationWithoutDefincationShouldBeIgnored() {
   StringSourceCode strCode("int aMethod(int a);", "c");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   });
   checkRule(cursorPair, false);
@@ -74,12 +74,12 @@ void UnusedMethodParameterRuleTest::testFunctionDeclarationWithoutDefincationSho
 void UnusedMethodParameterRuleTest::testFunctionDefinationWithUnusedParameterDeclarationShouldBeIgnored() {
   StringSourceCode strCode("int aMethod(int a);\nint aMethod(int a) { return 1; }", "c");
   pair<CXCursor, CXCursor> declarationCursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ParmVarDecl>(decl);
   });
   checkRule(declarationCursorPair, false);
   pair<CXCursor, CXCursor> definationCursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ParmVarDecl>(decl);
   }, -1);
   checkRule(definationCursorPair, true);
@@ -88,7 +88,7 @@ void UnusedMethodParameterRuleTest::testFunctionDefinationWithUnusedParameterDec
 void UnusedMethodParameterRuleTest::testCppMethodDeclarationWithoutDefinationShouldBeIgnored() {
   StringSourceCode strCode("class AClass { int aMethod(int a); };\nint AClass::aMethod(int a) { return 0; }", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   });
   checkRule(cursorPair, false);
@@ -100,7 +100,7 @@ void UnusedMethodParameterRuleTest::testCppMethodInheritanceFromBaseClassShouldB
   class SubClass : public BaseClass {}\n\
   int SubClass::aMethod(int a) { return 0; }", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, false);
@@ -112,7 +112,7 @@ void UnusedMethodParameterRuleTest::testCppMethodWithoutVirtualInBaseClassIsAVio
   class SubClass : public BaseClass {}\n\
   int SubClass::aMethod(int a) { return 0; }", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, true);
@@ -123,7 +123,7 @@ void UnusedMethodParameterRuleTest::testStaticFunctionShouldBeIgnored() {
   class AClass { static string aString; };\n\
   string AClass::aString(\"foo\");", "cpp");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, false);
@@ -147,7 +147,7 @@ void UnusedMethodParameterRuleTest::testObjCMethodInheritanceFromBaseInterfaceSh
   @interface SubClass : BaseClass\n@end\n\
   @implementation SubClass\n- (void)aMethod:(int)a {}\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, false);
@@ -159,7 +159,7 @@ void UnusedMethodParameterRuleTest::testObjCMethodImplementedForProtocolShouldBe
   @interface AnInterface <AProtocol>\n@end\n\
   @implementation AnInterface\n- (void)aMethod:(int)a {}\n@end", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<VarDecl>(decl);
   }, -1);
   checkRule(cursorPair, false);
@@ -169,7 +169,7 @@ void UnusedMethodParameterRuleTest::testBlockDeclarationShouldBeIgnored() {
   StringSourceCode strCode("void callBlock(void(^yield)(int)) { yield(1); }\n\
     void caller() { callBlock(^(int number) {}); }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ParmVarDecl>(decl);
   }, -1);
   checkRule(cursorPair, false);

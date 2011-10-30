@@ -2,7 +2,7 @@
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/StmtObjC.h>
@@ -16,7 +16,7 @@ bool UnreachableCodeRule::isBreakPoint(Stmt *stmt, CXCursor& parentNode) {
     return true;
   }
   if (isa<BreakStmt>(stmt) || isa<ContinueStmt>(stmt)) {
-    Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+    Stmt *parentStmt = CursorHelper::getStmt(parentNode);
     if (isLoopStmt(parentStmt)) {
       return true;
     }
@@ -30,7 +30,7 @@ bool UnreachableCodeRule::isLoopStmt(Stmt *stmt) {
 }
 
 void UnreachableCodeRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Stmt *stmt = CursorUtil::getStmt(node);
+  Stmt *stmt = CursorHelper::getStmt(node);
   if (stmt) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(stmt);
     if (compoundStmt) {

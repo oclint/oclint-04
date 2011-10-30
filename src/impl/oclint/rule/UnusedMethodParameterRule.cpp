@@ -2,8 +2,8 @@
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/DeclUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/DeclHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
@@ -24,12 +24,12 @@ bool UnusedMethodParameterRule::isBlockDeclaration(DeclContext *context) {
 
 bool UnusedMethodParameterRule::isObjCMethodDeclaration(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
-  return DeclUtil::isObjCMethodDeclLocatedInInterfaceContainer(decl);
+  return DeclHelper::isObjCMethodDeclLocatedInInterfaceContainer(decl);
 }
 
 bool UnusedMethodParameterRule::isObjCOverrideMethod(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
-  return DeclUtil::isObjCMethodDeclaredInSuperClass(decl) || DeclUtil::isObjCMethodDeclaredInProtocol(decl);
+  return DeclHelper::isObjCMethodDeclaredInSuperClass(decl) || DeclHelper::isObjCMethodDeclaredInProtocol(decl);
 }
 
 bool UnusedMethodParameterRule::isCppFunctionDeclaration(DeclContext *context) {
@@ -66,7 +66,7 @@ bool UnusedMethodParameterRule::isExistingByContract(ParmVarDecl *decl) {
 }
 
 void UnusedMethodParameterRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Decl *decl = CursorUtil::getDecl(node);
+  Decl *decl = CursorHelper::getDecl(node);
   if (decl) {
     ParmVarDecl *varDecl = dyn_cast<ParmVarDecl>(decl);
     if (varDecl && !varDecl->isUsed() && !isExistingByContract(varDecl)) {
