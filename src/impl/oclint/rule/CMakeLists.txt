@@ -6,7 +6,7 @@ macro(build_dynamic_rule name)
     )
   
   SET_TARGET_PROPERTIES(${name}
-    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/rules
+    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib/oclint/rules
     )
 
   target_link_libraries(${name} 

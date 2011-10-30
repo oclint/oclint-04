@@ -5,6 +5,11 @@
 #include <string>
 #include <vector>
 
+#include <llvm/ADT/SmallString.h>
+#include <llvm/Support/Path.h>
+#include <llvm/Support/Program.h>
+#include <llvm/Support/FileSystem.h>
+
 #include "oclint/ClangInstance.h"
 #include "oclint/SmellFinder.h"
 #include "oclint/RuleSet.h"
@@ -26,6 +31,20 @@ static void parseCommandLineOptions(int argc, char* argv[]) {
   cl::SetVersionPrinter(versionPrinter);
   cl::ParseCommandLineOptions(argc, argv, 
     "OCLint, a static code analysis tool for Objective-C and related languages\n");
+}
+
+string getExecutablePath(char *argv) {
+  llvm::SmallString<128> installedPath(argv);
+  if (llvm::sys::path::filename(installedPath) == installedPath) {
+    llvm::sys::Path intermediatePath = llvm::sys::Program::FindProgramByName(
+      llvm::sys::path::filename(installedPath.str()));
+    if (!intermediatePath.empty()) {
+      installedPath = intermediatePath.str();
+    }
+  }
+  llvm::sys::fs::make_absolute(installedPath);
+  installedPath = llvm::sys::path::parent_path(installedPath);
+  return string(installedPath.c_str());
 }
 
 int dynamicLoadRules(string ruleDirPath) {
@@ -50,8 +69,8 @@ int dynamicLoadRules(string ruleDirPath) {
 
 int consumeArgRulesPath(char* executablePath) {
   if (argRulesPath.size() == 0) {
-    string exeStrPath(executablePath);
-    string defaultRulePath = exeStrPath.substr(0, exeStrPath.find_last_of("/") + 1) + "rules";
+    string exeStrPath = getExecutablePath(executablePath);
+    string defaultRulePath = exeStrPath + "/../lib/oclint/rules";
     return dynamicLoadRules(defaultRulePath);
   }
   int returnFlag = 0;

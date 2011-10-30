@@ -9,7 +9,7 @@ const string HTMLReporter::header() const {
 }
 
 const string HTMLReporter::footer() const {
-  return "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.2.6</p>\n</body>\n</html>\n";
+  return "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.4.0</p>\n</body>\n</html>\n";
 }
 
 const string HTMLReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
