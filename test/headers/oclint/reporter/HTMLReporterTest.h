@@ -1,9 +1,9 @@
 #include <cxxtest/TestSuite.h>
-#include "oclint/reporter/PlainTextReporter.h"
+#include "oclint/reporter/HTMLReporter.h"
 
-class PlainTextReporterTest : public CxxTest::TestSuite { 
+class HTMLReporterTest : public CxxTest::TestSuite { 
 private:
-  PlainTextReporter *_reporter;
+  HTMLReporter *_reporter;
   
 public:
   void setUp();

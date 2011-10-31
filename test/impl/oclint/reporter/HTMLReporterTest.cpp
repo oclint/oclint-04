@@ -1,4 +1,4 @@
-#include "oclint/reporter/PlainTextReporterTest.h"
+#include "oclint/reporter/HTMLReporterTest.h"
 #include "oclint/Violation.h"
 #include "oclint/rule/MockRule.h"
 #include "oclint/StringSourceCode.h"
@@ -10,23 +10,24 @@
 
 using namespace std;
 
-void PlainTextReporterTest::setUp() {
-  _reporter = new PlainTextReporter();
+void HTMLReporterTest::setUp() {
+  _reporter = new HTMLReporter();
 }
 
-void PlainTextReporterTest::tearDown() {
+void HTMLReporterTest::tearDown() {
   delete _reporter;
 }
 
-void PlainTextReporterTest::testHeader() {
-  TS_ASSERT_EQUALS(_reporter->header(), "OCLint Report:\n\n");
+void HTMLReporterTest::testHeader() {
+  TS_ASSERT_EQUALS(_reporter->header(), "<html>\n<head>\n<title>OCLint Report</title>\n</head>\n<body>\n<h1>OCLint Report</h1>\n<ul>\n\
+    <table><tr><td>Rule Name</td><td>File Name</td><td>Line</td><td>Column</td></tr>");
 }
 
-void PlainTextReporterTest::testFooter() {
-  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.4.0]\n");
+void HTMLReporterTest::testFooter() {
+  TS_ASSERT_EQUALS(_reporter->footer(), "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.4.0</p>\n</body>\n</html>\n");
 }
 
-void PlainTextReporterTest::testReportDiagnostics() {
+void HTMLReporterTest::testReportDiagnostics() {
   StringSourceCode strCode("int main() { return 0 }", "cpp");
   CXIndex index = clang_createIndex(0, 0);
   CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitHelper::compileStringSourceCodeToTranslationUnit(strCode, index);
@@ -35,17 +36,16 @@ void PlainTextReporterTest::testReportDiagnostics() {
   for (int idx = 0, numberOfDiagnostics = clang_getNumDiagnostics(translationUnit); idx < numberOfDiagnostics; idx++) {
     diagnostics.push_back(clang_getDiagnostic(translationUnit, idx));
   }
-  string diagnosticMessage = ":1:22: error: expected ';' after return statement\n";
-  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics).substr(tmpFileNameLength), diagnosticMessage);
+  TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), "");
 }
 
-void PlainTextReporterTest::testReportEmptyDiagnostics() {
+void HTMLReporterTest::testReportEmptyDiagnostics() {
   string diagnosticMessage;
   vector<CXDiagnostic> diagnostics;
   TS_ASSERT_EQUALS(_reporter->reportDiagnostics(diagnostics), diagnosticMessage);
 }
 
-void PlainTextReporterTest::testReportViolations() {
+void HTMLReporterTest::testReportViolations() {
   StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Stmt *stmt = CursorHelper::getStmt(node);
@@ -55,11 +55,13 @@ void PlainTextReporterTest::testReportViolations() {
   Violation violation(cursorPair.first, new MockRule());
   vector<Violation> violations;
   violations.push_back(violation); 
-  string violationMessage = ":1:25: oclint: mock rule\n";
-  TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(tmpFileNameLength), violationMessage);
+  string violationMessageFirst = "<tr><td>mock rule</td><td>";
+  string violationMessageSecond = "</td><td>1</td><td>25</td></tr>\n";
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(0, violationMessageFirst.length()), violationMessageFirst);
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(violationMessageFirst.length() + tmpFileNameLength), violationMessageSecond);
 }
 
-void PlainTextReporterTest::testReportEmptyViolations() {
+void HTMLReporterTest::testReportEmptyViolations() {
   string violationMessage;
   vector<Violation> violations;  
   TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);

@@ -5,11 +5,12 @@ add_library(OCLintCore
   ViolationSet.cpp
   )
 
-add_library(OCLintRuleSet
+add_library(OCLintRuleSet  
+  RuleConfiguration.cpp
   RuleSet.cpp
 )
 
 add_subdirectory(exception)
 add_subdirectory(reporter)
 add_subdirectory(rule)
-add_subdirectory(util)
+add_subdirectory(helper)

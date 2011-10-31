@@ -1,5 +1,5 @@
-#ifndef OCLINT_UTIL_STRINGSOURCECODETOTRANSLATIONUNITUTIL_H
-#define OCLINT_UTIL_STRINGSOURCECODETOTRANSLATIONUNITUTIL_H
+#ifndef OCLINT_HELPER_STRINGSOURCECODETOTRANSLATIONUNITHELPER_H
+#define OCLINT_HELPER_STRINGSOURCECODETOTRANSLATIONUNITHELPER_H
 
 #include "oclint/StringSourceCode.h"
 
@@ -8,7 +8,7 @@ using namespace std;
 
 #include <clang-c/Index.h>
 
-class StringSourceCodeToTranslationUnitUtil {
+class StringSourceCodeToTranslationUnitHelper {
 public:
   static CXTranslationUnit compileStringSourceCodeToTranslationUnit(StringSourceCode code, CXIndex index);
   static int lengthOfTmpFileName(StringSourceCode code);

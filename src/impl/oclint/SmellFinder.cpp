@@ -4,7 +4,7 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/exception/GenericException.h"
 #include "oclint/RuleSet.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 SmellFinder::SmellFinder() {
   _violationSet = new ViolationSet();
@@ -19,7 +19,7 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
     throw GenericException("Inspect on an empty translation unit!");
   }
   clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
-    if (CursorUtil::isCursorDeclaredInCurrentFile(node)) {
+    if (CursorHelper::isCursorDeclaredInCurrentFile(node)) {
       RuleSet::apply(node, parentNode, *_violationSet);
     }
     return CXChildVisit_Recurse;

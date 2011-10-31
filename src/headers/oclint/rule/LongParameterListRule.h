@@ -12,6 +12,7 @@ private:
   static RuleSet rules;
   
   int numberOfParameters(clang::Decl *decl);
+  int maxAllowedNumberOfParameters();
   
 public:
   virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

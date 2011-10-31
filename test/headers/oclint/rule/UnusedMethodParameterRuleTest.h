@@ -26,5 +26,6 @@ public:
   void testObjCMethodDeclarationInsideCategoryShouldBeIgnored();
   void testObjCMethodInheritanceFromBaseInterfaceShouldBeIgnored();
   void testObjCMethodImplementedForProtocolShouldBeIgnored();
+  void testBlockDeclarationShouldBeIgnored();
   void testUnusedLocalVariableShouldBeIgnoredInThisRule();
 };

@@ -12,13 +12,13 @@ target_link_libraries(oclint_test
   OCLintExceptionTest
   OCLintReporterTest
   OCLintRuleTest
-  OCLintUtilTest
+  OCLintHelperTest
   OCLintCore
   OCLintRuleSet
   OCLintRule
   OCLintException
   OCLintReporter
-  OCLintUtil
+  OCLintHelper
   ${OCLINT_COMMON_LINK_LIB}
   dl
   )

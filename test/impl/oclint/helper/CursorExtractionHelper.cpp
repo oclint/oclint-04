@@ -1,12 +1,12 @@
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 #include "oclint/Violation.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/rule/MockRule.h"
-#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
+#include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 
 const pair<CXCursor, CXCursor> extractCursor(StringSourceCode code, bool(^nodesFilter)(CXCursor, CXCursor), int filteredIndex) {
   CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(code, index);
+  CXTranslationUnit translationUnit = StringSourceCodeToTranslationUnitHelper::compileStringSourceCodeToTranslationUnit(code, index);
   vector<pair<CXCursor, CXCursor> > *nodes = new vector<pair<CXCursor, CXCursor> >();
   clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
     nodes->push_back(make_pair(node, parentNode));

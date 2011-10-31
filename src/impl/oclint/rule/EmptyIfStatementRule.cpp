@@ -2,7 +2,7 @@
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -19,7 +19,7 @@ bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
 }
 
 void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Stmt *stmt = CursorUtil::getStmt(node);
+  Stmt *stmt = CursorHelper::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
     if (ifStmt && (isLexicalEmpty(ifStmt->getThen()) || isLexicalEmpty(ifStmt->getElse()))) {
