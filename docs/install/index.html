@@ -9,7 +9,7 @@
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="Installation          Installation of OCLint is pretty easy, download archived executable binary and libraries, and unzip them into a folder &hellip;">
+  <meta name="description" content="Installation          Installation of OCLint is pretty easy, please sure you already download the pkg installer.Terminal Installationsudo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -43,8 +43,7 @@
   <li><a href="/">Home</a></li>
   <li><a href="/docs">Documentation</a></li>
   <li><a href="/rules">Rules</a></li>
-  <li><a href="/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/dev">Development</a></li>
   <li><a href="/license">License</a></li>
   <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
@@ -60,11 +59,28 @@
     
   </header>
   
-  <p>Installation of OCLint is pretty easy, <a href="http://archives.longyiqi.com/projects/oclint/oclint.latest.zip">download</a> archived executable binary and libraries, and unzip them into a folder. That&#8217;s it.</p>
+  <p>Installation of OCLint is pretty easy, please sure you already <a href="http://archives.longyiqi.com/projects/oclint/oclint.latest.zip">download</a> the pkg installer.</p>
 
-<p>At this stage of development, OCLint is only pre-compiled for 64-bit Intel Mac OS X Lion/Snow Leopard users. For Linux users, please read <a href="/docs/compile">how to compile</a> to build OCLint yourself for now.</p>
+<h2>Terminal Installation</h2>
 
-<p>After get a copy, you can invoke OCLint in <a href="/docs/command">command line</a> terminal/console.</p>
+<pre><code>sudo installer -pkg oclint.latest.pkg -target /
+</code></pre>
+
+<h2>GUI Installation</h2>
+
+<p>Double click the pkg installer to start the installation. Please agree the BSD license and grant permission to installer for writing OCLint to your system.</p>
+
+<p><img src="/images/installation-steps/1.png">
+<img src="/images/installation-steps/2.png">
+<img src="/images/installation-steps/3.png">
+<img src="/images/installation-steps/4.png">
+<img src="/images/installation-steps/5.png"></p>
+
+<p>For your interest, no matter you install OCLint via terminal or GUI, installer will write OCLint binary file to <em>/usr/bin/oclint</em>, and related libraries to <em>/usr/lib/oclint</em>.</p>
+
+<p>After installation, you can <a href="/docs/command">invoke OCLint in terminal</a>.</p>
+
+<p><em>At this stage of development, OCLint is only pre-compiled for Mac OS X Lion/Snow Leopard users. For Linux users, please read <a href="/dev/compile">how to compile</a> to build OCLint.</em></p>
 
   
     <footer>

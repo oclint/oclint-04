@@ -43,8 +43,7 @@
   <li><a href="/">Home</a></li>
   <li><a href="/docs">Documentation</a></li>
   <li><a href="/rules">Rules</a></li>
-  <li><a href="/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/dev">Development</a></li>
   <li><a href="/license">License</a></li>
   <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
@@ -60,23 +59,54 @@
     
   </header>
   
-  <p>You can invoke OCLint in terminal and continuous integration systems. By passing arguments to the executable binary, you can configure OCLint to work in the way you want.</p>
+  <p>You can invoke OCLint in terminal and continuous integration systems. By passing arguments to the executable binary, you can configure OCLint to behave in the way you want.</p>
 
-<p>They are two types of commands, which are compiler front-end flags and OCLint configuration parameters.</p>
+<p>They are two types of parameters, which are compiler options and OCLint configuration flags. You can always type <em>oclint -help</em> to see a list of usages like followings.</p>
 
-<p>For compiler flags, OCLint uses exactly same ones as clang does (and compatible with most gcc flags). Most frequently used flags are</p>
+<pre><code>[user@localhost ~]$ oclint -help
+OVERVIEW: OCLint, a static code analysis tool for Objective-C and related languages
 
-<pre><code>-x &lt;value&gt;              Input language type
--isystem &lt;directory&gt;    Add directory to SYSTEM include search path
--include &lt;file&gt;         Include file before parsing
--arch &lt;architecture&gt;    Define the architecture of target system
+USAGE: oclint [options] &lt;input files&gt;
+
+OPTIONS:
+  -D &lt;macro&gt;               - Predefine the specified macro
+  -F &lt;directory&gt;           - Add directory to framework include search path
+  -I &lt;directory&gt;           - Add directory to include search path
+  -R &lt;directory&gt;           - Add directory to rule loading path
+  -arch &lt;arch_name&gt;        - Specify which architecture (e.g. ppc, i386, x86_64, armv7) the compilation 
+                             should targets.
+  -help                    - Display available options (-help-hidden for more)
+  -include &lt;file&gt;          - Include file before parsing
+  -isysroot &lt;directory&gt;    - Add directory to SYSTEM include search path
+  -o &lt;file&gt;                - Write output to &lt;file&gt;
+  -rc &lt;paramemter&gt;=&lt;value&gt; - Change the baheviour of rules
+  -stats                   - Enable statistics output from program
+  Choose report type:
+    -text                  - Plain text report
+    -html                  - HTML formatted report
+  -version                 - Display the version of this program
+  -x &lt;value&gt;               - Input language type
 </code></pre>
 
-<p>And there is no available OCLint configuration parameters right now, but I am getting here soon, then you can set parameters to the rules you are using for inspections.</p>
+<h2>Compiler Options</h2>
 
-<p>XCode-friendly interface is being implemented, before it&#8217;s done, here is a generic bash script used for a XCode project-</p>
+<p>For compiler options, OCLint uses exactly same ones as Clang does (and compatible with most gcc flags). Most frequently used flags are <em>-D, -F, -I, -arch, -include, -isysroot, and -x</em>.</p>
 
-<figure class='code'><figcaption><span>run_inspection.sh </span></figcaption>
+<h2>OCLint Configurations</h2>
+
+<ul>
+<li><p><strong>-R</strong>: By default, rules will be loaded from <em>/usr/lib/oclint/rules</em>. You can add multiple rule loading paths by using this flag. Rules can be loaded from multiple paths, but please aware that, once custom rule loading path is given, no matter one or many, default rules won&#8217;t be loaded any more. If default rules are needed, please either copy the default rules from <em>/usr/lib/oclint/rules</em> to your custom rule loading path, or use <em>-R /usr/lib/oclint/rules</em> to add it to the rule loading path again.</p></li>
+<li><p><strong>-rc</strong>: Parameters to change the behavior of rules. Options set here will be stored in memory, and postpone to the execution of each rules. To know the parameters for different rules, please check out the detail page for <a href="/rules">certain rules</a>.</p></li>
+<li><p><strong>-o</strong>: Path of output file. Without this flag, report will be printed to console.</p></li>
+<li><p><strong>-text</strong> or <strong>-html-</strong>: Format of report, only one type could be selected for one invocation. Plain text report is the default.</p></li>
+</ul>
+
+
+<h2>XCode Project Inspection</h2>
+
+<p>XCode friendly interface is being implemented, before it&#8217;s released, here is a generic bash script template for XCode project inspection-</p>
+
+<figure class='code'><figcaption><span>oclint-xcode.sh </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -97,32 +127,34 @@
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
+<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#! /bin/bash</span>
 </span><span class='line'>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -x objective-c -arch armv7&quot;</span>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk&quot;</span>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -I /usr/lib/clang/3.0/include&quot;</span>
+</span><span class='line'><span class="nv">LANGUAGE</span><span class="o">=</span>objective-c
+</span><span class='line'><span class="nv">ARCH</span><span class="o">=</span>armv7
+</span><span class='line'><span class="nv">SYSROOT</span><span class="o">=</span>/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk
+</span><span class='line'><span class="nv">CLANG_INCLUDE</span><span class="o">=</span>/usr/lib/clang/3.0/include
+</span><span class='line'><span class="nv">PCH_PATH</span><span class="o">=</span>target-Prefix.pch
 </span><span class='line'>
-</span><span class='line'><span class="k">for </span>folder in <span class="sb">`</span>find ../lib -type d<span class="sb">`</span>
+</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span><span class='line'><span class="k">for </span>folder in <span class="sb">`</span>find . -type d<span class="sb">`</span>
 </span><span class='line'><span class="k">do</span>
 </span><span class='line'><span class="k">  </span><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -I $folder&quot;</span>
 </span><span class='line'><span class="k">done</span>
 </span><span class='line'>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -include target-Prefix.pch&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">oclint_path</span><span class="o">=</span><span class="nv">$1</span>
-</span><span class='line'>
+</span><span class='line'><span class="nv">FILES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 </span><span class='line'><span class="k">for </span>file in <span class="sb">`</span>find . -name <span class="s2">&quot;*.m&quot;</span><span class="sb">`</span>
 </span><span class='line'><span class="k">do</span>
-</span><span class='line'>  <span class="nv">$oclint_path</span> <span class="nv">$INCLUDES</span> <span class="s2">&quot;$file&quot;</span>
+</span><span class='line'><span class="k">  </span><span class="nv">FILES</span><span class="o">=</span><span class="s2">&quot;$FILES $file&quot;</span>
 </span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>oclint -x <span class="nv">$LANGUAGE</span> -arch <span class="nv">$ARCH</span> -isysroot<span class="o">=</span><span class="nv">$SYSROOT</span> -I <span class="nv">$CLANG_INCLUDE</span> <span class="nv">$INCLUDES</span> -include <span class="nv">$PCH_PATH</span> <span class="nv">$FILES</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>You can based on this, modify to fit your needs, and just call</p>
+<p>You can create an executable bash file based on the template above, save it in your XCode project folder, modify to fit your needs, and just call</p>
 
-<pre><code>./run_insepction.sh path_to_oclint_binary 
+<pre><code>./oclint-xcode.sh 
 </code></pre>
 
 <p>to kick-off the inspection.</p>

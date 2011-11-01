@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - OCLint test coverage - impl/oclint/rule/LongParameterListRule.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">impl/oclint/rule</a> - LongParameterListRule.cpp<span style="font-size: 80%;"> (source / <a href="LongParameterListRule.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">OCLint test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">95.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2011-10-28</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryLo">31.8 %</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &quot;oclint/rule/LongParameterListRule.h&quot;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;oclint/RuleSet.h&quot;
+<span class="lineNum">       3 </span>                :            : #include &quot;oclint/RuleConfiguration.h&quot;
+<span class="lineNum">       4 </span>                :            : #include &quot;oclint/ViolationSet.h&quot;
+<span class="lineNum">       5 </span>                :            : #include &quot;oclint/Violation.h&quot;
+<span class="lineNum">       6 </span>                :            : #include &quot;oclint/util/CursorUtil.h&quot;
+<span class="lineNum">       7 </span>                :            : #include &quot;oclint/util/DeclUtil.h&quot;
+<span class="lineNum">       8 </span>                :            : 
+<span class="lineNum">       9 </span>                :            : #include &lt;clang/AST/Decl.h&gt;
+<span class="lineNum">      10 </span>                :            : #include &lt;clang/AST/DeclObjC.h&gt;
+<span class="lineNum">      11 </span>                :            : #include &lt;clang/AST/DeclCXX.h&gt;
+<span class="lineNum">      12 </span>                :            : 
+<span class="lineNum">      13 </span>                :            : #define DEFAULT_MAX_ALLOWED_PARAMS 3
+<span class="lineNum">      14 </span>                :            : 
+<a name="15"><span class="lineNum">      15 </span>                :            : RuleSet LongParameterListRule::rules(new LongParameterListRule());</a>
+<span class="lineNum">      16 </span>                :            : 
+<span class="lineNum">      17 </span>                :<span class="lineCov">         52 : int LongParameterListRule::maxAllowedNumberOfParameters() {</span>
+<span class="lineNum">      18 </span>                :<span class="lineNoCov">          0 :   string key = &quot;NUMBER_OF_PARAMETERS&quot;;</span>
+<span class="lineNum">      19 </span>[<span class="branchCov" title="Branch 0 was taken 52 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 52 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         52 :   return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_PARAMS;</span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 52 times"> + </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>][<span class="branchNoCov" title="Branch 14 was not taken"> - </span><span class="branchCov" title="Branch 15 was taken 52 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>][<span class="branchNoCov" title="Branch 18 was not taken"> - </span><span class="branchCov" title="Branch 19 was taken 52 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 20 was not executed"> # </span><span class="branchNoExec" title="Branch 21 was not executed"> # </span>][<span class="branchCov" title="Branch 22 was taken 52 times"> + </span><span class="branchNoCov" title="Branch 23 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 24 was not executed"> # </span><span class="branchNoExec" title="Branch 25 was not executed"> # </span>][<span class="branchNoExec" title="Branch 26 was not executed"> # </span><span class="branchNoExec" title="Branch 27 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 28 was not executed"> # </span><span class="branchNoExec" title="Branch 29 was not executed"> # </span>][<span class="branchNoExec" title="Branch 30 was not executed"> # </span><span class="branchNoExec" title="Branch 31 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 32 was not executed"> # </span><span class="branchNoExec" title="Branch 33 was not executed"> # </span>]
+<a name="20"><span class="lineNum">      20 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineCov">         52 : }</span></a>
+<span class="lineNum">      21 </span>                :            : 
+<span class="lineNum">      22 </span>                :<span class="lineCov">         52 : int LongParameterListRule::numberOfParameters(Decl *decl) {</span>
+<span class="lineNum">      23 </span>                :<span class="lineCov">         52 :   if (decl) {</span>
+<span class="lineNum">      24 </span>                :<span class="lineCov">         45 :     ObjCMethodDecl *objcMethodDecl = dyn_cast&lt;ObjCMethodDecl&gt;(decl);</span>
+<span class="lineNum">      25 </span>[<span class="branchCov" title="Branch 0 was taken 5 times"> + </span><span class="branchCov" title="Branch 1 was taken 40 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchCov" title="Branch 3 was taken 1 time"> + </span>]:<span class="lineCov">         45 :     if (objcMethodDecl &amp;&amp; !DeclUtil::isObjCMethodDeclaredInSuperClass(objcMethodDecl) &amp;&amp; !DeclUtil::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 4 was taken 3 times"> + </span><span class="branchCov" title="Branch 5 was taken 1 time"> + </span>]
+<span class="lineNum">      26 </span>                :<span class="lineCov">          3 :       return objcMethodDecl-&gt;getNumSelectorArgs();</span>
+<span class="lineNum">      27 </span>                :            :     }
+<span class="lineNum">      28 </span>                :            :     
+<span class="lineNum">      29 </span>                :<span class="lineCov">         42 :     FunctionDecl *cppMethodDecl = dyn_cast&lt;FunctionDecl&gt;(decl);</span>
+<span class="lineNum">      30 </span>        [<span class="branchCov" title="Branch 0 was taken 5 times"> + </span><span class="branchCov" title="Branch 1 was taken 37 times"> + </span>]:<span class="lineCov">         42 :     if (cppMethodDecl) {</span>
+<span class="lineNum">      31 </span>                :<span class="lineCov">          5 :       return cppMethodDecl-&gt;getNumParams();</span>
+<span class="lineNum">      32 </span>                :            :     }
+<span class="lineNum">      33 </span>                :<span class="lineCov">         37 :   }</span>
+<span class="lineNum">      34 </span>                :<span class="lineCov">         44 :   return 0;</span>
+<a name="35"><span class="lineNum">      35 </span>                :<span class="lineCov">         52 : }</span></a>
+<span class="lineNum">      36 </span>                :            : 
+<span class="lineNum">      37 </span>                :<span class="lineCov">         52 : void LongParameterListRule::apply(CXCursor&amp; node, CXCursor&amp; parentNode, ViolationSet&amp; violationSet) {</span>
+<span class="lineNum">      38 </span>                :<span class="lineCov">         52 :   Decl *decl = CursorUtil::getDecl(node);</span>
+<span class="lineNum">      39 </span>                :<span class="lineCov">         52 :   if (numberOfParameters(decl) &gt; maxAllowedNumberOfParameters()) {</span>
+<span class="lineNum">      40 </span>                :<span class="lineCov">          4 :     Violation violation(node, this);</span>
+<span class="lineNum">      41 </span>                :<span class="lineCov">          4 :     violationSet.addViolation(violation);</span>
+<span class="lineNum">      42 </span>                :<span class="lineCov">          4 :   }</span>
+<a name="43"><span class="lineNum">      43 </span>                :<span class="lineCov">         52 : }</span></a>
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :<span class="lineCov">          1 : const string LongParameterListRule::name() const {</span>
+<span class="lineNum">      46 </span>                :<span class="lineCov">          1 :   return &quot;long parameter list&quot;;</span>
+<span class="lineNum">      47 </span>                :            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

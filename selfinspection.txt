@@ -1,3 +1,0 @@
-src/impl/oclint/reporter/PlainTextReporter.cpp:32:33: oclint: long method
-src/impl/oclint/util/CyclomaticComplexityMeasurement.cpp:17:66: oclint: unused method parameter
-src/impl/oclint/util/NPathComplexityMeasurement.cpp:15:33: oclint: high cyclomatic complexity

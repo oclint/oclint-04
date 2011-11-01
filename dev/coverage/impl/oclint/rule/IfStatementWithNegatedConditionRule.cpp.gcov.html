@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - OCLint test coverage - impl/oclint/rule/IfStatementWithNegatedConditionRule.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">impl/oclint/rule</a> - IfStatementWithNegatedConditionRule.cpp<span style="font-size: 80%;"> (source / <a href="IfStatementWithNegatedConditionRule.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">OCLint test coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntryHi">95.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2011-10-28</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryLo">70.0 %</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &quot;oclint/rule/IfStatementWithNegatedConditionRule.h&quot;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;oclint/RuleSet.h&quot;
+<span class="lineNum">       3 </span>                :            : #include &quot;oclint/ViolationSet.h&quot;
+<span class="lineNum">       4 </span>                :            : #include &quot;oclint/Violation.h&quot;
+<span class="lineNum">       5 </span>                :            : #include &quot;oclint/util/CursorUtil.h&quot;
+<span class="lineNum">       6 </span>                :            : 
+<span class="lineNum">       7 </span>                :            : #include &lt;clang/AST/Stmt.h&gt;
+<span class="lineNum">       8 </span>                :            : #include &lt;clang/AST/Expr.h&gt;
+<span class="lineNum">       9 </span>                :            : 
+<span class="lineNum">      10 </span>                :            : using namespace clang;
+<span class="lineNum">      11 </span>                :            : 
+<a name="12"><span class="lineNum">      12 </span>                :            : RuleSet IfStatementWithNegatedConditionRule::rules(new IfStatementWithNegatedConditionRule());</a>
+<span class="lineNum">      13 </span>                :            : 
+<span class="lineNum">      14 </span>                :<span class="lineCov">         11 : bool IfStatementWithNegatedConditionRule::hasElseBlock(clang::IfStmt *ifStmt) {</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">          4 :   return ifStmt &amp;&amp; ifStmt-&gt;getElse();</span>
+<a name="16"><span class="lineNum">      16 </span>                :<span class="lineCov">         11 : }</span></a>
+<span class="lineNum">      17 </span>                :            : 
+<span class="lineNum">      18 </span>                :<span class="lineCov">          2 : bool IfStatementWithNegatedConditionRule::hasNegatedCondition(clang::IfStmt *ifStmt) {</span>
+<span class="lineNum">      19 </span>                :<span class="lineCov">          2 :   if (ifStmt) {</span>
+<span class="lineNum">      20 </span>                :<span class="lineCov">          2 :     BinaryOperator *binaryOperator = dyn_cast&lt;BinaryOperator&gt;(ifStmt-&gt;getCond());</span>
+<span class="lineNum">      21 </span>                :<span class="lineCov">          2 :     UnaryOperator *unaryOperator = dyn_cast&lt;UnaryOperator&gt;(ifStmt-&gt;getCond());</span>
+<span class="lineNum">      22 </span>[<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 1 time"> + </span>]:<span class="lineCov">          2 :     return (binaryOperator &amp;&amp; binaryOperator-&gt;getOpcode() == BO_NE) ||</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]
+<span class="lineNum">      23 </span>                :<span class="lineCov">          2 :            (unaryOperator &amp;&amp; unaryOperator-&gt;getOpcode() == UO_LNot);</span>
+<span class="lineNum">      24 </span>                :            :   }
+<span class="lineNum">      25 </span>                :<span class="lineNoCov">          0 :   return false;</span>
+<a name="26"><span class="lineNum">      26 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>                :<span class="lineCov">         48 : void IfStatementWithNegatedConditionRule::apply(CXCursor&amp; node, CXCursor&amp; parentNode, ViolationSet&amp; violationSet) {</span>
+<span class="lineNum">      29 </span>                :<span class="lineCov">         48 :   Stmt *stmt = CursorUtil::getStmt(node);</span>
+<span class="lineNum">      30 </span>                :<span class="lineCov">         48 :   if (stmt) {</span>
+<span class="lineNum">      31 </span>                :<span class="lineCov">         11 :     IfStmt *ifStmt = dyn_cast&lt;IfStmt&gt;(stmt);</span>
+<span class="lineNum">      32 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         11 :     if (hasElseBlock(ifStmt) &amp;&amp; hasNegatedCondition(ifStmt)) {</span>
+<span class="lineNum">      33 </span>                :<span class="lineCov">          2 :       Violation violation(node, this);</span>
+<span class="lineNum">      34 </span>                :<span class="lineCov">          2 :       violationSet.addViolation(violation);</span>
+<span class="lineNum">      35 </span>                :<span class="lineCov">          2 :     }</span>
+<span class="lineNum">      36 </span>                :<span class="lineCov">         11 :   }</span>
+<a name="37"><span class="lineNum">      37 </span>                :<span class="lineCov">         48 : }</span></a>
+<span class="lineNum">      38 </span>                :            : 
+<span class="lineNum">      39 </span>                :<span class="lineCov">          1 : const string IfStatementWithNegatedConditionRule::name() const {</span>
+<span class="lineNum">      40 </span>                :<span class="lineCov">          1 :   return &quot;if statement with negated condition&quot;;</span>
+<span class="lineNum">      41 </span>                :            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="author" content="Longyi Qi">
 
   
-  <meta name="description" content="Write Custom Rule          To write your own rule, you need a certain level of knowledge about Clang, especially understand well in Abstract &hellip;">
+  <meta name="description" content="Write Custom Rule          To write custom rules, as a pre-requisite, a certain level of knowledge about Clang is necessary, especially &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -43,8 +43,7 @@
   <li><a href="/">Home</a></li>
   <li><a href="/docs">Documentation</a></li>
   <li><a href="/rules">Rules</a></li>
-  <li><a href="/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/dev">Development</a></li>
   <li><a href="/license">License</a></li>
   <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
@@ -60,15 +59,15 @@
     
   </header>
   
-  <p>To write your own rule, you need a certain level of knowledge about Clang, especially understand well in <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> representation of Clang compiler. (Of course, you can just read particular node type for your need, and Clang code is very easy to read and understand.)</p>
+  <p>To write custom rules, as a pre-requisite, a certain level of knowledge about Clang is necessary, especially <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> representation of Clang should be familiar with. (Clang code is very easy to read and understand with awesome abstractions, so, you can just pick up the particular node type you need, and read that piece of code.)</p>
 
-<p>And modifying rules currently included with OCLint source code is a good place to start. Check out <a href="https://github.com/longyiqi/mo/tree/master/src/headers/mo/rule">headers</a> and <a href="https://github.com/longyiqi/mo/tree/master/src/impl/mo/rule">implementations</a>.</p>
+<p>Modifying rules currently open source in OCLint codebase is a good place to start. Check out <a href="https://github.com/longyiqi/oclint/tree/master/src/headers/oclint/rule">headers</a> and <a href="https://github.com/longyiqi/oclint/tree/master/src/impl/oclint/rule">implementations</a>.</p>
 
 <h2>Write Rule</h2>
 
-<p>In front of all, you need to have a working copy of OCLint, you can read this document about <a href="/docs/compile">how to compile OCLint</a></p>
+<p>In front of all, you need to have a working copy of OCLint, you can read this document about <a href="/dev/compile">how to compile OCLint</a></p>
 
-<p>As SampleRule shown below, your rule must be a sub-class of Rule. And write your own logic in the apply() function, and give rule name in name() function. Please notice that, to make this rule can be dynamically loaded into the main program, please initialize it in the static constructor.</p>
+<p>Same to the SampleRule shown below, your rule must be a sub-class of Rule. Write custom logic in the <em>apply</em> function, and give rule name in <em>name</em> function. Please notice that, to make this rule can be dynamically loaded into the main program, please initialize it in the static constructor.</p>
 
 <figure class='code'><figcaption><span>SampleRule.cpp </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -94,10 +93,10 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;mo/Rule.h&quot;</span>
-</span><span class='line'><span class="cp">#include &quot;mo/RuleSet.h&quot;</span>
-</span><span class='line'><span class="cp">#include &quot;mo/ViolationSet.h&quot;</span>
-</span><span class='line'><span class="cp">#include &quot;mo/Violation.h&quot;</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;oclint/Rule.h&quot;</span>
+</span><span class='line'><span class="cp">#include &quot;oclint/RuleSet.h&quot;</span>
+</span><span class='line'><span class="cp">#include &quot;oclint/ViolationSet.h&quot;</span>
+</span><span class='line'><span class="cp">#include &quot;oclint/Violation.h&quot;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">SampleRule</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Rule</span> <span class="p">{</span>
 </span><span class='line'><span class="k">private</span><span class="o">:</span>
@@ -111,7 +110,7 @@
 </span><span class='line'><span class="n">RuleSet</span> <span class="n">SampleRule</span><span class="o">::</span><span class="n">rules</span><span class="p">(</span><span class="k">new</span> <span class="n">SampleRule</span><span class="p">());</span>
 </span><span class='line'>
 </span><span class='line'><span class="kt">void</span> <span class="n">SampleRule</span><span class="o">::</span><span class="n">apply</span><span class="p">(</span><span class="n">CXCursor</span><span class="o">&amp;</span> <span class="n">node</span><span class="p">,</span> <span class="n">CXCursor</span><span class="o">&amp;</span> <span class="n">parentNode</span><span class="p">,</span> <span class="n">ViolationSet</span><span class="o">&amp;</span> <span class="n">violationSet</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// fill in your logic here</span>
+</span><span class='line'>  <span class="c1">// fill in custom logic here</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">const</span> <span class="n">string</span> <span class="n">SampleRule</span><span class="o">::</span><span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
@@ -120,19 +119,19 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And you are highly recommended to write tests for your rules.</p>
+<p>Please make sure custom rules would never &#8220;contaminate&#8221; the AST. Unit tests are highly recommended for custom rules.</p>
 
 <h2>Compile Rule</h2>
 
-<p>Copy your rule to the same folder, parallel with other rules. Add its class name to SET(LIST_OF_RULES RuleName) section in <a href="https://github.com/longyiqi/oclint/blob/master/src/impl/oclint/rule/CMakeLists.txt">CMakeLists</a> file.</p>
+<p>Copy source code of rule to the same implementation folder, parallel with other rules. Add its class name to SET(LIST_OF_RULES RuleName) section in <a href="https://github.com/longyiqi/oclint/blob/master/src/impl/oclint/rule/CMakeLists.txt">CMakeLists</a> file.</p>
 
-<p>Re-compile OCLint, and your rule will be built together with other rules.</p>
+<p>Re-compile OCLint, and the new custom rule will be built together with other rules.</p>
 
 <h2>Use Rule</h2>
 
 <p>Same as other rules, you can take the advantages of <a href="/docs/rules"><em>plug-and-use</em></a>, and use your rules wisely based on your project.</p>
 
-<p><a href="/docs/how-it-works">How it works</a> will briefly show you the architecture of OCLint</p>
+<p><a href="/docs/how-it-works">How it works</a> will briefly present the architecture of OCLint.</p>
 
   
     <footer>

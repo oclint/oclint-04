@@ -43,8 +43,7 @@
   <li><a href="/">Home</a></li>
   <li><a href="/docs">Documentation</a></li>
   <li><a href="/rules">Rules</a></li>
-  <li><a href="/coverage/index.html">Code Coverage</a></li>
-  <li><a href="/selfinspection.txt">Self Inspection</a></li>
+  <li><a href="/dev">Development</a></li>
   <li><a href="/license">License</a></li>
   <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
 </ul>
@@ -59,9 +58,13 @@
     <h1 class="entry-title">Cyclomatic Complexity</h1>
   </header>
   
-  <p>Cyclomatic complexity is determined by the number of decision points in a method plus one for the method entry. The decision points are &#8216;if&#8217;, &#8216;for&#8217;, &#8216;for-each&#8217;, &#8216;while&#8217;, &#8216;do&#8217;, &#8216;catch&#8217;, &#8216;case&#8217;, &#8216;&amp;&amp;&#8217;, &#8216;||&#8217; and &#8216;?:&#8217;. A complexity higher than 7 will be considered as a violation to this rule.</p>
+  <p>Cyclomatic complexity is determined by the number of decision points in a method plus one for the method entry. The decision points are &#8216;if&#8217;, &#8216;for&#8217;, &#8216;for-each&#8217;, &#8216;while&#8217;, &#8216;do&#8217;, &#8216;catch&#8217;, &#8216;case&#8217;, &#8216;&amp;&amp;&#8217;, &#8216;||&#8217; and &#8216;?:&#8217;.</p>
 
-<p>Example:</p>
+<h2>Parameters</h2>
+
+<p><strong>CYCLOMATIC_COMPLEXITY</strong>: threshold for max allowed cyclomatic complexity, default is 7.</p>
+
+<h2>Examples</h2>
 
 <figure class='code'><figcaption><span>too-many-decision-points.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
