@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/StmtObjC.h>
@@ -38,7 +38,7 @@ void UnreachableCodeRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, boo
 void UnreachableCodeRuleTest::checkRuleOnFunctionRootComponent(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<CompoundStmt>(stmt);
   });
   checkRule(cursorPair, isViolated);
@@ -48,8 +48,8 @@ template<typename nodeType, typename parentNodeType>
 void UnreachableCodeRuleTest::checkRuleOn(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
-    Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+    Stmt *stmt = CursorHelper::getStmt(node);
+    Stmt *parentStmt = CursorHelper::getStmt(parentNode);
     return stmt && parentStmt && isa<nodeType>(stmt) && isa<parentNodeType>(parentStmt);
   });
   checkRule(cursorPair, isViolated);

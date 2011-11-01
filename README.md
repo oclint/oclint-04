@@ -6,6 +6,6 @@ OCLint is a [static source code analysis](http://en.wikipedia.org/wiki/Static_pr
 * Code smells - long method, long parameter list, redundant code
 * ...
 
-Currently, it is a standalone tool that runs on 64-bit Intel Mac OS X 10.6+, and could be invoked from command line. Read more from [gh-pages](http://longyiqi.github.com/mo).
+Currently, it is a standalone tool that runs on 64-bit Intel Mac OS X 10.6+, and could be invoked from command line. Read more from [http://oclint.org](http://oclint.org).
 
-If you want to help out, fork me and send a pull request. And I'll always be [happy to help](http://www.longyiqi.com/contact).
+If you want to help out, fork this repository and send a pull request. And I'll always be [happy to help](http://www.longyiqi.com/contact).

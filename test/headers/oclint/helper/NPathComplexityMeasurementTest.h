@@ -1,5 +1,5 @@
 #include <cxxtest/TestSuite.h>
-#include "oclint/util/NPathComplexityMeasurement.h"
+#include "oclint/helper/NPathComplexityMeasurement.h"
 #include "oclint/StringSourceCode.h"
 
 class NPathComplexityMeasurementTest : public CxxTest::TestSuite { 

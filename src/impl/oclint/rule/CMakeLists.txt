@@ -6,13 +6,13 @@ macro(build_dynamic_rule name)
     )
   
   SET_TARGET_PROPERTIES(${name}
-    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/rules
+    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib/oclint/rules
     )
 
   target_link_libraries(${name} 
     ${OCLINT_COMMON_LINK_LIB}
     OCLintCore
-    OCLintUtil
+    OCLintHelper
     OCLintException
     )
 endmacro(build_dynamic_rule)

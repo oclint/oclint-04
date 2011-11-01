@@ -4,7 +4,7 @@ target_link_libraries(oclint
   OCLintRuleSet
   OCLintException
   OCLintReporter
-  OCLintUtil
+  OCLintHelper
   ${OCLINT_COMMON_LINK_LIB}
   dl
   )

@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 
-class DeclUtilTest : public CxxTest::TestSuite { 
+class DeclHelperTest : public CxxTest::TestSuite { 
 public:  
   void testObjCMethodDeclaredInCurrentClass();
   void testObjCMethodDeclaredInSuperClass();

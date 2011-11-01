@@ -7,6 +7,8 @@ class NPathComplexityRule : public Rule {
 private:
   static RuleSet rules;
   
+  int maxAllowedNPath();
+  
 public:
   virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
   virtual const string name() const;

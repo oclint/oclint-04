@@ -1,6 +1,6 @@
-#include "oclint/util/NPathComplexityMeasurementTest.h"
-#include "oclint/util/CursorExtractionUtil.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/NPathComplexityMeasurementTest.h"
+#include "oclint/helper/CursorExtractionHelper.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -9,7 +9,7 @@ using namespace clang;
 void NPathComplexityMeasurementTest::checkNPath(string sourceCode, int expectedNPath) {
   StringSourceCode strCode(sourceCode, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<CompoundStmt>(stmt);
   });
   TS_ASSERT_EQUALS(NPathComplexityMeasurement::getNPathOfCursor(cursorPair.first), expectedNPath);

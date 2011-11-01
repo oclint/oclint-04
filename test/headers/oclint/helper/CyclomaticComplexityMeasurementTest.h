@@ -1,5 +1,5 @@
 #include <cxxtest/TestSuite.h>
-#include "oclint/util/CyclomaticComplexityMeasurement.h"
+#include "oclint/helper/CyclomaticComplexityMeasurement.h"
 #include "oclint/StringSourceCode.h"
 
 class CyclomaticComplexityMeasurementTest : public CxxTest::TestSuite { 

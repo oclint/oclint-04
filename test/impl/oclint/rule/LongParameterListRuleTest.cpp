@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -38,7 +38,7 @@ void LongParameterListRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, b
 void LongParameterListRuleTest::checkRule(string source, string sourcetype, bool isViolated) {
   StringSourceCode strCode(source, sourcetype);
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     if (decl) {
       if (sourcetype == "m") {
         return isa<ObjCMethodDecl>(decl);

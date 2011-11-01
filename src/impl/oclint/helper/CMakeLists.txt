@@ -1,6 +1,6 @@
-add_library(OCLintUtil
-  CursorUtil.cpp
-  DeclUtil.cpp
+add_library(OCLintHelper
+  CursorHelper.cpp
+  DeclHelper.cpp
   CyclomaticComplexityMeasurement.cpp
   NPathComplexityMeasurement.cpp
   )

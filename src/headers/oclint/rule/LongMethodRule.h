@@ -12,6 +12,7 @@ private:
   static RuleSet rules;
   
   bool isMethodDefination(clang::Decl* decl);
+  int maxAllowedMethodLength();
   
 public:
   virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

@@ -1,5 +1,5 @@
-#ifndef OCLINT_UTIL_DECLUTIL_H
-#define OCLINT_UTIL_DECLUTIL_H
+#ifndef OCLINT_HELPER_DECLHELPER_H
+#define OCLINT_HELPER_DECLHELPER_H
 
 #include <clang-c/Index.h>
 
@@ -10,7 +10,7 @@ namespace clang {
 
 using namespace clang;
 
-class DeclUtil {
+class DeclHelper {
 public:
   static bool isObjCMethodDeclaredInSuperClass(ObjCMethodDecl *decl);
   static bool isObjCMethodDeclaredInProtocol(ObjCMethodDecl *decl);

@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -37,8 +37,8 @@ void RedundantLocalVariableRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPa
 void RedundantLocalVariableRuleTest::checkRule(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
-    Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+    Stmt *stmt = CursorHelper::getStmt(node);
+    Stmt *parentStmt = CursorHelper::getStmt(parentNode);
     return stmt && parentStmt && isa<ReturnStmt>(stmt) && isa<CompoundStmt>(parentStmt);
   });
   checkRule(cursorPair, isViolated);

@@ -2,7 +2,7 @@
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -20,7 +20,7 @@ MockRule::MockRule(string name) {
 
 void MockRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   _name = "applied!";
-  if (Stmt *stmt = CursorUtil::getStmt(node)) {
+  if (Stmt *stmt = CursorHelper::getStmt(node)) {
     if (isa<SwitchStmt>(stmt)) {
       Violation violation(node, this);
       violationSet.addViolation(violation);

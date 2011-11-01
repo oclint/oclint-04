@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/DeclObjC.h>
 #include <clang/AST/DeclCXX.h>
@@ -38,7 +38,7 @@ void LongMethodRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isV
 void LongMethodRuleTest::checkRule(string source, bool isViolated) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   });
   checkRule(cursorPair, isViolated);
@@ -72,11 +72,11 @@ void LongMethodRuleTest::testCppLongMethodShouldReportOnImplementation() {
   string strSource = "class AClass { int aMethod(int a); };\nint AClass::aMethod(int a) { int i = 1; i = 2; i = 3; i = 4; i = 5; i = 6; return 0; }";
   StringSourceCode strCode(strSource, "cpp");
   pair<CXCursor, CXCursor> cursorPairDeclaration = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<CXXMethodDecl>(decl);
   });
   pair<CXCursor, CXCursor> cursorPairDefinition = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Decl *decl = CursorUtil::getDecl(node);
+    Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<CXXMethodDecl>(decl);
   }, -1);
   checkRule(cursorPairDeclaration, false);

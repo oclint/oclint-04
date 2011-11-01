@@ -1,7 +1,7 @@
 #include <cxxtest/TestSuite.h>
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
-class CursorUtilTest : public CxxTest::TestSuite { 
+class CursorHelperTest : public CxxTest::TestSuite { 
 public:
   void testGetDeclWithDeclCursor();
   void testGetDeclWithNotDeclCursor();
@@ -16,4 +16,7 @@ public:
   void testGetCursorASTContext();
   void testIsCursorDeclaredInCurrentFile();
   void testIsCursorDeclaredInHeaderFiles();
+  void testGetFileName();
+  void testGetLineNumber();
+  void testGetColumnNumber();
 };

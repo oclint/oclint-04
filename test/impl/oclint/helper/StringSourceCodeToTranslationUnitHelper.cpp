@@ -1,11 +1,11 @@
-#include "oclint/util/StringSourceCodeToTranslationUnitUtil.h"
+#include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 
 #include <ctime>
 #include <cstdlib>
 #include <fstream>
 using namespace std;
 
-CXTranslationUnit StringSourceCodeToTranslationUnitUtil::compileStringSourceCodeToTranslationUnit(StringSourceCode code, CXIndex index) {
+CXTranslationUnit StringSourceCodeToTranslationUnitHelper::compileStringSourceCodeToTranslationUnit(StringSourceCode code, CXIndex index) {
   string tmpFilePath = generateTmpFileName(code);
   
   ofstream tmpFile;
@@ -20,12 +20,12 @@ CXTranslationUnit StringSourceCodeToTranslationUnitUtil::compileStringSourceCode
   return translationUnit;
 }
 
-char StringSourceCodeToTranslationUnitUtil::generateRandomCharacter() {
+char StringSourceCodeToTranslationUnitHelper::generateRandomCharacter() {
   static const char alphanum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   return alphanum[rand() % (sizeof(alphanum) - 1)];
 }
 
-void StringSourceCodeToTranslationUnitUtil::fillInRandomCharacters(char *pChars, const int lengthOfRandomCharacters) {
+void StringSourceCodeToTranslationUnitHelper::fillInRandomCharacters(char *pChars, const int lengthOfRandomCharacters) {
   srand(time(NULL));
   for (int index = 0; index < lengthOfRandomCharacters; ++index) {
     pChars[index] = generateRandomCharacter();
@@ -33,16 +33,16 @@ void StringSourceCodeToTranslationUnitUtil::fillInRandomCharacters(char *pChars,
   pChars[lengthOfRandomCharacters] = 0;
 }
 
-string StringSourceCodeToTranslationUnitUtil::generateRandomString(int length) {
+string StringSourceCodeToTranslationUnitHelper::generateRandomString(int length) {
   char *charsToBeFilled = new char[length + 1];
   fillInRandomCharacters(charsToBeFilled, length);
   return string(charsToBeFilled);
 }
 
-int StringSourceCodeToTranslationUnitUtil::lengthOfTmpFileName(StringSourceCode code) {
+int StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(StringSourceCode code) {
   return generateTmpFileName(code).length();
 }
 
-string StringSourceCodeToTranslationUnitUtil::generateTmpFileName(StringSourceCode code) {
+string StringSourceCodeToTranslationUnitHelper::generateTmpFileName(StringSourceCode code) {
   return "/tmp/mo.tmp." + generateRandomString(10) + "." + code.type;
 }

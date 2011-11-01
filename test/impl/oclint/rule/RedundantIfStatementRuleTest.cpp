@@ -2,8 +2,8 @@
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/StringSourceCode.h"
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CursorExtractionUtil.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CursorExtractionHelper.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -37,7 +37,7 @@ void RedundantIfStatementRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair
 void RedundantIfStatementRuleTest::checkRule(string source, string sourceType, bool isViolated) {
   StringSourceCode strCode(source, sourceType);
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
-    Stmt *stmt = CursorUtil::getStmt(node);
+    Stmt *stmt = CursorHelper::getStmt(node);
     return stmt && isa<IfStmt>(stmt);
   }, -1);
   checkRule(cursorPair, isViolated);

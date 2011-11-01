@@ -2,7 +2,7 @@
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
-#include "oclint/util/CursorUtil.h"
+#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/Stmt.h>
@@ -42,8 +42,8 @@ NamedDecl* RedundantLocalVariableRule::extractFromDeclStmt(Stmt *stmt) {
 }
 
 void RedundantLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
-  Stmt *stmt = CursorUtil::getStmt(node);
-  Stmt *parentStmt = CursorUtil::getStmt(parentNode);
+  Stmt *stmt = CursorHelper::getStmt(node);
+  Stmt *parentStmt = CursorHelper::getStmt(parentNode);
   if (stmt && parentStmt) {
     NamedDecl *returnDeclRef = extractFromReturnStmt(stmt);
     NamedDecl *namedDecl = extractFromDeclStmt(parentStmt);

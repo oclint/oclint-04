@@ -7,19 +7,19 @@
 
 using namespace clang;
 
-#include "oclint/util/CursorUtil.h"
-#include "oclint/util/CyclomaticComplexityMeasurement.h"
+#include "oclint/helper/CursorHelper.h"
+#include "oclint/helper/CyclomaticComplexityMeasurement.h"
 
 static int _count;
 
 int CyclomaticComplexityMeasurement::getCCNOfCursor(CXCursor node) {
   _count = 0;
   clang_visitChildrenWithBlock(node, ^(CXCursor cursor, CXCursor parentCursor) {
-    Stmt *stmt = CursorUtil::getStmt(cursor);
+    Stmt *stmt = CursorHelper::getStmt(cursor);
     if (stmt && isDecisionPoint(stmt)) {
       _count++;
     }
-    Expr *expr = CursorUtil::getExpr(cursor);
+    Expr *expr = CursorHelper::getExpr(cursor);
     if (expr && isDecisionPoint(expr)) {
       _count++;
     }
