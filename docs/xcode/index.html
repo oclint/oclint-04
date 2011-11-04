@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcode Project Inspection - OCLint, a static source code analysis tool for Objective-C and related languages</title>
+  <meta name="author" content="Longyi Qi">
+
+  
+  <meta name="description" content="Xcode Project Inspection          We have two experimental approaches to inspect on Xcode project. One works in an ugly way, the other is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://oclint.org/docs/xcode/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="OCLint" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner" style="padding-top: 9px; padding-bottom: 0;"><hgroup>
+  <h1><a href="/">OCLint</a> <span style="font-size: 42%; color: #BBB;">A static source code analysis tool for Objective-C and related languages</span></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/docs">Documentation</a></li>
+  <li><a href="/rules">Rules</a></li>
+  <li><a href="/dev">Development</a></li>
+  <li><a href="/license">License</a></li>
+  <li><a href="https://github.com/longyiqi/oclint">Source</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Xcode Project Inspection</h1>
+    
+  </header>
+  
+  <p>We have two experimental approaches to inspect on Xcode project. One works in an ugly way, the other is under development for user experiences improvement.</p>
+
+<h2>The UGLY approach</h2>
+
+<p>In this approach, what we do here is simply assembling all parameters we need to invoke OCLint for a Xcode project. For a Xcode project, usually we need the target architecture, system root (target SDK), include search paths, and framework search paths, of course, plus the files we are going to inspect.</p>
+
+<p>It looks like this when we get all of these parameters together.</p>
+
+<figure class='code'><figcaption><span>oclint-xcode.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#! /bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">LANGUAGE</span><span class="o">=</span>objective-c
+</span><span class='line'><span class="nv">ARCH</span><span class="o">=</span>armv7
+</span><span class='line'><span class="nv">SYSROOT</span><span class="o">=</span>/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk
+</span><span class='line'><span class="nv">CLANG_INCLUDE</span><span class="o">=</span>/usr/lib/clang/3.0/include
+</span><span class='line'><span class="nv">PCH_PATH</span><span class="o">=</span>target-Prefix.pch
+</span><span class='line'><span class="nv">FRAMEWORKS</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span><span class='line'><span class="k">for </span>folder in <span class="sb">`</span>find . -type d<span class="sb">`</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">  </span><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -I $folder&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">FILES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span><span class='line'><span class="k">for </span>file in <span class="sb">`</span>find . -name <span class="s2">&quot;*.m&quot;</span><span class="sb">`</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">  </span><span class="nv">FILES</span><span class="o">=</span><span class="s2">&quot;$FILES $file&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>oclint -x <span class="nv">$LANGUAGE</span> -arch <span class="nv">$ARCH</span> -isysroot<span class="o">=</span><span class="nv">$SYSROOT</span> -I <span class="nv">$CLANG_INCLUDE</span> <span class="nv">$INCLUDES</span> -include <span class="nv">$PCH_PATH</span> <span class="nv">$FILES</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can create an executable bash file based on the template above, save it in your Xcode project folder, modify to fit your needs, and just call</p>
+
+<pre><code>./oclint-xcode.sh 
+</code></pre>
+
+<p>to kick-off the inspection.</p>
+
+<h2>A Better Approach</h2>
+
+<p>As all information we need to invoke OCLint is configured in Xcode project&#8217;s configuration file <em>projectname.xcodeproj/project.pbxproj</em>, the better approach is obviously get all these parameters from this configuration file.</p>
+
+<p>Currently, we are working on this approach as a Ruby project. We use <a href="https://github.com/owl-forestry/pbxproject">pbxproject</a> gem to parse the information we need, and <a href="https://github.com/wycats/thor">thor</a> gem for command line options. If you are willing to help, please <a href="http://www.longyiqi.com/contact">contact me</a>.</p>
+
+  
+    <footer>
+      
+      
+    </footer>
+  
+</article>
+
+</div>
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a> - Maintained by <a href="http://www.longyiqi.com" target="_BLANK">Longyi Qi</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26647611-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -94,70 +94,15 @@ OPTIONS:
 
 <h2>OCLint Configurations</h2>
 
+<p>The behavior of the tool can be configured by followings:</p>
+
 <ul>
 <li><p><strong>-R</strong>: By default, rules will be loaded from <em>/usr/lib/oclint/rules</em>. You can add multiple rule loading paths by using this flag. Rules can be loaded from multiple paths, but please aware that, once custom rule loading path is given, no matter one or many, default rules won&#8217;t be loaded any more. If default rules are needed, please either copy the default rules from <em>/usr/lib/oclint/rules</em> to your custom rule loading path, or use <em>-R /usr/lib/oclint/rules</em> to add it to the rule loading path again.</p></li>
 <li><p><strong>-rc</strong>: Parameters to change the behavior of rules. Options set here will be stored in memory, and postpone to the execution of each rules. To know the parameters for different rules, please check out the detail page for <a href="/rules">certain rules</a>.</p></li>
 <li><p><strong>-o</strong>: Path of output file. Without this flag, report will be printed to console.</p></li>
-<li><p><strong>-text</strong> or <strong>-html-</strong>: Format of report, only one type could be selected for one invocation. Plain text report is the default.</p></li>
+<li><p><strong>-text</strong> or <strong>-html</strong>: Format of report, only one type could be selected for one invocation. Plain text report is the default.</p></li>
 </ul>
 
-
-<h2>XCode Project Inspection</h2>
-
-<p>XCode friendly interface is being implemented, before it&#8217;s released, here is a generic bash script template for XCode project inspection-</p>
-
-<figure class='code'><figcaption><span>oclint-xcode.sh </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#! /bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">LANGUAGE</span><span class="o">=</span>objective-c
-</span><span class='line'><span class="nv">ARCH</span><span class="o">=</span>armv7
-</span><span class='line'><span class="nv">SYSROOT</span><span class="o">=</span>/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk
-</span><span class='line'><span class="nv">CLANG_INCLUDE</span><span class="o">=</span>/usr/lib/clang/3.0/include
-</span><span class='line'><span class="nv">PCH_PATH</span><span class="o">=</span>target-Prefix.pch
-</span><span class='line'>
-</span><span class='line'><span class="nv">INCLUDES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-</span><span class='line'><span class="k">for </span>folder in <span class="sb">`</span>find . -type d<span class="sb">`</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">  </span><span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">&quot;$INCLUDES -I $folder&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">FILES</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-</span><span class='line'><span class="k">for </span>file in <span class="sb">`</span>find . -name <span class="s2">&quot;*.m&quot;</span><span class="sb">`</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">  </span><span class="nv">FILES</span><span class="o">=</span><span class="s2">&quot;$FILES $file&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>
-</span><span class='line'>oclint -x <span class="nv">$LANGUAGE</span> -arch <span class="nv">$ARCH</span> -isysroot<span class="o">=</span><span class="nv">$SYSROOT</span> -I <span class="nv">$CLANG_INCLUDE</span> <span class="nv">$INCLUDES</span> -include <span class="nv">$PCH_PATH</span> <span class="nv">$FILES</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can create an executable bash file based on the template above, save it in your XCode project folder, modify to fit your needs, and just call</p>
-
-<pre><code>./oclint-xcode.sh 
-</code></pre>
-
-<p>to kick-off the inspection.</p>
 
   
     <footer>
