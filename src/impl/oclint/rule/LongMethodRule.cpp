@@ -17,15 +17,16 @@ using namespace clang;
 
 RuleSet LongMethodRule::rules(new LongMethodRule());
 
+bool LongMethodRule::isMethodDeclarationAndHasBody(Decl* decl) {
+  return (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody();
+}
+
+bool LongMethodRule::isMethodNotPureDeclaration(Decl* decl) {
+  return !DeclHelper::isCppMethodDeclLocatedInCppRecordDecl(dyn_cast<CXXMethodDecl>(decl));
+}
+
 bool LongMethodRule::isMethodDefination(Decl* decl) {
-  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
-    CXXMethodDecl *cppMethodDecl = dyn_cast<CXXMethodDecl>(decl);
-    if (DeclHelper::isCppMethodDeclLocatedInCppRecordDecl(cppMethodDecl)) {
-      return false;
-    }
-    return true;
-  }
-  return false;
+  return decl && isMethodDeclarationAndHasBody(decl) && isMethodNotPureDeclaration(decl);
 }
 
 int LongMethodRule::maxAllowedMethodLength() {
