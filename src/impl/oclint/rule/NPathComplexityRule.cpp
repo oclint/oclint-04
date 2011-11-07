@@ -21,16 +21,19 @@ int NPathComplexityRule::maxAllowedNPath() {
   return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_NPATH;
 }
 
+bool NPathComplexityRule::isMethodDefination(Decl* decl) {
+  return isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl);
+}
+
+bool NPathComplexityRule::isMethodNPathHigh(CXCursor& node) {
+  return NPathComplexityMeasurement::getNPathOfCursor(node) > maxAllowedNPath();
+}
+
 void NPathComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
-  if (decl) {
-    if (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) {
-      int npath = NPathComplexityMeasurement::getNPathOfCursor(node);
-      if (npath > maxAllowedNPath()) {
-        Violation violation(node, this);
-        violationSet.addViolation(violation);
-      }
-    }
+  if (decl && isMethodDefination(decl) && isMethodNPathHigh(node)) {
+    Violation violation(node, this);
+    violationSet.addViolation(violation);
   }
 }
 
