@@ -39,10 +39,7 @@ bool UnusedMethodParameterRule::isCppFunctionDeclaration(DeclContext *context) {
 
 bool UnusedMethodParameterRule::isCppOverrideFunction(DeclContext *context) {
   CXXMethodDecl *decl = dyn_cast<CXXMethodDecl>(context);
-  if (decl) {
-    return decl->isVirtual();
-  }
-  return false;
+  return decl && decl->isVirtual();
 }
 
 bool UnusedMethodParameterRule::isExistingByContract(DeclContext *context) {
