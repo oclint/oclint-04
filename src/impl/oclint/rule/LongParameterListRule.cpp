@@ -23,7 +23,7 @@ int LongParameterListRule::numberOfParameters(Decl *decl) {
   if (decl) {
     ObjCMethodDecl *objcMethodDecl = dyn_cast<ObjCMethodDecl>(decl);
     if (objcMethodDecl && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl) && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
-      return objcMethodDecl->getNumSelectorArgs();
+      return objcMethodDecl->getNumSelectorLocs();
     }
     
     FunctionDecl *cppMethodDecl = dyn_cast<FunctionDecl>(decl);
