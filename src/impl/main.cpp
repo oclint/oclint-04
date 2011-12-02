@@ -23,8 +23,8 @@ using namespace std;
 
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl
-    << "  oclint version 0.2.6" << endl
-    << "  llvm version 3.0" << endl;
+    << "  oclint version 0.4.1" << endl
+    << "  llvm version 3.1" << endl;
 }
 
 static void parseCommandLineOptions(int argc, char* argv[]) {
