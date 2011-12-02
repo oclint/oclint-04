@@ -1,6 +1,6 @@
 #! /bin/bash
 
-MAJOR_VERSION=0.4.0
+MAJOR_VERSION=0.4.1
 AUTO_INCREASE_VERSION=`git log --oneline | wc -l | sed 's/ //g'`
 CURRENT_VERSION="oclint.$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
 
@@ -29,7 +29,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi 
 if [ $SUCCESS -eq 0 ]; then
   mkdir -p lib/oclint/clang
-  cp ../llvm/lib/liblibclang.3.0.dylib lib/oclint/clang/
+  cp ../llvm/lib/liblibclang.3.1.dylib lib/oclint/clang/
   mkdir -p "$INSTALLATION_PATH/$CURRENT_VERSION"
   cp -r bin "$INSTALLATION_PATH/$CURRENT_VERSION/bin"
   cp -r lib "$INSTALLATION_PATH/$CURRENT_VERSION/lib"
