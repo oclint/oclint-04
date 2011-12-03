@@ -39,9 +39,5 @@ bool CyclomaticComplexityMeasurement::isDecisionPoint(Expr *expr) {
   }
   
   BinaryOperator *biOperator = dyn_cast<BinaryOperator>(expr);
-  if (biOperator && (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr)) {
-    return true;
-  }
-  
-  return false;
+  return biOperator && (biOperator->getOpcode() == BO_LAnd || biOperator->getOpcode() == BO_LOr);
 }

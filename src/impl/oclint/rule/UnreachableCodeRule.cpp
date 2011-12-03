@@ -11,17 +11,13 @@ using namespace clang;
 
 RuleSet UnreachableCodeRule::rules(new UnreachableCodeRule());
 
+bool UnreachableCodeRule::isBreakOrContinueInLoopStatement(Stmt *stmt, CXCursor& parentNode) {
+  Stmt *parentStmt = CursorHelper::getStmt(parentNode);
+  return (isa<BreakStmt>(stmt) || isa<ContinueStmt>(stmt)) && isLoopStmt(parentStmt);
+}
+
 bool UnreachableCodeRule::isBreakPoint(Stmt *stmt, CXCursor& parentNode) {
-  if (isa<ReturnStmt>(stmt)) {
-    return true;
-  }
-  if (isa<BreakStmt>(stmt) || isa<ContinueStmt>(stmt)) {
-    Stmt *parentStmt = CursorHelper::getStmt(parentNode);
-    if (isLoopStmt(parentStmt)) {
-      return true;
-    }
-  }
-  return false;
+  return isa<ReturnStmt>(stmt) || isBreakOrContinueInLoopStatement(stmt, parentNode);
 }
 
 bool UnreachableCodeRule::isLoopStmt(Stmt *stmt) {

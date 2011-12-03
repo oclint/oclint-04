@@ -24,7 +24,7 @@ void HTMLReporterTest::testHeader() {
 }
 
 void HTMLReporterTest::testFooter() {
-  TS_ASSERT_EQUALS(_reporter->footer(), "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.4.0</p>\n</body>\n</html>\n");
+  TS_ASSERT_EQUALS(_reporter->footer(), "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.4.1</p>\n</body>\n</html>\n");
 }
 
 void HTMLReporterTest::testReportDiagnostics() {

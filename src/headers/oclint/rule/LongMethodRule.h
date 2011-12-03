@@ -12,6 +12,8 @@ private:
   static RuleSet rules;
   
   bool isMethodDefination(clang::Decl* decl);
+  bool isMethodDeclarationAndHasBody(clang::Decl* decl);
+  bool isMethodNotPureDeclaration(clang::Decl* decl);
   int maxAllowedMethodLength();
   
 public:

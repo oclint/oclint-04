@@ -23,7 +23,7 @@ void PlainTextReporterTest::testHeader() {
 }
 
 void PlainTextReporterTest::testFooter() {
-  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.4.0]\n");
+  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.4.1]\n");
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {

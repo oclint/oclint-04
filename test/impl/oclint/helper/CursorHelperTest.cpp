@@ -12,17 +12,17 @@ CXCursor getNullCursor() {
 }
 
 CXCursor getDeclCursor() {
-  CXCursor cursor = { CXCursor_FirstDecl, { (void*)1, 0, 0 } };
+  CXCursor cursor = { CXCursor_FirstDecl, 0, { (void*)1, 0, 0 } };
   return cursor;
 }
 
 CXCursor getStmtCursor() {
-  CXCursor cursor = { CXCursor_FirstStmt, { 0, (void*)1, 0 } };
+  CXCursor cursor = { CXCursor_FirstStmt, 0, { 0, (void*)1, 0 } };
   return cursor;
 }
 
 CXCursor getExprCursor() {
-  CXCursor cursor = { CXCursor_FirstExpr, { 0, (void*)1, 0 } };
+  CXCursor cursor = { CXCursor_FirstExpr, 0, { 0, (void*)1, 0 } };
   return cursor;
 }
 
