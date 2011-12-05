@@ -19,7 +19,7 @@ if [ $SUCCESS -eq 0 ]; then
 	fi 
 fi
 mkdir -p lib/oclint/clang
-cp ../llvm/lib/liblibclang.3.0.dylib lib/oclint/clang/
+cp ../llvm/lib/liblibclang.3.1.dylib lib/oclint/clang/
 if [ $SUCCESS -eq 0 ]; then
 	cp -r ../../test/samples test/samples
 	./bin/oclint_test > ../testresults.txt

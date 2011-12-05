@@ -10,7 +10,7 @@ const string PlainTextReporter::header() const {
 }
 
 const string PlainTextReporter::footer() const {
-  return "\n[OCLint (http://oclint.org) v0.4.0]\n";
+  return "\n[OCLint (http://oclint.org) v0.4.1]\n";
 }
 
 const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
