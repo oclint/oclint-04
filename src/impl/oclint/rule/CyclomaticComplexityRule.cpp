@@ -35,7 +35,7 @@ void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, Viola
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
     int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
     if (ccn > maxAllowedCCN()) {
-      string description = "CCN " + StringHelper::convertIntToString(ccn) + " exceeds limit of " + StringHelper::convertIntToString(maxAllowedCCN());
+      string description = "Cyclomatic Complexity Number " + StringHelper::convertIntToString(ccn) + " exceeds limit of " + StringHelper::convertIntToString(maxAllowedCCN());
       violationSet.addViolation(node, this, description);
     }
   }
