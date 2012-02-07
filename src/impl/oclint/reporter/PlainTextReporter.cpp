@@ -3,8 +3,6 @@
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
 
-#include <sstream> // Think about it
-
 const string PlainTextReporter::header() const {
   return "OCLint Report:\n\n";
 }
