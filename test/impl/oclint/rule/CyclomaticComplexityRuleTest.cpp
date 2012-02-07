@@ -21,42 +21,43 @@ void CyclomaticComplexityRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "high cyclomatic complexity");
 }
 
-void CyclomaticComplexityRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
+void CyclomaticComplexityRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated, string description) {
   ViolationSet violationSet;
   _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
     TS_ASSERT_EQUALS(violation.rule, _rule);
+    TS_ASSERT_EQUALS(violation.description, description);
   }
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
 }
 
-void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated) {
+void CyclomaticComplexityRuleTest::checkRule(string source, bool isViolated, string description) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   });
-  checkRule(cursorPair, isViolated);
+  checkRule(cursorPair, isViolated, description);
 }
 
 void CyclomaticComplexityRuleTest::testCCNSevenIsNotASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithNineCCN { \
     if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
-  checkRule(strSource, false);
+  checkRule(strSource, false, "");
 }
 
 void CyclomaticComplexityRuleTest::testCCNEightIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
     if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, true, "CCN 8 exceeds limit of 7");
 }
 
 void CyclomaticComplexityRuleTest::testCCNNineIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
     if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, true, "CCN 9 exceeds limit of 7");
 }
