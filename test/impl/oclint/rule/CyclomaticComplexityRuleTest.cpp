@@ -53,11 +53,11 @@ void CyclomaticComplexityRuleTest::testCCNSevenIsNotASmell() {
 void CyclomaticComplexityRuleTest::testCCNEightIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
     if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
-  checkRule(strSource, true, "Cyclomatic Complexity Number 8 exceeds limit of 7");
+  checkRule(strSource, true, "Cyclomatic Complexity Number 8 exceeds limit of 7.");
 }
 
 void CyclomaticComplexityRuleTest::testCCNNineIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithTenCCN { \
     if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} if(1) {} }\n@end";
-  checkRule(strSource, true, "Cyclomatic Complexity Number 9 exceeds limit of 7");
+  checkRule(strSource, true, "Cyclomatic Complexity Number 9 exceeds limit of 7.");
 }
