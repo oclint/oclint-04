@@ -22,50 +22,51 @@ void LongMethodRuleTest::testRuleName() {
   TS_ASSERT_EQUALS(_rule->name(), "long method");
 }
 
-void LongMethodRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated) {
+void LongMethodRuleTest::checkRule(pair<CXCursor, CXCursor> cursorPair, bool isViolated, string description) {
   ViolationSet violationSet;
   _rule->apply(cursorPair.first, cursorPair.second, violationSet);
   if (isViolated) {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 1);
     Violation violation = violationSet.getViolations().at(0);
     TS_ASSERT_EQUALS(violation.rule, _rule);
+    TS_ASSERT_EQUALS(violation.description, description);
   }
   else {
     TS_ASSERT_EQUALS(violationSet.numberOfViolations(), 0);
   }
 }
 
-void LongMethodRuleTest::checkRule(string source, bool isViolated) {
+void LongMethodRuleTest::checkRule(string source, bool isViolated, string description) {
   StringSourceCode strCode(source, "m");
   pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
     Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<ObjCMethodDecl>(decl);
   });
-  checkRule(cursorPair, isViolated);
+  checkRule(cursorPair, isViolated, description);
 }
 
 void LongMethodRuleTest::testMethodWithSixStatementsIsNotASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithSixStatements { \
     if(1) {} if(2) {} if(3) {} if(4) {} if(5) {} if(6) {} }\n@end";
-  checkRule(strSource, false);
+  checkRule(strSource, false, "");
 }
 
 void LongMethodRuleTest::testMethodWithSevenStatementsIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithSevenStatements { \
     if(1) {} if(2) {} if(3) {} if(4) {} if(5) {} if(6) {} if(7) {} }\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, true, "Method has 7 statements exceeds limit of 6.");
 }
 
 void LongMethodRuleTest::testmethodWithEightStatemetnsIsASmell() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithEightStatements { \
     if(1) {} if(2) {} if(3) {} if(4) {} if(5) {} if(6) {} if(7) {} if(8) {} }\n@end";
-  checkRule(strSource, true);
+  checkRule(strSource, true, "Method has 8 statements exceeds limit of 6.");
 }
 
 void LongMethodRuleTest::testMethodWithNestedStatementsShouldNotBeCounted() {
   string strSource = "@implementation ClassName\n- (void)aMethodWithNestedStatements { \
     if(1) { if(0) {} } if(2) { if(0) {} } if(3) { if(0) {} } if(4) {} if(5) {} if(6) {} }\n@end";
-  checkRule(strSource, false);
+  checkRule(strSource, false, "");
 }
 
 void LongMethodRuleTest::testCppLongMethodShouldReportOnImplementation() {
@@ -79,6 +80,6 @@ void LongMethodRuleTest::testCppLongMethodShouldReportOnImplementation() {
     Decl *decl = CursorHelper::getDecl(node);
     return decl && isa<CXXMethodDecl>(decl);
   }, -1);
-  checkRule(cursorPairDeclaration, false);
-  checkRule(cursorPairDefinition, true);
+  checkRule(cursorPairDeclaration, false, "");
+  checkRule(cursorPairDefinition, true, "Method has 7 statements exceeds limit of 6.");
 }
