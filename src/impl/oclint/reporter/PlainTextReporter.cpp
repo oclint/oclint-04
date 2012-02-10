@@ -3,8 +3,6 @@
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
 
-#include <sstream> // Think about it
-
 const string PlainTextReporter::header() const {
   return "OCLint Report:\n\n";
 }
@@ -32,7 +30,13 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     Violation violation = violations.at(index);
     formatedViolations += cursorLocationToPlainText(violation.cursor);
-    formatedViolations += ": oclint: " + violation.rule->name();
+    formatedViolations += ": oclint: ";
+    if (violation.description == "") {
+      formatedViolations += violation.rule->name();
+    }
+    else {
+      formatedViolations += violation.description;
+    }
     formatedViolations += '\n';
   }
   return formatedViolations;

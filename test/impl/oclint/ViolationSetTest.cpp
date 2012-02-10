@@ -22,8 +22,16 @@ void ViolationSetTest::testAddViolation() {
 }
 
 void ViolationSetTest::testGetViolations() {
-  Violation violation(clang_getNullCursor(), new MockRule());
+  Violation violation(clang_getNullCursor(), new MockRule(), "violation description");
   _violationSet->addViolation(violation);
   const vector<Violation> violations = _violationSet->getViolations();
   TS_ASSERT(clang_equalCursors(violations.at(0).cursor, clang_getNullCursor()));
+  TS_ASSERT_EQUALS(violations.at(0).description, "violation description");
+}
+
+void ViolationSetTest::testAddViolationWithAttributes() {
+  _violationSet->addViolation(clang_getNullCursor(), new MockRule(), "violation description");
+  const vector<Violation> violations = _violationSet->getViolations();
+  TS_ASSERT(clang_equalCursors(violations.at(0).cursor, clang_getNullCursor()));
+  TS_ASSERT_EQUALS(violations.at(0).description, "violation description");
 }

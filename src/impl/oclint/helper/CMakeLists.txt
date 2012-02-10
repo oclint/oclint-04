@@ -3,4 +3,5 @@ add_library(OCLintHelper
   DeclHelper.cpp
   CyclomaticComplexityMeasurement.cpp
   NPathComplexityMeasurement.cpp
+  StringHelper.cpp
   )
