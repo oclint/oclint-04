@@ -2,13 +2,14 @@
 #include "oclint/Rule.h"
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
+#include "oclint/Version.h"
 
 const string PlainTextReporter::header() const {
   return "OCLint Report:\n\n";
 }
 
 const string PlainTextReporter::footer() const {
-  return "\n[OCLint (http://oclint.org) v0.4.1]\n";
+  return "\n[OCLint (http://oclint.org) v" + oclint_version() + "]\n";
 }
 
 const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
