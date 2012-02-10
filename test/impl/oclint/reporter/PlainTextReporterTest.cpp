@@ -5,6 +5,7 @@
 #include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 #include "oclint/helper/CursorExtractionHelper.h"
 #include "oclint/helper/CursorHelper.h"
+#include "oclint/Version.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -23,7 +24,7 @@ void PlainTextReporterTest::testHeader() {
 }
 
 void PlainTextReporterTest::testFooter() {
-  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.4.1]\n");
+  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v" + oclint_version() + "]\n");
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {

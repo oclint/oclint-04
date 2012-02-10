@@ -14,6 +14,7 @@
 #include "oclint/SmellFinder.h"
 #include "oclint/RuleSet.h"
 #include "oclint/RuleConfiguration.h"
+#include "oclint/Version.h"
 #include "oclint/exception/GenericException.h"
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/reporter/HTMLReporter.h"
@@ -23,8 +24,8 @@ using namespace std;
 
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl
-    << "  oclint version 0.4.1" << endl
-    << "  llvm version 3.1" << endl;
+    << "  oclint version " << oclint_version() << endl
+    << "  llvm version " << llvm_version() << endl;
 }
 
 static void parseCommandLineOptions(int argc, char* argv[]) {

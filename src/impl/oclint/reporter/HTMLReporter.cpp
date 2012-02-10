@@ -2,6 +2,7 @@
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
+#include "oclint/Version.h"
 
 const string HTMLReporter::header() const {
   return "<html>\n<head>\n<title>OCLint Report</title>\n</head>\n<body>\n<h1>OCLint Report</h1>\n<ul>\n\
@@ -9,7 +10,7 @@ const string HTMLReporter::header() const {
 }
 
 const string HTMLReporter::footer() const {
-  return "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v0.4.1</p>\n</body>\n</html>\n";
+  return "</table></ul>\n<p><a href=\"http://oclint.org\">OCLint</a> v" + oclint_version() + "</p>\n</body>\n</html>\n";
 }
 
 const string HTMLReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
