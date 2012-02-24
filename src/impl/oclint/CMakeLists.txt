@@ -3,9 +3,10 @@ add_library(OCLintCore
   SmellFinder.cpp
   Violation.cpp
   ViolationSet.cpp
+  Version.cpp
   )
 
-add_library(OCLintRuleSet  
+add_library(OCLintRuleSet
   RuleConfiguration.cpp
   RuleSet.cpp
 )

@@ -14,6 +14,7 @@ private:
   int maxAllowedNPath();
   bool isMethodDefination(clang::Decl* decl);
   bool isMethodNPathHigh(CXCursor& node);
+  int getNPathOfCursor(CXCursor& node);
   
 public:
   virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

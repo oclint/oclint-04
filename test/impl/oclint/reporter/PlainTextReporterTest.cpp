@@ -5,6 +5,7 @@
 #include "oclint/helper/StringSourceCodeToTranslationUnitHelper.h"
 #include "oclint/helper/CursorExtractionHelper.h"
 #include "oclint/helper/CursorHelper.h"
+#include "oclint/Version.h"
 
 #include <clang/AST/Stmt.h>
 
@@ -23,7 +24,7 @@ void PlainTextReporterTest::testHeader() {
 }
 
 void PlainTextReporterTest::testFooter() {
-  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v0.4.1]\n");
+  TS_ASSERT_EQUALS(_reporter->footer(), "\n[OCLint (http://oclint.org) v" + oclint_version() + "]\n");
 }
 
 void PlainTextReporterTest::testReportDiagnostics() {
@@ -54,13 +55,27 @@ void PlainTextReporterTest::testReportViolations() {
   int tmpFileNameLength = StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(strCode);
   Violation violation(cursorPair.first, new MockRule());
   vector<Violation> violations;
-  violations.push_back(violation); 
+  violations.push_back(violation);
   string violationMessage = ":1:25: oclint: mock rule\n";
+  TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(tmpFileNameLength), violationMessage);
+}
+
+void PlainTextReporterTest::testReportViolationsWithDescription() {
+  StringSourceCode strCode("int main() { int i = 1; switch (i) { case 1: break; } return 0; }", "m");
+  pair<CXCursor, CXCursor> cursorPair = extractCursor(strCode, ^bool(CXCursor node, CXCursor parentNode) {
+    Stmt *stmt = CursorHelper::getStmt(node);
+    return stmt && isa<SwitchStmt>(stmt);
+  });
+  int tmpFileNameLength = StringSourceCodeToTranslationUnitHelper::lengthOfTmpFileName(strCode);
+  Violation violation(cursorPair.first, new MockRule(), "violation description");
+  vector<Violation> violations;
+  violations.push_back(violation);
+  string violationMessage = ":1:25: oclint: violation description\n";
   TS_ASSERT_EQUALS(_reporter->reportViolations(violations).substr(tmpFileNameLength), violationMessage);
 }
 
 void PlainTextReporterTest::testReportEmptyViolations() {
   string violationMessage;
-  vector<Violation> violations;  
+  vector<Violation> violations;
   TS_ASSERT_EQUALS(_reporter->reportViolations(violations), violationMessage);
 }

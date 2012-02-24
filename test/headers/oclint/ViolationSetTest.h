@@ -10,5 +10,6 @@ public:
   void tearDown();
   void testNoViolation();
   void testAddViolation();
+  void testAddViolationWithAttributes();
   void testGetViolations();
 };
