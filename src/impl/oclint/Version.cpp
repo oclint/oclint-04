@@ -6,7 +6,7 @@
 
 #define OCLINT_VERSION_MAJOR 0
 #define OCLINT_VERSION_MINOR 4
-#define OCLINT_VERSION_PATCH 2
+#define OCLINT_VERSION_PATCH 3
 
 string llvm_version() {
   return StringHelper::convertIntToString(LLVM_VERSION_MINOR) + "." + StringHelper::convertIntToString(LLVM_VERSION_MINOR);
