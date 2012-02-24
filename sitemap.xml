@@ -2,114 +2,114 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://oclint.org/404.html</loc>
-        <lastmod>2011-10-31T23:19:01-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/blog/archives/</loc>
-        <lastmod>2011-10-29T14:22:50-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/blog/</loc>
-        <lastmod>2011-10-29T14:22:50-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/dev/compile/</loc>
-        <lastmod>2011-10-31T19:09:19-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/dev/</loc>
-        <lastmod>2011-11-11T20:22:26-06:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/dev/roadmap/</loc>
-        <lastmod>2011-11-02T17:55:49-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/command/</loc>
-        <lastmod>2011-11-02T17:25:16-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/how-it-works/</loc>
-        <lastmod>2011-10-31T23:01:49-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/</loc>
-        <lastmod>2011-11-23T09:55:41-06:00</lastmod>
+        <lastmod>2012-02-24T09:38:57-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/install/</loc>
-        <lastmod>2011-11-02T17:16:49-05:00</lastmod>
+        <lastmod>2012-02-24T09:39:27-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/rules/</loc>
-        <lastmod>2011-10-31T22:40:15-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/write-custom-rule/</loc>
-        <lastmod>2011-10-31T23:00:12-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/docs/xcode/</loc>
-        <lastmod>2011-11-23T09:54:25-06:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/</loc>
-        <lastmod>2011-11-12T08:49:58-06:00</lastmod>
+        <lastmod>2012-02-24T09:51:11-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/license/</loc>
-        <lastmod>2011-11-01T00:03:19-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/constant-if-statement/</loc>
-        <lastmod>2011-10-31T23:03:02-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/cyclomatic-complexity/</loc>
-        <lastmod>2011-10-31T23:06:20-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/empty-if-statement/</loc>
-        <lastmod>2011-10-31T23:05:42-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/if-statement-with-negated-condition/</loc>
-        <lastmod>2011-10-31T23:06:01-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/</loc>
-        <lastmod>2011-10-29T14:28:57-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/long-method/</loc>
-        <lastmod>2011-10-31T23:07:50-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/long-parameter-list/</loc>
-        <lastmod>2011-10-31T23:09:54-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/npath-complexity/</loc>
-        <lastmod>2011-10-31T23:10:36-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/redundant-if-statement/</loc>
-        <lastmod>2011-10-31T23:10:42-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/redundant-local-variable/</loc>
-        <lastmod>2011-10-31T23:10:49-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/unreachable-code/</loc>
-        <lastmod>2011-10-31T23:10:55-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/unused-local-variable/</loc>
-        <lastmod>2011-10-31T23:11:01-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
     <url>
         <loc>http://oclint.org/rules/unused-method-parameter/</loc>
-        <lastmod>2011-10-31T23:11:09-05:00</lastmod>
+        <lastmod>2012-02-24T09:33:46-06:00</lastmod>
     </url>
 </urlset>
