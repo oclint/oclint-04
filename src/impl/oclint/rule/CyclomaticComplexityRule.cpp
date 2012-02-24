@@ -5,6 +5,7 @@
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/CyclomaticComplexityMeasurement.h"
+#include "oclint/helper/StringHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -34,8 +35,8 @@ void CyclomaticComplexityRule::apply(CXCursor& node, CXCursor& parentNode, Viola
   if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
     int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
     if (ccn > maxAllowedCCN()) {
-      Violation violation(node, this);
-      violationSet.addViolation(violation);
+      string description = "Cyclomatic Complexity Number " + StringHelper::convertIntToString(ccn) + " exceeds limit of " + StringHelper::convertIntToString(maxAllowedCCN()) + ".";
+      violationSet.addViolation(node, this, description);
     }
   }
 }

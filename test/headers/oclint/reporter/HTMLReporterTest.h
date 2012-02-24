@@ -13,5 +13,6 @@ public:
   void testReportDiagnostics();
   void testReportEmptyDiagnostics();
   void testReportViolations();
+  void testReportViolationsWithDescription();
   void testReportEmptyViolations();
 };

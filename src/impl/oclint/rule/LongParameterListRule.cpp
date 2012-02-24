@@ -5,6 +5,7 @@
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/DeclHelper.h"
+#include "oclint/helper/StringHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -37,8 +38,8 @@ int LongParameterListRule::numberOfParameters(Decl *decl) {
 void LongParameterListRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (numberOfParameters(decl) > maxAllowedNumberOfParameters()) {
-    Violation violation(node, this);
-    violationSet.addViolation(violation);
+    string description = "Method of " + StringHelper::convertIntToString(numberOfParameters(decl)) + " parameters exceeds limit of " + StringHelper::convertIntToString(maxAllowedNumberOfParameters()) + ".";
+    violationSet.addViolation(node, this, description);
   }
 }
 

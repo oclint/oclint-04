@@ -5,6 +5,7 @@
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/NPathComplexityMeasurement.h"
+#include "oclint/helper/StringHelper.h"
 
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclObjC.h>
@@ -21,19 +22,23 @@ int NPathComplexityRule::maxAllowedNPath() {
   return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_NPATH;
 }
 
+int NPathComplexityRule::getNPathOfCursor(CXCursor& node) {
+  return NPathComplexityMeasurement::getNPathOfCursor(node);
+}
+
 bool NPathComplexityRule::isMethodDefination(Decl* decl) {
   return isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl);
 }
 
 bool NPathComplexityRule::isMethodNPathHigh(CXCursor& node) {
-  return NPathComplexityMeasurement::getNPathOfCursor(node) > maxAllowedNPath();
+  return getNPathOfCursor(node) > maxAllowedNPath();
 }
 
 void NPathComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (decl && isMethodDefination(decl) && isMethodNPathHigh(node)) {
-    Violation violation(node, this);
-    violationSet.addViolation(violation);
+    string description = "NPath Complexity Number " + StringHelper::convertIntToString(getNPathOfCursor(node)) + " exceeds limit of " + StringHelper::convertIntToString(maxAllowedNPath()) + ".";
+    violationSet.addViolation(node, this, description);
   }
 }
 

@@ -2,15 +2,14 @@
 #include "oclint/Rule.h"
 #include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
-
-#include <sstream> // Think about it
+#include "oclint/Version.h"
 
 const string PlainTextReporter::header() const {
   return "OCLint Report:\n\n";
 }
 
 const string PlainTextReporter::footer() const {
-  return "\n[OCLint (http://oclint.org) v0.4.1]\n";
+  return "\n[OCLint (http://oclint.org) v" + oclint_version() + "]\n";
 }
 
 const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
@@ -32,7 +31,13 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
   for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
     Violation violation = violations.at(index);
     formatedViolations += cursorLocationToPlainText(violation.cursor);
-    formatedViolations += ": oclint: " + violation.rule->name();
+    formatedViolations += ": oclint: ";
+    if (violation.description == "") {
+      formatedViolations += violation.rule->name();
+    }
+    else {
+      formatedViolations += violation.description;
+    }
     formatedViolations += '\n';
   }
   return formatedViolations;

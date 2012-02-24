@@ -5,6 +5,7 @@
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/DeclHelper.h"
+#include "oclint/helper/StringHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Decl.h>
@@ -39,8 +40,8 @@ void LongMethodRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& v
   if (isMethodDefination(decl)) {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(decl->getBody());
     if (compoundStmt && compoundStmt->size() > maxAllowedMethodLength()) {
-      Violation violation(node, this);
-      violationSet.addViolation(violation);
+      string description = "Method has " + StringHelper::convertIntToString(compoundStmt->size()) + " statements exceeds limit of " + StringHelper::convertIntToString(maxAllowedMethodLength()) + ".";
+      violationSet.addViolation(node, this, description);
     }
   }
 }
