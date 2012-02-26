@@ -1,4 +1,5 @@
 add_library(OCLintCore
+  Driver.cpp
   ClangInstance.cpp
   SmellFinder.cpp
   Violation.cpp
