@@ -118,7 +118,6 @@ vector<string> Driver::getCompilerArguments() {
   vector<string> argv;
   consumeOptArguments(argv);
   consumeListArguments(argv);
-  consumeRuleConfigurations();
   return argv;
 }
 
@@ -155,6 +154,7 @@ int Driver::executeFile(int argc, char** argv, ostream& out) {
 
 int Driver::execute(ostream& out) {
   vector<string> argVector = getCompilerArguments();
+  consumeRuleConfigurations();
   int totalNumberOfSmells = 0;
   out << reporter()->header();
   for (unsigned i = 0; i < argInputs.size(); i++) {
