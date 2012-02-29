@@ -21,8 +21,9 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
     if (CursorHelper::isCursorDeclaredInCurrentFile(node)) {
       RuleSet::apply(node, parentNode, *_violationSet);
+      return CXChildVisit_Recurse;
     }
-    return CXChildVisit_Recurse;
+    return CXChildVisit_Continue;
   });
   return numberOfViolations();
 }
