@@ -1,20 +1,22 @@
 #ifndef OCLINT_DRIVER_BENCHMARK_H
 #define OCLINT_DRIVER_BENCHMARK_H
 
-#include <ctime>
+#include <sys/time.h>
 
 class Benchmark {
 private:
-  time_t consumeArguments_start;
-  time_t consumeArguments_end;
-  time_t loadRules_start;
-  time_t loadRules_end;
-  time_t clangInstance_start;
-  time_t clangInstance_end;
-  time_t codeAnalysis_start;
-  time_t codeAnalysis_end;
-  time_t renderReports_start;
-  time_t renderReports_end;
+  timeval consumeArguments_start;
+  timeval consumeArguments_end;
+  timeval loadRules_start;
+  timeval loadRules_end;
+  timeval clangInstance_start;
+  timeval clangInstance_end;
+  timeval codeAnalysis_start;
+  timeval codeAnalysis_end;
+  timeval renderReports_start;
+  timeval renderReports_end;
+
+  double difftimeval(timeval end, timeval start);
 
 public:
   void startConsumingArguments();

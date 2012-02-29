@@ -1,66 +1,71 @@
 #include "oclint/driver/Benchmark.h"
 
 void Benchmark::startConsumingArguments() {
-  time(&consumeArguments_start);
+  gettimeofday(&consumeArguments_start, NULL);
 }
 
 void Benchmark::finishConsumingArguments() {
-  time(&consumeArguments_end);
+  gettimeofday(&consumeArguments_end, NULL);
 }
 
 double Benchmark::consumeArguments() {
-  return difftime(consumeArguments_end, consumeArguments_start);
+  return difftimeval(consumeArguments_end, consumeArguments_start);
 }
 
 void Benchmark::startLoadingRules() {
-  time(&loadRules_start);
+  gettimeofday(&loadRules_start, NULL);
 }
 
 void Benchmark::finishLoadingRules() {
-  time(&loadRules_end);
+  gettimeofday(&loadRules_end, NULL);
 }
 
 double Benchmark::loadRules() {
-  return difftime(loadRules_end, loadRules_start);
+  return difftimeval(loadRules_end, loadRules_start);
 }
 
 void Benchmark::startParsingSourceCode() {
-  time(&clangInstance_start);
+  gettimeofday(&clangInstance_start, NULL);
 }
 
 void Benchmark::finishParsingSourceCode() {
-  time(&clangInstance_end);
+  gettimeofday(&clangInstance_end, NULL);
 }
 
 double Benchmark::clangInstance() {
-  return difftime(clangInstance_end, clangInstance_start);
+  return difftimeval(clangInstance_end, clangInstance_start);
 }
 
 void Benchmark::startAnalyzingCode() {
-  time(&codeAnalysis_start);
+  gettimeofday(&codeAnalysis_start, NULL);
 }
 
 void Benchmark::finishAnalyzingCode() {
-  time(&codeAnalysis_end);
+  gettimeofday(&codeAnalysis_end, NULL);
 }
 
 double Benchmark::codeAnalysis() {
-  return difftime(codeAnalysis_end, codeAnalysis_start);
+  return difftimeval(codeAnalysis_end, codeAnalysis_start);
 }
 
 void Benchmark::startRenderingReports() {
-  time(&renderReports_start);
+  gettimeofday(&renderReports_start, NULL);
 }
 
 void Benchmark::finishRenderingReports() {
-  time(&renderReports_end);
+  gettimeofday(&renderReports_end, NULL);
 }
 
 double Benchmark::renderReports() {
-  return difftime(renderReports_end, renderReports_start);
+  return difftimeval(renderReports_end, renderReports_start);
 }
 
 double Benchmark::sum() {
   return consumeArguments() + loadRules() + clangInstance() + codeAnalysis() + renderReports();
 }
+
+double Benchmark::difftimeval(timeval end, timeval start) {
+  return end.tv_sec - start.tv_sec + (end.tv_usec - start.tv_usec) / 1000000.0;
+}
+
 
