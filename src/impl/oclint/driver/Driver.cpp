@@ -8,6 +8,7 @@
 #include "oclint/reporter/HTMLReporter.h"
 #include "oclint/driver/CommandLineOptions.h"
 #include "oclint/helper/DriverHelper.h"
+#include "oclint/driver/Benchmark.h"
 #include "oclint/driver/Driver.h"
 
 static void versionPrinter() {
@@ -23,13 +24,17 @@ static void parseCommandLineOptions(int argc, char* argv[]) {
 }
 
 int Driver::main(int argc, char* argv[]) {
+  _benchmark = new Benchmark();
   ostream *out;
+  _benchmark->startConsumingArguments();
   parseCommandLineOptions(argc, argv);
+  _benchmark->finishConsumingArguments();
   if (consumeArgRulesPath(argv[0]) == 0 && RuleSet::numberOfRules() > 0) {
     try {
       out = outStream();
       int returnValue = execute(*out);
       disposeOutStream(out);
+      dumpBenchmarks();
       return returnValue;
     }
     catch (GenericException& ex) {
@@ -44,6 +49,17 @@ int Driver::main(int argc, char* argv[]) {
   return -1;
 }
 
+void Driver::dumpBenchmarks() {
+  cout << endl
+    << "-------- Benchmark --------" << endl
+    << "Consume Arguments: " << _benchmark->consumeArguments() << endl
+    << "Load Rules: " << _benchmark->loadRules() << endl
+    << "Clang Instance: " << _benchmark->clangInstance() << endl
+    << "Code Analysis: " << _benchmark->codeAnalysis() << endl
+    // << "Render Reports: " << _benchmark->renderReports() << endl
+    << "Total: " << _benchmark->sum() << endl;
+}
+
 int Driver::dynamicLoadRules(string ruleDirPath) {
   DIR *dp = opendir(ruleDirPath.c_str());
   if (dp != NULL) {
@@ -53,7 +69,7 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
         continue;
       }
       string rulePath = ruleDirPath + "/" + string(dirp->d_name);
-      if (dlopen(rulePath.c_str(), RTLD_NOW) == NULL){
+      if (dlopen(rulePath.c_str(), RTLD_NOW) == NULL) {
         cerr << dlerror() << endl;
         closedir(dp);
         return 3;
@@ -66,14 +82,19 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
 
 int Driver::consumeArgRulesPath(char* executablePath) {
   if (argRulesPath.size() == 0) {
+    _benchmark->startLoadingRules();
     string exeStrPath = getExecutablePath(executablePath);
     string defaultRulePath = exeStrPath + "/../lib/oclint/rules";
-    return dynamicLoadRules(defaultRulePath);
+    int errorCode = dynamicLoadRules(defaultRulePath);
+    _benchmark->finishLoadingRules();
+    return errorCode;
   }
+  _benchmark->startLoadingRules();
   int returnFlag = 0;
   for (unsigned i = 0; i < argRulesPath.size() && returnFlag == 0; ++i) {
     returnFlag = dynamicLoadRules(argRulesPath[i]);
   }
+  _benchmark->finishLoadingRules();
   return returnFlag;
 }
 
@@ -144,7 +165,9 @@ int Driver::reportSmells(ClangInstance& instance, ostream& out) {
 
 int Driver::executeFile(int argc, char** argv, ostream& out) {
   ClangInstance instance;
+  _benchmark->startParsingSourceCode();
   instance.compileSourceFileToTranslationUnit(argv, argc);
+  _benchmark->finishParsingSourceCode();
   if (instance.hasErrors()) {
     out << instance.reportErrors(*reporter());
     return instance.errors().size();
@@ -157,10 +180,12 @@ int Driver::execute(ostream& out) {
   consumeRuleConfigurations();
   int totalNumberOfSmells = 0;
   out << reporter()->header();
+  _benchmark->startAnalyzingCode();
   for (unsigned i = 0; i < argInputs.size(); i++) {
     char** argv = getArgv(argVector, argInputs[i]);
     totalNumberOfSmells += executeFile(argVector.size() + 1, argv, out);
   }
+  _benchmark->finishAnalyzingCode();
   out << reporter()->footer();
   return totalNumberOfSmells;
 }
