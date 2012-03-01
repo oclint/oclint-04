@@ -23,6 +23,8 @@ private:
 
 private:
   int dynamicLoadRules(string ruleDirPath);
+  int loadRulesFromDefaultRulePath(char* executablePath);
+  int loadRulesFromCustomRulePaths();
   int consumeArgRulesPath(char* executablePath);
   void consumeOptArgument(string argKey, string argValue, vector<string>& argVector);
   void consumeListArgument(string argKey, vector<string> argValues, vector<string>& argVector);
