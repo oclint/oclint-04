@@ -37,5 +37,12 @@ opt<string> argArch("arch", desc("Specify which architecture (e.g. ppc, i386, x8
    oclint configuration
    -------------------- */
 
-list<string> argRulesPath("R", Prefix, cl::desc("Add directory to rule loading path"), cl::value_desc("directory"), ZeroOrMore);
+list<string> argRulesPath("R", Prefix, desc("Add directory to rule loading path"), value_desc("directory"), ZeroOrMore);
 list<string> argRuleConfiguration("rc", desc("Change the baheviour of rules"), value_desc("paramemter>=<value"), ZeroOrMore);
+
+/* --------------------
+   well, a trick to remove -stats from options
+   -------------------- */
+
+opt<bool> defaultStats("stats", desc("Enable statistics output from program"), Hidden);
+

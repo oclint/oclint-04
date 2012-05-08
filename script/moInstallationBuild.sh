@@ -1,6 +1,6 @@
 #! /bin/bash
 
-MAJOR_VERSION=0.4.1
+MAJOR_VERSION=0.4.3
 AUTO_INCREASE_VERSION=`git log --oneline | wc -l | sed 's/ //g'`
 CURRENT_VERSION="oclint.$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
 
