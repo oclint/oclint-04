@@ -30,6 +30,7 @@ fi
 if [ $SUCCESS -eq 0 ]; then
   mkdir -p lib/oclint/clang
   cp ../llvm/lib/liblibclang.3.1.dylib lib/oclint/clang/
+  cp -r ../llvm/lib/clang/3.1/include lib/oclint/clang/
   mkdir -p "$INSTALLATION_PATH/$CURRENT_VERSION"
   cp -r bin "$INSTALLATION_PATH/$CURRENT_VERSION/bin"
   cp -r lib "$INSTALLATION_PATH/$CURRENT_VERSION/lib"
