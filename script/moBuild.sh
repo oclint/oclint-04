@@ -20,6 +20,7 @@ if [ $SUCCESS -eq 0 ]; then
 fi
 mkdir -p lib/oclint/clang
 cp ../llvm/lib/liblibclang.3.1.dylib lib/oclint/clang/
+cp -r ../llvm/lib/clang/3.1/include lib/oclint/clang/
 cd $CWD
 if [ $SUCCESS -eq 0 ]; then
 	build/oclint/bin/oclint_test

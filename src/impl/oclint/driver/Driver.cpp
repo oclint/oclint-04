@@ -11,6 +11,8 @@
 #include "oclint/driver/Benchmark.h"
 #include "oclint/driver/Driver.h"
 
+#include <llvm/ADT/Statistic.h>
+
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl
     << "  oclint version " << oclint_version() << endl
@@ -25,15 +27,28 @@ static void parseCommandLineOptions(int argc, char* argv[]) {
 
 int Driver::main(int argc, char* argv[]) {
   _benchmark = new Benchmark();
+  main1(argc, argv);
+  return main2();
+}
+
+void Driver::main1(int argc, char* argv[]) {
   _benchmark->startConsumingArguments();
   parseCommandLineOptions(argc, argv);
   _benchmark->finishConsumingArguments();
-  if (consumeArgRulesPath(argv[0]) == 0 && RuleSet::numberOfRules() > 0) {
+  _executablePath = getExecutablePath(argv[0]);
+  getCompilerArguments();
+  consumeRuleConfigurations();
+}
+
+int Driver::main2() {
+  if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0) {
     try {
       ostream *out = outStream();
       int returnValue = execute(*out);
       disposeOutStream(out);
-      dumpBenchmarks();
+      if (AreStatisticsEnabled()) {
+        dumpBenchmarks();
+      }
       return returnValue;
     }
     catch (GenericException& ex) {
@@ -45,7 +60,6 @@ int Driver::main(int argc, char* argv[]) {
     cerr << "No rule found" << endl;
     return -2;
   }
-  return -1;
 }
 
 void Driver::dumpBenchmarks() {
@@ -79,17 +93,16 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
   return 0;
 }
 
-int Driver::consumeArgRulesPath(char* executablePath) {
+int Driver::consumeArgRulesPath() {
   if (argRulesPath.size() == 0) {
-    loadRulesFromDefaultRulePath(executablePath);
+    return loadRulesFromDefaultRulePath();
   }
   return loadRulesFromCustomRulePaths();
 }
 
-int Driver::loadRulesFromDefaultRulePath(char* executablePath) {
+int Driver::loadRulesFromDefaultRulePath() {
   _benchmark->startLoadingRules();
-  string exeStrPath = getExecutablePath(executablePath);
-  string defaultRulePath = exeStrPath + "/../lib/oclint/rules";
+  string defaultRulePath = _executablePath + "/../lib/oclint/rules";
   int errorCode = dynamicLoadRules(defaultRulePath);
   _benchmark->finishLoadingRules();
   return errorCode;
@@ -105,31 +118,31 @@ int Driver::loadRulesFromCustomRulePaths() {
   return returnFlag;
 }
 
-void Driver::consumeOptArgument(string argKey, string argValue, vector<string>& argVector) {
+void Driver::consumeOptArgument(string argKey, string argValue) {
   if (argValue != "-") {
-    argVector.push_back("-" + argKey);
-    argVector.push_back(argValue);
+    _compilerArguments.push_back("-" + argKey);
+    _compilerArguments.push_back(argValue);
   }
 }
 
-void Driver::consumeListArgument(string argKey, vector<string> argValues, vector<string>& argVector) {
+void Driver::consumeListArgument(string argKey, vector<string> argValues) {
   for (unsigned i = 0; i < argValues.size(); ++i) {
-    argVector.push_back("-" + argKey);
-    argVector.push_back(argValues[i]);
+    _compilerArguments.push_back("-" + argKey);
+    _compilerArguments.push_back(argValues[i]);
   }
 }
 
-void Driver::consumeOptArguments(vector<string>& argVector) {
-  consumeOptArgument("x", argLanguageType, argVector);
-  consumeOptArgument("arch", argArch, argVector);
-  consumeOptArgument("isysroot", argSysroot, argVector);
+void Driver::consumeOptArguments() {
+  consumeOptArgument("x", argLanguageType);
+  consumeOptArgument("arch", argArch);
+  consumeOptArgument("isysroot", argSysroot);
 }
 
-void Driver::consumeListArguments(vector<string>& argVector) {
-  consumeListArgument("D", argMacros, argVector);
-  consumeListArgument("F", argFrameworkSearchPath, argVector);
-  consumeListArgument("include", argIncludes, argVector);
-  consumeListArgument("I", argIncludeSearchPath, argVector);
+void Driver::consumeListArguments() {
+  consumeListArgument("D", argMacros);
+  consumeListArgument("F", argFrameworkSearchPath);
+  consumeListArgument("include", argIncludes);
+  consumeListArgument("I", argIncludeSearchPath);
 }
 
 void Driver::consumeRuleConfigurations() {
@@ -142,11 +155,15 @@ void Driver::consumeRuleConfigurations() {
   }
 }
 
-vector<string> Driver::getCompilerArguments() {
-  vector<string> argv;
-  consumeOptArguments(argv);
-  consumeListArguments(argv);
-  return argv;
+void Driver::pushClangHeadersPath() {
+  _compilerArguments.push_back("-I");
+  _compilerArguments.push_back(_executablePath + "/../lib/oclint/clang/include");
+}
+
+void Driver::getCompilerArguments() {
+  consumeOptArguments();
+  consumeListArguments();
+  pushClangHeadersPath();
 }
 
 Reporter* Driver::reporter() {
@@ -183,14 +200,12 @@ int Driver::executeFile(int argc, char** argv, ostream& out) {
 }
 
 int Driver::execute(ostream& out) {
-  vector<string> argVector = getCompilerArguments();
-  consumeRuleConfigurations();
   int totalNumberOfSmells = 0;
   out << reporter()->header();
   _benchmark->startAnalyzingCode();
   for (unsigned i = 0; i < argInputs.size(); i++) {
-    char** argv = getArgv(argVector, argInputs[i]);
-    totalNumberOfSmells += executeFile(argVector.size() + 1, argv, out);
+    char** argv = getArgv(_compilerArguments, argInputs[i]);
+    totalNumberOfSmells += executeFile(_compilerArguments.size() + 1, argv, out);
   }
   _benchmark->finishAnalyzingCode();
   out << reporter()->footer();
