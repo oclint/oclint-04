@@ -20,12 +20,13 @@ public:
 
 private:
   Benchmark *_benchmark;
+  string _executablePath;
 
 private:
   int dynamicLoadRules(string ruleDirPath);
-  int loadRulesFromDefaultRulePath(char* executablePath);
+  int loadRulesFromDefaultRulePath();
   int loadRulesFromCustomRulePaths();
-  int consumeArgRulesPath(char* executablePath);
+  int consumeArgRulesPath();
   void consumeOptArgument(string argKey, string argValue, vector<string>& argVector);
   void consumeListArgument(string argKey, vector<string> argValues, vector<string>& argVector);
   void consumeOptArguments(vector<string>& argVector);

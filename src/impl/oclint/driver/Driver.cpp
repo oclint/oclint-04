@@ -28,7 +28,8 @@ int Driver::main(int argc, char* argv[]) {
   _benchmark->startConsumingArguments();
   parseCommandLineOptions(argc, argv);
   _benchmark->finishConsumingArguments();
-  if (consumeArgRulesPath(argv[0]) == 0 && RuleSet::numberOfRules() > 0) {
+  _executablePath = getExecutablePath(argv[0]);
+  if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0) {
     try {
       ostream *out = outStream();
       int returnValue = execute(*out);
@@ -79,17 +80,16 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
   return 0;
 }
 
-int Driver::consumeArgRulesPath(char* executablePath) {
+int Driver::consumeArgRulesPath() {
   if (argRulesPath.size() == 0) {
-    loadRulesFromDefaultRulePath(executablePath);
+    loadRulesFromDefaultRulePath();
   }
   return loadRulesFromCustomRulePaths();
 }
 
-int Driver::loadRulesFromDefaultRulePath(char* executablePath) {
+int Driver::loadRulesFromDefaultRulePath() {
   _benchmark->startLoadingRules();
-  string exeStrPath = getExecutablePath(executablePath);
-  string defaultRulePath = exeStrPath + "/../lib/oclint/rules";
+  string defaultRulePath = _executablePath + "/../lib/oclint/rules";
   int errorCode = dynamicLoadRules(defaultRulePath);
   _benchmark->finishLoadingRules();
   return errorCode;
