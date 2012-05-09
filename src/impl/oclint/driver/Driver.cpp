@@ -83,7 +83,7 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
 
 int Driver::consumeArgRulesPath() {
   if (argRulesPath.size() == 0) {
-    loadRulesFromDefaultRulePath();
+    return loadRulesFromDefaultRulePath();
   }
   return loadRulesFromCustomRulePaths();
 }
@@ -143,14 +143,15 @@ void Driver::consumeRuleConfigurations() {
   }
 }
 
+void Driver::pushClangHeadersPath() {
+  _compilerArguments.push_back("-I");
+  _compilerArguments.push_back(_executablePath + "/../lib/oclint/clang/include");
+}
+
 void Driver::getCompilerArguments() {
   consumeOptArguments();
   consumeListArguments();
-  cout << "BEGIN ARGUMENT" << endl;
-  for (unsigned i = 0; i < _compilerArguments.size(); i++) {
-    cout << _compilerArguments[i] << endl;
-  }
-  cout << "END ARGUMENT" << endl;
+  pushClangHeadersPath();
 }
 
 Reporter* Driver::reporter() {

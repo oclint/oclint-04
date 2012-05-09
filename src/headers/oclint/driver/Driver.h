@@ -27,6 +27,7 @@ private:
   int dynamicLoadRules(string ruleDirPath);
   int loadRulesFromDefaultRulePath();
   int loadRulesFromCustomRulePaths();
+  void pushClangHeadersPath();
   int consumeArgRulesPath();
   void consumeOptArgument(string argKey, string argValue);
   void consumeListArgument(string argKey, vector<string> argValues);
