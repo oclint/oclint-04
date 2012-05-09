@@ -29,6 +29,7 @@ int Driver::main(int argc, char* argv[]) {
   parseCommandLineOptions(argc, argv);
   _benchmark->finishConsumingArguments();
   _executablePath = getExecutablePath(argv[0]);
+  getCompilerArguments();
   if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0) {
     try {
       ostream *out = outStream();
@@ -105,31 +106,31 @@ int Driver::loadRulesFromCustomRulePaths() {
   return returnFlag;
 }
 
-void Driver::consumeOptArgument(string argKey, string argValue, vector<string>& argVector) {
+void Driver::consumeOptArgument(string argKey, string argValue) {
   if (argValue != "-") {
-    argVector.push_back("-" + argKey);
-    argVector.push_back(argValue);
+    _compilerArguments.push_back("-" + argKey);
+    _compilerArguments.push_back(argValue);
   }
 }
 
-void Driver::consumeListArgument(string argKey, vector<string> argValues, vector<string>& argVector) {
+void Driver::consumeListArgument(string argKey, vector<string> argValues) {
   for (unsigned i = 0; i < argValues.size(); ++i) {
-    argVector.push_back("-" + argKey);
-    argVector.push_back(argValues[i]);
+    _compilerArguments.push_back("-" + argKey);
+    _compilerArguments.push_back(argValues[i]);
   }
 }
 
-void Driver::consumeOptArguments(vector<string>& argVector) {
-  consumeOptArgument("x", argLanguageType, argVector);
-  consumeOptArgument("arch", argArch, argVector);
-  consumeOptArgument("isysroot", argSysroot, argVector);
+void Driver::consumeOptArguments() {
+  consumeOptArgument("x", argLanguageType);
+  consumeOptArgument("arch", argArch);
+  consumeOptArgument("isysroot", argSysroot);
 }
 
-void Driver::consumeListArguments(vector<string>& argVector) {
-  consumeListArgument("D", argMacros, argVector);
-  consumeListArgument("F", argFrameworkSearchPath, argVector);
-  consumeListArgument("include", argIncludes, argVector);
-  consumeListArgument("I", argIncludeSearchPath, argVector);
+void Driver::consumeListArguments() {
+  consumeListArgument("D", argMacros);
+  consumeListArgument("F", argFrameworkSearchPath);
+  consumeListArgument("include", argIncludes);
+  consumeListArgument("I", argIncludeSearchPath);
 }
 
 void Driver::consumeRuleConfigurations() {
@@ -142,11 +143,14 @@ void Driver::consumeRuleConfigurations() {
   }
 }
 
-vector<string> Driver::getCompilerArguments() {
-  vector<string> argv;
-  consumeOptArguments(argv);
-  consumeListArguments(argv);
-  return argv;
+void Driver::getCompilerArguments() {
+  consumeOptArguments();
+  consumeListArguments();
+  cout << "BEGIN ARGUMENT" << endl;
+  for (unsigned i = 0; i < _compilerArguments.size(); i++) {
+    cout << _compilerArguments[i] << endl;
+  }
+  cout << "END ARGUMENT" << endl;
 }
 
 Reporter* Driver::reporter() {
@@ -183,14 +187,13 @@ int Driver::executeFile(int argc, char** argv, ostream& out) {
 }
 
 int Driver::execute(ostream& out) {
-  vector<string> argVector = getCompilerArguments();
   consumeRuleConfigurations();
   int totalNumberOfSmells = 0;
   out << reporter()->header();
   _benchmark->startAnalyzingCode();
   for (unsigned i = 0; i < argInputs.size(); i++) {
-    char** argv = getArgv(argVector, argInputs[i]);
-    totalNumberOfSmells += executeFile(argVector.size() + 1, argv, out);
+    char** argv = getArgv(_compilerArguments, argInputs[i]);
+    totalNumberOfSmells += executeFile(_compilerArguments.size() + 1, argv, out);
   }
   _benchmark->finishAnalyzingCode();
   out << reporter()->footer();

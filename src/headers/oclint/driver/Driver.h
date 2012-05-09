@@ -21,19 +21,20 @@ public:
 private:
   Benchmark *_benchmark;
   string _executablePath;
+  vector<string> _compilerArguments;
 
 private:
   int dynamicLoadRules(string ruleDirPath);
   int loadRulesFromDefaultRulePath();
   int loadRulesFromCustomRulePaths();
   int consumeArgRulesPath();
-  void consumeOptArgument(string argKey, string argValue, vector<string>& argVector);
-  void consumeListArgument(string argKey, vector<string> argValues, vector<string>& argVector);
-  void consumeOptArguments(vector<string>& argVector);
-  void consumeListArguments(vector<string>& argVector);
+  void consumeOptArgument(string argKey, string argValue);
+  void consumeListArgument(string argKey, vector<string> argValues);
+  void consumeOptArguments();
+  void consumeListArguments();
   void consumeRuleConfigurations();
 
-  vector<string> getCompilerArguments();
+  void getCompilerArguments();
   Reporter* reporter();
   int reportSmells(ClangInstance& instance, ostream& out);
   int executeFile(int argc, char** argv, ostream& out);
