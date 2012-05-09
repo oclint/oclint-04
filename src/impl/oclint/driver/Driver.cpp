@@ -11,6 +11,8 @@
 #include "oclint/driver/Benchmark.h"
 #include "oclint/driver/Driver.h"
 
+#include <llvm/ADT/Statistic.h>
+
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl
     << "  oclint version " << oclint_version() << endl
@@ -25,17 +27,28 @@ static void parseCommandLineOptions(int argc, char* argv[]) {
 
 int Driver::main(int argc, char* argv[]) {
   _benchmark = new Benchmark();
+  main1(argc, argv);
+  return main2();
+}
+
+void Driver::main1(int argc, char* argv[]) {
   _benchmark->startConsumingArguments();
   parseCommandLineOptions(argc, argv);
   _benchmark->finishConsumingArguments();
   _executablePath = getExecutablePath(argv[0]);
   getCompilerArguments();
+  consumeRuleConfigurations();
+}
+
+int Driver::main2() {
   if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0) {
     try {
       ostream *out = outStream();
       int returnValue = execute(*out);
       disposeOutStream(out);
-      dumpBenchmarks();
+      if (AreStatisticsEnabled()) {
+        dumpBenchmarks();
+      }
       return returnValue;
     }
     catch (GenericException& ex) {
@@ -47,7 +60,6 @@ int Driver::main(int argc, char* argv[]) {
     cerr << "No rule found" << endl;
     return -2;
   }
-  return -1;
 }
 
 void Driver::dumpBenchmarks() {
@@ -188,7 +200,6 @@ int Driver::executeFile(int argc, char** argv, ostream& out) {
 }
 
 int Driver::execute(ostream& out) {
-  consumeRuleConfigurations();
   int totalNumberOfSmells = 0;
   out << reporter()->header();
   _benchmark->startAnalyzingCode();

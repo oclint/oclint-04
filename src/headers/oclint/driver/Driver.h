@@ -19,6 +19,10 @@ public:
   int main(int argc, char* argv[]);
 
 private:
+  void main1(int argc, char* argv[]);
+  int main2();
+
+private:
   Benchmark *_benchmark;
   string _executablePath;
   vector<string> _compilerArguments;
