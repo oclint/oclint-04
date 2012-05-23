@@ -9,7 +9,7 @@
 #define OCLINT_VERSION_PATCH 3
 
 string llvm_version() {
-  return StringHelper::convertIntToString(LLVM_VERSION_MINOR) + "." + StringHelper::convertIntToString(LLVM_VERSION_MINOR);
+  return StringHelper::convertIntToString(LLVM_VERSION_MAJOR) + "." + StringHelper::convertIntToString(LLVM_VERSION_MINOR);
 }
 
 string oclint_version() {
