@@ -118,6 +118,12 @@ int Driver::loadRulesFromCustomRulePaths() {
   return returnFlag;
 }
 
+void Driver::consumeEnableARC() {
+  if (argARCSupport) {
+    _compilerArguments.push_back("-fobjc-arc");
+  }
+}
+
 void Driver::consumeOptArgument(string argKey, string argValue) {
   if (argValue != "-") {
     _compilerArguments.push_back("-" + argKey);
@@ -164,6 +170,7 @@ void Driver::getCompilerArguments() {
   consumeOptArguments();
   consumeListArguments();
   pushClangHeadersPath();
+  consumeEnableARC();
 }
 
 Reporter* Driver::reporter() {

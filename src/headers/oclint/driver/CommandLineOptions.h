@@ -32,6 +32,7 @@ opt<string> argSysroot("isysroot", desc("Add directory to SYSTEM include search 
 list<string> argIncludes("include", desc("Include file before parsing"), value_desc("file"), ZeroOrMore);
 opt<string> argLanguageType("x", desc("Input language type"), value_desc("value"), init("-"));
 opt<string> argArch("arch", desc("Specify which architecture (e.g. ppc, i386, x86_64, armv7) the compilation should targets."), value_desc("arch_name"), init("-"));
+opt<bool> argARCSupport("fobjc-arc", desc("Synthesize retain and release calls for Objective-C pointers"));
 
 /* --------------------
    oclint configuration

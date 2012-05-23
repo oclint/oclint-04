@@ -32,6 +32,7 @@ private:
   int loadRulesFromDefaultRulePath();
   int loadRulesFromCustomRulePaths();
   void pushClangHeadersPath();
+  void consumeEnableARC();
   int consumeArgRulesPath();
   void consumeOptArgument(string argKey, string argValue);
   void consumeListArgument(string argKey, vector<string> argValues);
