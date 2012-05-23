@@ -35,7 +35,11 @@ if [ $SUCCESS -eq 0 ]; then
   mkdir -p "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION"
   cp -r bin "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION/bin"
   cp -r lib "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION/lib"
-  /Developer/usr/bin/packagemaker --title "OCLint" --version $CURRENT_VERSION --filter "\.DS_Store" --root-volume-only --domain system --verbose --no-relocate -l /usr --target 10.5 --id org.oclint.pkg --root "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION" --out "$INSTALLATION_PATH/oclint-$CURRENT_VERSION.pkg"
+  mkdir -p resources
+  head -n 28 ../../LICENSE | tail -n 24 > resources/License.txt
+  /Developer/usr/bin/packagemaker --title "OCLint" --version $CURRENT_VERSION --filter "\.DS_Store" --root-volume-only --domain system --verbose --no-relocate -l /usr --id org.oclint.pkg --root "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION" --resources ./resources --out "$INSTALLATION_PATH/oclint-$CURRENT_VERSION.pkg"
+  cd "$INSTALLATION_PATH"
+  zip -r "oclint-$MAJOR_VERSION.pkg.zip" "oclint-$CURRENT_VERSION.pkg"
 fi
 cd $CWD
 exit $SUCCESS
