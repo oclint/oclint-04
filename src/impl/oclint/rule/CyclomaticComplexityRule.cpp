@@ -1,4 +1,9 @@
 #include "oclint/rule/CyclomaticComplexityRule.h"
+
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclObjC.h>
+#include <clang/AST/DeclCXX.h>
+
 #include "oclint/RuleSet.h"
 #include "oclint/RuleConfiguration.h"
 #include "oclint/ViolationSet.h"
@@ -6,10 +11,6 @@
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/CyclomaticComplexityMeasurement.h"
 #include "oclint/helper/StringHelper.h"
-
-#include <clang/AST/Decl.h>
-#include <clang/AST/DeclObjC.h>
-#include <clang/AST/DeclCXX.h>
 
 using namespace clang;
 

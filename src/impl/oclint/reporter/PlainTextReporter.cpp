@@ -1,6 +1,7 @@
+#include "oclint/reporter/PlainTextReporter.h"
+
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
-#include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/Version.h"
 

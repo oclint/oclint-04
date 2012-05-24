@@ -2,6 +2,7 @@
 #define OCLINT_VERSION_H
 
 #include <string>
+
 using namespace std;
 
 string llvm_version();

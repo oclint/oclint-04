@@ -1,11 +1,12 @@
 #include "oclint/rule/UnusedLocalVariableRule.h"
+
+#include <clang/AST/Decl.h>
+
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/DeclHelper.h"
-
-#include <clang/AST/Decl.h>
 
 using namespace clang;
 

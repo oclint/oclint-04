@@ -1,11 +1,12 @@
 #include "oclint/rule/UnreachableCodeRule.h"
+
+#include <clang/AST/Stmt.h>
+#include <clang/AST/StmtObjC.h>
+
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
-
-#include <clang/AST/Stmt.h>
-#include <clang/AST/StmtObjC.h>
 
 using namespace clang;
 

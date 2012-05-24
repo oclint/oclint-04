@@ -5,9 +5,9 @@
 #include <utility>
 #include <string>
 
-using namespace std;
-
 #include <clang-c/Index.h>
+
+using namespace std;
 
 class RuleConfiguration {
 private:

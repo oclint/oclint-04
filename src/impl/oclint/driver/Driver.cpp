@@ -1,3 +1,7 @@
+#include "oclint/driver/Driver.h"
+
+#include <llvm/ADT/Statistic.h>
+
 #include "oclint/ClangInstance.h"
 #include "oclint/SmellFinder.h"
 #include "oclint/RuleSet.h"
@@ -9,9 +13,6 @@
 #include "oclint/driver/CommandLineOptions.h"
 #include "oclint/helper/DriverHelper.h"
 #include "oclint/driver/Benchmark.h"
-#include "oclint/driver/Driver.h"
-
-#include <llvm/ADT/Statistic.h>
 
 static void versionPrinter() {
   cout << "OCLint (http://oclint.org/):" << endl

@@ -1,4 +1,5 @@
 #include "oclint/SmellFinder.h"
+
 #include "oclint/Reporter.h"
 #include "oclint/Violation.h"
 #include "oclint/ViolationSet.h"

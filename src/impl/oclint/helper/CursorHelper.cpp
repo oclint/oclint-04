@@ -1,3 +1,5 @@
+#include "oclint/helper/CursorHelper.h"
+
 #ifndef LLVM_CLANG_CXTRANSLATIONUNIT_H
 #define LLVM_CLANG_CXTRANSLATIONUNIT_H
 
@@ -17,8 +19,6 @@ struct CXTranslationUnitImpl {
 #include <clang/Frontend/ASTUnit.h>
 #include <clang/Basic/SourceManager.h>
 #include <clang/Basic/SourceLocation.h>
-
-#include "oclint/helper/CursorHelper.h"
 
 Decl* CursorHelper::getDecl(CXCursor node) {
   if (clang_isDeclaration(clang_getCursorKind(node))) {

@@ -1,4 +1,5 @@
 #include "oclint/RuleSet.h"
+
 #include "oclint/Rule.h"
 
 vector<Rule*>* RuleSet::_rules = NULL;

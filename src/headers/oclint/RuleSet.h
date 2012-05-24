@@ -3,12 +3,12 @@
 
 #include <vector>
 
-using namespace std;
-
 #include <clang-c/Index.h>
 
 class Rule;
 class ViolationSet;
+
+using namespace std;
 
 class RuleSet {
 private:

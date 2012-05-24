@@ -3,12 +3,12 @@
 
 #include <string>
 
-using namespace std;
-
 #include <clang-c/Index.h>
 
 class ViolationSet;
 class Reporter;
+
+using namespace std;
 
 class SmellFinder {
 private:

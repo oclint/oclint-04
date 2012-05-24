@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include <clang-c/Index.h>
 
 class Reporter;
+
+using namespace std;
 
 class ClangInstance {
 private:

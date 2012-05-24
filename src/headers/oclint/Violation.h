@@ -1,13 +1,13 @@
 #ifndef OCLINT_VIOLATION_H
 #define OCLINT_VIOLATION_H
 
-#include <clang-c/Index.h>
-
 #include <string>
 
-using namespace std;
+#include <clang-c/Index.h>
 
 class Rule;
+
+using namespace std;
 
 class Violation {
 public:

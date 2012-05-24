@@ -1,11 +1,12 @@
 #include "oclint/rule/IfStatementWithNegatedConditionRule.h"
+
+#include <clang/AST/Stmt.h>
+#include <clang/AST/Expr.h>
+
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
-
-#include <clang/AST/Stmt.h>
-#include <clang/AST/Expr.h>
 
 using namespace clang;
 

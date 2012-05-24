@@ -1,4 +1,5 @@
 #include "oclint/ClangInstance.h"
+
 #include "oclint/Reporter.h"
 #include "oclint/exception/GenericException.h"
 

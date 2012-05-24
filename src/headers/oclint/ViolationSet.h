@@ -1,15 +1,15 @@
 #ifndef OCLINT_VIOLATIONSET_H
 #define OCLINT_VIOLATIONSET_H
 
-#include <clang-c/Index.h>
-
 #include <string>
 #include <vector>
 
-using namespace std;
+#include <clang-c/Index.h>
 
 class Violation;
 class Rule;
+
+using namespace std;
 
 class ViolationSet {
 private:

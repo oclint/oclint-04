@@ -4,11 +4,11 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 #include <clang-c/Index.h>
 
 class Violation;
+
+using namespace std;
 
 class Reporter {
 public:

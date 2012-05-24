@@ -1,13 +1,14 @@
 #include "oclint/rule/UnusedMethodParameterRule.h"
+
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclCXX.h>
+#include <clang/AST/DeclObjC.h>
+
 #include "oclint/RuleSet.h"
 #include "oclint/ViolationSet.h"
 #include "oclint/Violation.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/helper/DeclHelper.h"
-
-#include <clang/AST/Decl.h>
-#include <clang/AST/DeclCXX.h>
-#include <clang/AST/DeclObjC.h>
 
 using namespace clang;
 

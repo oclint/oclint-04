@@ -1,8 +1,9 @@
 #ifndef OCLINT_HELPER_CURSORHELPER_H
 #define OCLINT_HELPER_CURSORHELPER_H
 
-#include <clang-c/Index.h>
 #include <string>
+
+#include <clang-c/Index.h>
 
 namespace clang {
   class Decl;

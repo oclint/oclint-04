@@ -1,12 +1,13 @@
 #include "oclint/rule/ConstantIfStatementRule.h"
-#include "oclint/RuleSet.h"
-#include "oclint/ViolationSet.h"
-#include "oclint/Violation.h"
-#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Expr.h>
 #include <clang/AST/Decl.h>
+
+#include "oclint/RuleSet.h"
+#include "oclint/ViolationSet.h"
+#include "oclint/Violation.h"
+#include "oclint/helper/CursorHelper.h"
 
 using namespace clang;
 

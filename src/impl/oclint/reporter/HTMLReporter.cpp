@@ -1,4 +1,5 @@
 #include "oclint/reporter/HTMLReporter.h"
+
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"

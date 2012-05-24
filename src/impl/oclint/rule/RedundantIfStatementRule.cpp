@@ -1,13 +1,14 @@
 #include "oclint/rule/RedundantIfStatementRule.h"
-#include "oclint/RuleSet.h"
-#include "oclint/ViolationSet.h"
-#include "oclint/Violation.h"
-#include "oclint/helper/CursorHelper.h"
 
 #include <clang/AST/Stmt.h>
 #include <clang/AST/Expr.h>
 #include <clang/AST/ExprCXX.h>
 #include <clang/AST/ExprObjC.h>
+
+#include "oclint/RuleSet.h"
+#include "oclint/ViolationSet.h"
+#include "oclint/Violation.h"
+#include "oclint/helper/CursorHelper.h"
 
 using namespace clang;
 

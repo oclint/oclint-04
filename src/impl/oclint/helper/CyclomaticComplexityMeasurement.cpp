@@ -1,3 +1,5 @@
+#include "oclint/helper/CyclomaticComplexityMeasurement.h"
+
 #include <clang/AST/Stmt.h>
 #include <clang/AST/StmtCXX.h>
 #include <clang/AST/StmtObjC.h>
@@ -5,10 +7,9 @@
 #include <clang/AST/ExprCXX.h>
 #include <clang/AST/ExprObjC.h>
 
-using namespace clang;
-
 #include "oclint/helper/CursorHelper.h"
-#include "oclint/helper/CyclomaticComplexityMeasurement.h"
+
+using namespace clang;
 
 static int _count;
 

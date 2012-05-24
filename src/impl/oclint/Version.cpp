@@ -1,4 +1,5 @@
 #include "oclint/version.h"
+
 #include "oclint/helper/StringHelper.h"
 
 #define LLVM_VERSION_MAJOR   3

@@ -3,16 +3,17 @@
 
 #include <dlfcn.h>
 #include <dirent.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
-using namespace std;
-
 class ClangInstance;
 class Reporter;
 class Benchmark;
+
+using namespace std;
 
 class Driver {
 public:
