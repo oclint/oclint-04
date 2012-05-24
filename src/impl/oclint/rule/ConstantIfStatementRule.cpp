@@ -13,7 +13,8 @@ using namespace clang;
 
 RuleSet ConstantIfStatementRule::rules(new ConstantIfStatementRule());
 
-void ConstantIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void ConstantIfStatementRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorHelper::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
@@ -21,7 +22,8 @@ void ConstantIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, Violat
       Expr *conditionExpression = ifStmt->getCond();
       
       bool evaluatedResult;
-      if (conditionExpression->EvaluateAsBooleanCondition(evaluatedResult, CursorHelper::getASTContext(node))) {
+      if (conditionExpression->EvaluateAsBooleanCondition(
+        evaluatedResult, CursorHelper::getASTContext(node))) {
         Violation violation(node, this);
         violationSet.addViolation(violation);
       }

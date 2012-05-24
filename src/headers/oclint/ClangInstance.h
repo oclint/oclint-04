@@ -18,7 +18,8 @@ private:
   ClangInstance(const ClangInstance&);
   ClangInstance& operator=(const ClangInstance&);
   
-  const string reportDiagnostics(const vector<CXDiagnostic> diagnostics, const Reporter& reporter);
+  const string reportDiagnostics(
+    const vector<CXDiagnostic> diagnostics, const Reporter& reporter);
 
 public:
   ClangInstance();

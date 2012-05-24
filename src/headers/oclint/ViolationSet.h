@@ -17,7 +17,8 @@ private:
   
 public:
   void addViolation(const Violation& violation);
-  void addViolation(const CXCursor& node, Rule *rule, const string& description = "");
+  void addViolation(
+    const CXCursor& node, Rule *rule, const string& description = "");
   int numberOfViolations() const;
   const vector<Violation> getViolations() const;
 };

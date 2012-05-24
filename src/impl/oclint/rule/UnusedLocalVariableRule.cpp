@@ -12,11 +12,13 @@ using namespace clang;
 
 RuleSet UnusedLocalVariableRule::rules(new UnusedLocalVariableRule());
 
-void UnusedLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void UnusedLocalVariableRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (decl) {
     VarDecl *varDecl = dyn_cast<VarDecl>(decl);
-    if (varDecl && !varDecl->isUsed() && varDecl->isLocalVarDecl() && !varDecl->isStaticDataMember()) {
+    if (varDecl && !varDecl->isUsed() && varDecl->isLocalVarDecl() 
+      && !varDecl->isStaticDataMember()) {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }

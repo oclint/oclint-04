@@ -30,7 +30,8 @@ bool UnusedMethodParameterRule::isObjCMethodDeclaration(DeclContext *context) {
 
 bool UnusedMethodParameterRule::isObjCOverrideMethod(DeclContext *context) {
   ObjCMethodDecl *decl = dyn_cast<ObjCMethodDecl>(context);
-  return DeclHelper::isObjCMethodDeclaredInSuperClass(decl) || DeclHelper::isObjCMethodDeclaredInProtocol(decl);
+  return DeclHelper::isObjCMethodDeclaredInSuperClass(decl) 
+    || DeclHelper::isObjCMethodDeclaredInProtocol(decl);
 }
 
 bool UnusedMethodParameterRule::isCppFunctionDeclaration(DeclContext *context) {
@@ -44,12 +45,12 @@ bool UnusedMethodParameterRule::isCppOverrideFunction(DeclContext *context) {
 }
 
 bool UnusedMethodParameterRule::isExistingByContract(DeclContext *context) {
-  return isFunctionDeclaration(context) ||
-         isBlockDeclaration(context) ||
-         isObjCMethodDeclaration(context) || 
-         isObjCOverrideMethod(context) || 
-         isCppFunctionDeclaration(context) || 
-         isCppOverrideFunction(context);
+  return isFunctionDeclaration(context) 
+    || isBlockDeclaration(context) 
+    || isObjCMethodDeclaration(context) 
+    || isObjCOverrideMethod(context) 
+    || isCppFunctionDeclaration(context) 
+    || isCppOverrideFunction(context);
 }
 
 bool UnusedMethodParameterRule::isExistingByContract(ParmVarDecl *decl) {
@@ -63,7 +64,8 @@ bool UnusedMethodParameterRule::isExistingByContract(ParmVarDecl *decl) {
   return false;
 }
 
-void UnusedMethodParameterRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void UnusedMethodParameterRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (decl) {
     ParmVarDecl *varDecl = dyn_cast<ParmVarDecl>(decl);

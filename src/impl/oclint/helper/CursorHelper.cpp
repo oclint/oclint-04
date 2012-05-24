@@ -42,7 +42,9 @@ Expr* CursorHelper::getExpr(CXCursor node) {
 }
 
 ASTContext& CursorHelper::getASTContext(CXCursor node) {
-  ASTUnit *astUnit = static_cast<ASTUnit *>(static_cast<CXTranslationUnit>(node.data[2])->TUData);
+  ASTUnit *astUnit = 
+    static_cast<ASTUnit *>(
+      static_cast<CXTranslationUnit>(node.data[2])->TUData);
   return astUnit->getASTContext();
 }
 
@@ -51,15 +53,22 @@ bool CursorHelper::isCursorDeclaredInCurrentFile(CXCursor node) {
   Decl *decl = CursorHelper::getDecl(node);
   Stmt *stmt = CursorHelper::getStmt(node);
   if (decl) {
-    fileId = CursorHelper::getASTContext(node).getSourceManager().getFileID(decl->getLocation());
+    fileId = 
+      CursorHelper::getASTContext(node)
+        .getSourceManager()
+        .getFileID(decl->getLocation());
   }
   else if (stmt) {
-    fileId = CursorHelper::getASTContext(node).getSourceManager().getFileID(stmt->getLocStart());
+    fileId = 
+      CursorHelper::getASTContext(node)
+        .getSourceManager()
+        .getFileID(stmt->getLocStart());
   }
   else {
     return false;
   }
-  SourceLocation sourceLocation = CursorHelper::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
+  SourceLocation sourceLocation = 
+    CursorHelper::getASTContext(node).getSourceManager().getIncludeLoc(fileId);
   return sourceLocation.isInvalid();
 }
 

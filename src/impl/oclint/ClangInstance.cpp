@@ -13,14 +13,17 @@ ClangInstance::~ClangInstance() {
   clang_disposeIndex(_index);
 }
 
-void ClangInstance::compileSourceFileToTranslationUnit(const char * const * argv, int argc) {
-  _translationUnit = clang_parseTranslationUnit(_index, 0, argv, argc, 0, 0, CXTranslationUnit_None);
+void ClangInstance::compileSourceFileToTranslationUnit(
+  const char * const * argv, int argc) {
+  _translationUnit = clang_parseTranslationUnit(
+    _index, 0, argv, argc, 0, 0, CXTranslationUnit_None);
   if (!_translationUnit) {
     throw GenericException("Code compilation fails!");
   }
 }
 
-const string ClangInstance::reportDiagnostics(const vector<CXDiagnostic> diagnostics, const Reporter& reporter) {
+const string ClangInstance::reportDiagnostics(
+  const vector<CXDiagnostic> diagnostics, const Reporter& reporter) {
   return reporter.reportDiagnostics(diagnostics);
 }
 
@@ -30,7 +33,10 @@ bool ClangInstance::hasDiagnostics() const {
 
 const vector<CXDiagnostic> ClangInstance::diagnostics() const {
   vector<CXDiagnostic> diagnostics;
-  for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+  for (int index = 0, 
+    numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); 
+    index < numberOfDiagnostics; 
+    index++) {
     diagnostics.push_back(clang_getDiagnostic(_translationUnit, index));
   }
   return diagnostics;
@@ -47,7 +53,10 @@ bool ClangInstance::hasWarnings() const {
 const vector<CXDiagnostic> ClangInstance::warnings() const {
   vector<CXDiagnostic> warnings;
   if (hasDiagnostics()) {
-    for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+    for (int index = 0, 
+      numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); 
+      index < numberOfDiagnostics; 
+      index++) {
       CXDiagnostic diagnostic = clang_getDiagnostic(_translationUnit, index);
       if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Warning) {
         warnings.push_back(diagnostic);
@@ -68,9 +77,13 @@ bool ClangInstance::hasErrors() const {
 const vector<CXDiagnostic> ClangInstance::errors() const {
   vector<CXDiagnostic> errors;
   if (hasDiagnostics()) {
-    for (int index = 0, numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); index < numberOfDiagnostics; index++) {
+    for (int index = 0, 
+      numberOfDiagnostics = clang_getNumDiagnostics(_translationUnit); 
+      index < numberOfDiagnostics; 
+      index++) {
       CXDiagnostic diagnostic = clang_getDiagnostic(_translationUnit, index);
-      if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Error || clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Fatal) {
+      if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Error 
+        || clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Fatal) {
         errors.push_back(diagnostic);
       }
     }
@@ -84,10 +97,12 @@ const string ClangInstance::reportErrors(const Reporter& reporter) {
 
 const CXTranslationUnit& ClangInstance::getTranslationUnit() const {
   if (!_translationUnit) {
-    throw GenericException("No translation unit found, please compile source code first!");
+    throw GenericException(
+      "No translation unit found, please compile source code first!");
   }
   if (hasErrors()) {
-    throw GenericException("You are not allowed to get a translation unit with errors!");
+    throw GenericException(
+      "You are not allowed to get a translation unit with errors!");
   }
   return _translationUnit;
 }

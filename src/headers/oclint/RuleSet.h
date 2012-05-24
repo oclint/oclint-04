@@ -17,7 +17,8 @@ private:
 public:
   RuleSet(Rule* rule);
   static int numberOfRules();
-  static void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
+  static void apply(
+    CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
 };
 
 #endif

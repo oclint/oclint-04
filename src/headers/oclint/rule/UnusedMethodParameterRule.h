@@ -24,7 +24,8 @@ private:
   bool isExistingByContract(DeclContext *context);
   
 public:
-  virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
+  virtual void apply(
+    CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
   virtual const string name() const;
 };
 

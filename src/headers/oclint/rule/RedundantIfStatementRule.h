@@ -25,10 +25,12 @@ private:
   
   bool isNotEquals(Expr *firstExpr, Expr *secondExpr);
   bool doesReturnStatementsViolateRule(ReturnStmt *first, ReturnStmt *second);
-  bool doesBinaryOperatorsViolateRule(BinaryOperator *first, BinaryOperator *second);
+  bool doesBinaryOperatorsViolateRule(
+    BinaryOperator *first, BinaryOperator *second);
   
 public:
-  virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
+  virtual void apply(
+    CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
   virtual const string name() const;
 };
 

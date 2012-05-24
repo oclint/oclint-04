@@ -28,8 +28,10 @@ int NPathComplexityMeasurement::nPath(Stmt *node) {
 
 int NPathComplexityMeasurement::nPath(CompoundStmt *stmt) {
   int npath = 1;
-  for (CompoundStmt::body_iterator body = stmt->body_begin(), bodyEnd = stmt->body_end(); 
-      body != bodyEnd; body++) {
+  for (CompoundStmt::body_iterator body = stmt->body_begin(), 
+    bodyEnd = stmt->body_end(); 
+    body != bodyEnd; 
+    body++) {
     npath *= nPath(*body);
   }
   return npath;
@@ -95,8 +97,10 @@ int NPathComplexityMeasurement::nPath(ObjCForCollectionStmt *stmt) {
 int NPathComplexityMeasurement::nPath(SwitchStmt *stmt) {
   int internalNPath = 0, nPathSwitchStmt = nPath(stmt->getCond());
   CompoundStmt *body = (CompoundStmt *)stmt->getBody();
-  for (CompoundStmt::body_iterator bodyStmt = body->body_begin(), bodyStmtEnd = body->body_end(); 
-        bodyStmt != bodyStmtEnd; bodyStmt++) {
+  for (CompoundStmt::body_iterator bodyStmt = body->body_begin(), 
+    bodyStmtEnd = body->body_end(); 
+    bodyStmt != bodyStmtEnd; 
+    bodyStmt++) {
     if (isa<SwitchCase>(*bodyStmt)) {
       SwitchCase *switchCase = dyn_cast<SwitchCase>(*bodyStmt);
       nPathSwitchStmt += internalNPath;
@@ -119,7 +123,8 @@ int NPathComplexityMeasurement::nPath(Expr *node) {
 }
 
 int NPathComplexityMeasurement::nPath(ConditionalOperator *expr) {
-  return nPath(expr->getCond()) + nPath(expr->getTrueExpr()) + nPath(expr->getFalseExpr()) + 2;
+  return nPath(expr->getCond()) + nPath(expr->getTrueExpr())
+    + nPath(expr->getFalseExpr()) + 2;
 }
 
 int NPathComplexityMeasurement::nPath(BinaryOperator *expr) {
@@ -144,7 +149,8 @@ int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor) {
   return 1; // TODO: return 1 for now, will throw exceptions
 }
 
-CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(CXCursor cursor) {
+CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(
+  CXCursor cursor) {
   Stmt *stmt = CursorHelper::getStmt(cursor);
   if (stmt && isa<CompoundStmt>(stmt)) {
     return dyn_cast<CompoundStmt>(stmt);
@@ -152,9 +158,11 @@ CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(CXCursor
   return NULL;
 }
 
-CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromMethodDeclCursor(CXCursor cursor) {
+CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromMethodDeclCursor(
+  CXCursor cursor) {
   Decl *decl = CursorHelper::getDecl(cursor);
-  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) && decl->hasBody()) {
+  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) 
+    && decl->hasBody()) {
     CompoundStmt *bodyStmt = dyn_cast<CompoundStmt>(decl->getBody());
     if (bodyStmt) {
       return bodyStmt;

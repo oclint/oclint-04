@@ -7,7 +7,8 @@ void ViolationSet::addViolation(const Violation& violation) {
   _violations.push_back(violation);
 }
 
-void ViolationSet::addViolation(const CXCursor& node, Rule *rule, const string& description) {
+void ViolationSet::addViolation(
+  const CXCursor& node, Rule *rule, const string& description) {
   Violation violation(node, rule, description);
   _violations.push_back(violation);
 }

@@ -19,11 +19,13 @@ bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
   return false;
 }
 
-void EmptyIfStatementRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void EmptyIfStatementRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorHelper::getStmt(node);
   if (stmt) {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
-    if (ifStmt && (isLexicalEmpty(ifStmt->getThen()) || isLexicalEmpty(ifStmt->getElse()))) {
+    if (ifStmt && (isLexicalEmpty(ifStmt->getThen()) 
+      || isLexicalEmpty(ifStmt->getElse()))) {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }

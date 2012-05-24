@@ -19,13 +19,15 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   if (!translationUnit) {
     throw GenericException("Inspect on an empty translation unit!");
   }
-  clang_visitChildrenWithBlock(clang_getTranslationUnitCursor(translationUnit), ^(CXCursor node, CXCursor parentNode) {
-    if (CursorHelper::isCursorDeclaredInCurrentFile(node)) {
-      RuleSet::apply(node, parentNode, *_violationSet);
-      return CXChildVisit_Recurse;
-    }
-    return CXChildVisit_Continue;
-  });
+  clang_visitChildrenWithBlock(
+    clang_getTranslationUnitCursor(translationUnit), 
+    ^(CXCursor node, CXCursor parentNode) {
+      if (CursorHelper::isCursorDeclaredInCurrentFile(node)) {
+        RuleSet::apply(node, parentNode, *_violationSet);
+        return CXChildVisit_Recurse;
+      }
+      return CXChildVisit_Continue;
+    });
   return numberOfViolations();
 }
 

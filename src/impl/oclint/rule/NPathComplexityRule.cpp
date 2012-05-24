@@ -20,7 +20,9 @@ RuleSet NPathComplexityRule::rules(new NPathComplexityRule());
 
 int NPathComplexityRule::maxAllowedNPath() {
   string key = "NPATH_COMPLEXITY";
-  return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_NPATH;
+  return RuleConfiguration::hasKey(key) ? 
+    atoi(RuleConfiguration::valueForKey(key).c_str()) : 
+    DEFAULT_MAX_ALLOWED_NPATH;
 }
 
 int NPathComplexityRule::getNPathOfCursor(CXCursor& node) {
@@ -35,10 +37,14 @@ bool NPathComplexityRule::isMethodNPathHigh(CXCursor& node) {
   return getNPathOfCursor(node) > maxAllowedNPath();
 }
 
-void NPathComplexityRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void NPathComplexityRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (decl && isMethodDefination(decl) && isMethodNPathHigh(node)) {
-    string description = "NPath Complexity Number " + StringHelper::convertIntToString(getNPathOfCursor(node)) + " exceeds limit of " + StringHelper::convertIntToString(maxAllowedNPath()) + ".";
+    string description = "NPath Complexity Number " 
+      + StringHelper::convertIntToString(getNPathOfCursor(node)) 
+      + " exceeds limit of " 
+      + StringHelper::convertIntToString(maxAllowedNPath()) + ".";
     violationSet.addViolation(node, this, description);
   }
 }

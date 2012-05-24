@@ -18,13 +18,17 @@ RuleSet LongParameterListRule::rules(new LongParameterListRule());
 
 int LongParameterListRule::maxAllowedNumberOfParameters() {
   string key = "NUMBER_OF_PARAMETERS";
-  return RuleConfiguration::hasKey(key) ? atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_PARAMS;
+  return RuleConfiguration::hasKey(key) ? 
+    atoi(RuleConfiguration::valueForKey(key).c_str()) : 
+    DEFAULT_MAX_ALLOWED_PARAMS;
 }
 
 int LongParameterListRule::numberOfParameters(Decl *decl) {
   if (decl) {
     ObjCMethodDecl *objcMethodDecl = dyn_cast<ObjCMethodDecl>(decl);
-    if (objcMethodDecl && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl) && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
+    if (objcMethodDecl 
+      && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl) 
+      && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
       return objcMethodDecl->getNumSelectorLocs();
     }
     
@@ -36,10 +40,14 @@ int LongParameterListRule::numberOfParameters(Decl *decl) {
   return 0;
 }
 
-void LongParameterListRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void LongParameterListRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Decl *decl = CursorHelper::getDecl(node);
   if (numberOfParameters(decl) > maxAllowedNumberOfParameters()) {
-    string description = "Method of " + StringHelper::convertIntToString(numberOfParameters(decl)) + " parameters exceeds limit of " + StringHelper::convertIntToString(maxAllowedNumberOfParameters()) + ".";
+    string description = "Method of " 
+      + StringHelper::convertIntToString(numberOfParameters(decl)) 
+      + " parameters exceeds limit of " 
+      + StringHelper::convertIntToString(maxAllowedNumberOfParameters()) + ".";
     violationSet.addViolation(node, this, description);
   }
 }

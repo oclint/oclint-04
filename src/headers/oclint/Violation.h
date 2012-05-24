@@ -15,7 +15,10 @@ public:
   const Rule *rule;
   string description;
 
-  Violation(const CXCursor& currentNode, Rule *violatedRule, const string& detailDescription = "");
+  Violation(
+    const CXCursor& currentNode, 
+    Rule *violatedRule, 
+    const string& detailDescription = "");
 };
 
 #endif

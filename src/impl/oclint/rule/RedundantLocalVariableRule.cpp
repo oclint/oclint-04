@@ -18,9 +18,11 @@ NamedDecl* RedundantLocalVariableRule::extractFromReturnStmt(Stmt *stmt) {
   if (returnStmt) {
     Expr *returnValue = returnStmt->getRetValue();
     if (returnValue) {
-      ImplicitCastExpr *implicitCastExpr = dyn_cast<ImplicitCastExpr>(returnValue);
+      ImplicitCastExpr *implicitCastExpr = 
+        dyn_cast<ImplicitCastExpr>(returnValue);
       if (implicitCastExpr) {
-        DeclRefExpr *returnExpr = dyn_cast<DeclRefExpr>(implicitCastExpr->getSubExpr());
+        DeclRefExpr *returnExpr = 
+          dyn_cast<DeclRefExpr>(implicitCastExpr->getSubExpr());
         if (returnExpr) {
           return returnExpr->getFoundDecl();
         }
@@ -42,13 +44,15 @@ NamedDecl* RedundantLocalVariableRule::extractFromDeclStmt(Stmt *stmt) {
   return NULL;
 }
 
-void RedundantLocalVariableRule::apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+void RedundantLocalVariableRule::apply(
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
   Stmt *stmt = CursorHelper::getStmt(node);
   Stmt *parentStmt = CursorHelper::getStmt(parentNode);
   if (stmt && parentStmt) {
     NamedDecl *returnDeclRef = extractFromReturnStmt(stmt);
     NamedDecl *namedDecl = extractFromDeclStmt(parentStmt);
-    if (returnDeclRef && namedDecl && returnDeclRef->getName().equals(namedDecl->getName())) {
+    if (returnDeclRef && namedDecl 
+      && returnDeclRef->getName().equals(namedDecl->getName())) {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }

@@ -157,14 +157,16 @@ void Driver::consumeRuleConfigurations() {
     string configuration = argRuleConfiguration[i];
     int indexOfSeparator = configuration.find_last_of("=");
     string key = configuration.substr(0, indexOfSeparator);
-    string value = configuration.substr(indexOfSeparator + 1, configuration.size() - indexOfSeparator - 1);
+    string value = configuration.substr(
+      indexOfSeparator + 1, configuration.size() - indexOfSeparator - 1);
     RuleConfiguration::addConfiguration(key, value);
   }
 }
 
 void Driver::pushClangHeadersPath() {
   _compilerArguments.push_back("-I");
-  _compilerArguments.push_back(_executablePath + "/../lib/oclint/clang/include");
+  _compilerArguments.push_back(
+    _executablePath + "/../lib/oclint/clang/include");
 }
 
 void Driver::getCompilerArguments() {
@@ -213,7 +215,8 @@ int Driver::execute(ostream& out) {
   _benchmark->startAnalyzingCode();
   for (unsigned i = 0; i < argInputs.size(); i++) {
     char** argv = getArgv(_compilerArguments, argInputs[i]);
-    totalNumberOfSmells += executeFile(_compilerArguments.size() + 1, argv, out);
+    totalNumberOfSmells += 
+      executeFile(_compilerArguments.size() + 1, argv, out);
   }
   _benchmark->finishAnalyzingCode();
   out << reporter()->footer();

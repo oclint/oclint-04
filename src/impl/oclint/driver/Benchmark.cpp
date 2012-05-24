@@ -61,7 +61,8 @@ double Benchmark::renderReports() {
 }
 
 double Benchmark::sum() {
-  return consumeArguments() + loadRules() + clangInstance() + codeAnalysis() + renderReports();
+  return consumeArguments() + loadRules() + clangInstance() + codeAnalysis() 
+    + renderReports();
 }
 
 double Benchmark::difftimeval(timeval end, timeval start) {
