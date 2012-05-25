@@ -3,20 +3,22 @@
 
 #include "oclint/Rule.h"
 
-namespace clang {
+namespace clang
+{
   class Stmt;
 }
 
 using namespace clang;
 
-class UnreachableCodeRule : public Rule {
+class UnreachableCodeRule : public Rule
+{
 private:
   static RuleSet rules;
-  
+
   bool isBreakPoint(Stmt *stmt, CXCursor& parentNode);
   bool isLoopStmt(Stmt *stmt);
   bool isBreakOrContinueInLoopStatement(Stmt *stmt, CXCursor& parentNode);
-  
+
 public:
   virtual void apply(
     CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

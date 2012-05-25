@@ -3,10 +3,11 @@
 
 #include "oclint/Rule.h"
 
-class UnusedLocalVariableRule : public Rule {
+class UnusedLocalVariableRule : public Rule
+{
 private:
   static RuleSet rules;
-  
+
 public:
   virtual void apply(
     CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

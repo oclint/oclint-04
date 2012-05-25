@@ -10,10 +10,11 @@ class ViolationSet;
 
 using namespace std;
 
-class RuleSet {
+class RuleSet
+{
 private:
   static vector<Rule*>* _rules;
-  
+
 public:
   RuleSet(Rule* rule);
   static int numberOfRules();

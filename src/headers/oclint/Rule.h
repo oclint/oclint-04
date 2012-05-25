@@ -10,10 +10,13 @@ class RuleSet;
 
 using namespace std;
 
-class Rule {
+class Rule
+{
 public:
-  virtual ~Rule() {}
-  
+  virtual ~Rule()
+  {
+  }
+
   virtual void apply(
     CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) = 0;
 

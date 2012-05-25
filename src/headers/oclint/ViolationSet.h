@@ -11,10 +11,11 @@ class Rule;
 
 using namespace std;
 
-class ViolationSet {
+class ViolationSet
+{
 private:
   vector<Violation> _violations;
-  
+
 public:
   void addViolation(const Violation& violation);
   void addViolation(

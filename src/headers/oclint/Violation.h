@@ -9,15 +9,16 @@ class Rule;
 
 using namespace std;
 
-class Violation {
+class Violation
+{
 public:
   CXCursor cursor;
   const Rule *rule;
   string description;
 
   Violation(
-    const CXCursor& currentNode, 
-    Rule *violatedRule, 
+    const CXCursor& currentNode,
+    Rule *violatedRule,
     const string& detailDescription = "");
 };
 

@@ -3,20 +3,22 @@
 
 #include "oclint/Rule.h"
 
-namespace clang {
+namespace clang
+{
   class NamedDecl;
   class Stmt;
 }
 
 using namespace clang;
 
-class RedundantLocalVariableRule : public Rule {
+class RedundantLocalVariableRule : public Rule
+{
 private:
   static RuleSet rules;
-  
+
   NamedDecl* extractFromReturnStmt(Stmt *stmt);
   NamedDecl* extractFromDeclStmt(Stmt *stmt);
-  
+
 public:
   virtual void apply(
     CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

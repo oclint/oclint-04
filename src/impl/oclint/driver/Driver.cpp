@@ -14,25 +14,29 @@
 #include "oclint/helper/DriverHelper.h"
 #include "oclint/driver/Benchmark.h"
 
-static void versionPrinter() {
+static void versionPrinter()
+{
   cout << "OCLint (http://oclint.org/):" << endl
     << "  oclint version " << oclint_version() << endl
     << "  llvm version " << llvm_version() << endl;
 }
 
-static void parseCommandLineOptions(int argc, char* argv[]) {
+static void parseCommandLineOptions(int argc, char* argv[])
+{
   cl::SetVersionPrinter(versionPrinter);
   cl::ParseCommandLineOptions(argc, argv, 
     "OCLint, a static code analysis tool for Objective-C and related languages\n");
 }
 
-int Driver::main(int argc, char* argv[]) {
+int Driver::main(int argc, char* argv[])
+{
   _benchmark = new Benchmark();
   main1(argc, argv);
   return main2();
 }
 
-void Driver::main1(int argc, char* argv[]) {
+void Driver::main1(int argc, char* argv[])
+{
   _benchmark->startConsumingArguments();
   parseCommandLineOptions(argc, argv);
   _benchmark->finishConsumingArguments();
@@ -41,29 +45,36 @@ void Driver::main1(int argc, char* argv[]) {
   consumeRuleConfigurations();
 }
 
-int Driver::main2() {
-  if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0) {
-    try {
+int Driver::main2()
+{
+  if (consumeArgRulesPath() == 0 && RuleSet::numberOfRules() > 0)
+  {
+    try
+    {
       ostream *out = outStream();
       int returnValue = execute(*out);
       disposeOutStream(out);
-      if (AreStatisticsEnabled()) {
+      if (AreStatisticsEnabled())
+      {
         dumpBenchmarks();
       }
       return returnValue;
     }
-    catch (GenericException& ex) {
+    catch (GenericException& ex)
+    {
       cerr << "Exception: " << ex.message << endl;
       return -3;
     }
   }
-  else {
+  else
+  {
     cerr << "No rule found" << endl;
     return -2;
   }
 }
 
-void Driver::dumpBenchmarks() {
+void Driver::dumpBenchmarks()
+{
   cout << endl
     << "-------- Benchmark --------" << endl
     << "Consume Arguments: " << _benchmark->consumeArguments() << endl
@@ -74,16 +85,21 @@ void Driver::dumpBenchmarks() {
     << "Total: " << _benchmark->sum() << endl;
 }
 
-int Driver::dynamicLoadRules(string ruleDirPath) {
+int Driver::dynamicLoadRules(string ruleDirPath)
+{
   DIR *dp = opendir(ruleDirPath.c_str());
-  if (dp != NULL) {
+  if (dp != NULL)
+  {
     struct dirent *dirp;
-    while ((dirp = readdir(dp))) {
-      if (dirp->d_name[0] == '.') {
+    while ((dirp = readdir(dp)))
+    {
+      if (dirp->d_name[0] == '.')
+      {
         continue;
       }
       string rulePath = ruleDirPath + "/" + string(dirp->d_name);
-      if (dlopen(rulePath.c_str(), RTLD_NOW) == NULL) {
+      if (dlopen(rulePath.c_str(), RTLD_NOW) == NULL)
+      {
         cerr << dlerror() << endl;
         closedir(dp);
         return 3;
@@ -94,14 +110,17 @@ int Driver::dynamicLoadRules(string ruleDirPath) {
   return 0;
 }
 
-int Driver::consumeArgRulesPath() {
-  if (argRulesPath.size() == 0) {
+int Driver::consumeArgRulesPath()
+{
+  if (argRulesPath.size() == 0)
+  {
     return loadRulesFromDefaultRulePath();
   }
   return loadRulesFromCustomRulePaths();
 }
 
-int Driver::loadRulesFromDefaultRulePath() {
+int Driver::loadRulesFromDefaultRulePath()
+{
   _benchmark->startLoadingRules();
   string defaultRulePath = _executablePath + "/../lib/oclint/rules";
   int errorCode = dynamicLoadRules(defaultRulePath);
@@ -109,51 +128,63 @@ int Driver::loadRulesFromDefaultRulePath() {
   return errorCode;
 }
 
-int Driver::loadRulesFromCustomRulePaths() {
+int Driver::loadRulesFromCustomRulePaths()
+{
   _benchmark->startLoadingRules();
   int returnFlag = 0;
-  for (unsigned i = 0; i < argRulesPath.size() && returnFlag == 0; ++i) {
+  for (unsigned i = 0; i < argRulesPath.size() && returnFlag == 0; ++i)
+  {
     returnFlag = dynamicLoadRules(argRulesPath[i]);
   }
   _benchmark->finishLoadingRules();
   return returnFlag;
 }
 
-void Driver::consumeEnableARC() {
-  if (argARCSupport) {
+void Driver::consumeEnableARC()
+{
+  if (argARCSupport)
+  {
     _compilerArguments.push_back("-fobjc-arc");
   }
 }
 
-void Driver::consumeOptArgument(string argKey, string argValue) {
-  if (argValue != "-") {
+void Driver::consumeOptArgument(string argKey, string argValue)
+{
+  if (argValue != "-")
+  {
     _compilerArguments.push_back("-" + argKey);
     _compilerArguments.push_back(argValue);
   }
 }
 
-void Driver::consumeListArgument(string argKey, vector<string> argValues) {
-  for (unsigned i = 0; i < argValues.size(); ++i) {
+void Driver::consumeListArgument(string argKey, vector<string> argValues)
+{
+  for (unsigned i = 0; i < argValues.size(); ++i)
+  {
     _compilerArguments.push_back("-" + argKey);
     _compilerArguments.push_back(argValues[i]);
   }
 }
 
-void Driver::consumeOptArguments() {
+void Driver::consumeOptArguments()
+{
   consumeOptArgument("x", argLanguageType);
   consumeOptArgument("arch", argArch);
   consumeOptArgument("isysroot", argSysroot);
 }
 
-void Driver::consumeListArguments() {
+void Driver::consumeListArguments()
+{
   consumeListArgument("D", argMacros);
   consumeListArgument("F", argFrameworkSearchPath);
   consumeListArgument("include", argIncludes);
   consumeListArgument("I", argIncludeSearchPath);
 }
 
-void Driver::consumeRuleConfigurations() {
-  for (unsigned i = 0; i < argRuleConfiguration.size(); ++i) {
+void Driver::consumeRuleConfigurations()
+{
+  for (unsigned i = 0; i < argRuleConfiguration.size(); ++i)
+  {
     string configuration = argRuleConfiguration[i];
     int indexOfSeparator = configuration.find_last_of("=");
     string key = configuration.substr(0, indexOfSeparator);
@@ -163,57 +194,68 @@ void Driver::consumeRuleConfigurations() {
   }
 }
 
-void Driver::pushClangHeadersPath() {
+void Driver::pushClangHeadersPath()
+{
   _compilerArguments.push_back("-I");
   _compilerArguments.push_back(
     _executablePath + "/../lib/oclint/clang/include");
 }
 
-void Driver::getCompilerArguments() {
+void Driver::getCompilerArguments()
+{
   consumeOptArguments();
   consumeListArguments();
   pushClangHeadersPath();
   consumeEnableARC();
 }
 
-Reporter* Driver::reporter() {
-  if (argReportType == html) {
+Reporter* Driver::reporter()
+{
+  if (argReportType == html)
+  {
     return new HTMLReporter();
   }
   return new PlainTextReporter();
 }
 
-int Driver::reportSmells(ClangInstance& instance, ostream& out) {
+int Driver::reportSmells(ClangInstance& instance, ostream& out)
+{
   int numberOfSmells = 0;
-  if (instance.hasWarnings()) {
+  if (instance.hasWarnings())
+  {
     out << instance.reportWarnings(*reporter());
     numberOfSmells += instance.warnings().size();
   }
   SmellFinder smellFinder;
-  if (smellFinder.hasSmell(instance.getTranslationUnit())) {
+  if (smellFinder.hasSmell(instance.getTranslationUnit()))
+  {
     out << smellFinder.reportSmells(*reporter());
     numberOfSmells += smellFinder.numberOfViolations();
   }
   return numberOfSmells;
 }
 
-int Driver::executeFile(int argc, char** argv, ostream& out) {
+int Driver::executeFile(int argc, char** argv, ostream& out)
+{
   ClangInstance instance;
   _benchmark->startParsingSourceCode();
   instance.compileSourceFileToTranslationUnit(argv, argc);
   _benchmark->finishParsingSourceCode();
-  if (instance.hasErrors()) {
+  if (instance.hasErrors())
+  {
     out << instance.reportErrors(*reporter());
     return instance.errors().size();
   }
   return reportSmells(instance, out);
 }
 
-int Driver::execute(ostream& out) {
+int Driver::execute(ostream& out)
+{
   int totalNumberOfSmells = 0;
   out << reporter()->header();
   _benchmark->startAnalyzingCode();
-  for (unsigned i = 0; i < argInputs.size(); i++) {
+  for (unsigned i = 0; i < argInputs.size(); i++)
+  {
     char** argv = getArgv(_compilerArguments, argInputs[i]);
     totalNumberOfSmells += 
       executeFile(_compilerArguments.size() + 1, argv, out);
@@ -223,19 +265,24 @@ int Driver::execute(ostream& out) {
   return totalNumberOfSmells;
 }
 
-ostream* Driver::outStream() {
-  if (argOutput == "-") {
+ostream* Driver::outStream()
+{
+  if (argOutput == "-")
+  {
     return &cout;
   }
   ofstream *out = new ofstream(argOutput.c_str());
-  if (!out->is_open()) {
+  if (!out->is_open())
+  {
     throw GenericException("Cannot open file " + argOutput);
   }
   return out;
 }
 
-void Driver::disposeOutStream(ostream* out) {
-  if (out && argOutput != "-") {
+void Driver::disposeOutStream(ostream* out)
+{
+  if (out && argOutput != "-")
+  {
     ofstream *fout = (ofstream *)out;
     fout->close();
   }

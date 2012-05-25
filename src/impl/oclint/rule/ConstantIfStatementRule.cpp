@@ -14,16 +14,20 @@ using namespace clang;
 RuleSet ConstantIfStatementRule::rules(new ConstantIfStatementRule());
 
 void ConstantIfStatementRule::apply(
-  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet)
+{
   Stmt *stmt = CursorHelper::getStmt(node);
-  if (stmt) {
+  if (stmt)
+  {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
-    if (ifStmt) {
+    if (ifStmt)
+    {
       Expr *conditionExpression = ifStmt->getCond();
-      
+
       bool evaluatedResult;
       if (conditionExpression->EvaluateAsBooleanCondition(
-        evaluatedResult, CursorHelper::getASTContext(node))) {
+        evaluatedResult, CursorHelper::getASTContext(node)))
+      {
         Violation violation(node, this);
         violationSet.addViolation(violation);
       }
@@ -31,6 +35,7 @@ void ConstantIfStatementRule::apply(
   }
 }
 
-const string ConstantIfStatementRule::name() const {
+const string ConstantIfStatementRule::name() const
+{
   return "constant if statement";
 }

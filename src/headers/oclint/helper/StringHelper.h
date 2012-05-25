@@ -5,7 +5,8 @@
 
 using namespace std;
 
-class StringHelper {
+class StringHelper
+{
 public:
   static string convertIntToString(int number);
 };

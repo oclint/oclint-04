@@ -16,24 +16,29 @@
 
 RuleSet LongParameterListRule::rules(new LongParameterListRule());
 
-int LongParameterListRule::maxAllowedNumberOfParameters() {
+int LongParameterListRule::maxAllowedNumberOfParameters()
+{
   string key = "NUMBER_OF_PARAMETERS";
-  return RuleConfiguration::hasKey(key) ? 
-    atoi(RuleConfiguration::valueForKey(key).c_str()) : 
+  return RuleConfiguration::hasKey(key) ?
+    atoi(RuleConfiguration::valueForKey(key).c_str()) :
     DEFAULT_MAX_ALLOWED_PARAMS;
 }
 
-int LongParameterListRule::numberOfParameters(Decl *decl) {
-  if (decl) {
+int LongParameterListRule::numberOfParameters(Decl *decl)
+{
+  if (decl)
+  {
     ObjCMethodDecl *objcMethodDecl = dyn_cast<ObjCMethodDecl>(decl);
-    if (objcMethodDecl 
-      && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl) 
-      && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl)) {
+    if (objcMethodDecl
+      && !DeclHelper::isObjCMethodDeclaredInSuperClass(objcMethodDecl)
+      && !DeclHelper::isObjCMethodDeclaredInProtocol(objcMethodDecl))
+    {
       return objcMethodDecl->getNumSelectorLocs();
     }
-    
+
     FunctionDecl *cppMethodDecl = dyn_cast<FunctionDecl>(decl);
-    if (cppMethodDecl) {
+    if (cppMethodDecl)
+    {
       return cppMethodDecl->getNumParams();
     }
   }
@@ -41,17 +46,21 @@ int LongParameterListRule::numberOfParameters(Decl *decl) {
 }
 
 void LongParameterListRule::apply(
-  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet)
+{
   Decl *decl = CursorHelper::getDecl(node);
-  if (numberOfParameters(decl) > maxAllowedNumberOfParameters()) {
-    string description = "Method of " 
-      + StringHelper::convertIntToString(numberOfParameters(decl)) 
-      + " parameters exceeds limit of " 
+  if (numberOfParameters(decl) > maxAllowedNumberOfParameters())
+  {
+    string description = "Method of "
+      + StringHelper::convertIntToString(numberOfParameters(decl))
+      + " parameters exceeds limit of "
       + StringHelper::convertIntToString(maxAllowedNumberOfParameters()) + ".";
     violationSet.addViolation(node, this, description);
   }
 }
 
-const string LongParameterListRule::name() const {
+const string LongParameterListRule::name() const
+{
   return "long parameter list";
 }
+

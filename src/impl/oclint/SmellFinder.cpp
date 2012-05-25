@@ -7,22 +7,28 @@
 #include "oclint/RuleSet.h"
 #include "oclint/helper/CursorHelper.h"
 
-SmellFinder::SmellFinder() {
+SmellFinder::SmellFinder()
+{
   _violationSet = new ViolationSet();
 }
 
-SmellFinder::~SmellFinder() {
+SmellFinder::~SmellFinder()
+{
   delete _violationSet;
 }
 
-bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
-  if (!translationUnit) {
+bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const
+{
+  if (!translationUnit)
+  {
     throw GenericException("Inspect on an empty translation unit!");
   }
   clang_visitChildrenWithBlock(
-    clang_getTranslationUnitCursor(translationUnit), 
-    ^(CXCursor node, CXCursor parentNode) {
-      if (CursorHelper::isCursorDeclaredInCurrentFile(node)) {
+    clang_getTranslationUnitCursor(translationUnit),
+    ^(CXCursor node, CXCursor parentNode)
+    {
+      if (CursorHelper::isCursorDeclaredInCurrentFile(node))
+      {
         RuleSet::apply(node, parentNode, *_violationSet);
         return CXChildVisit_Recurse;
       }
@@ -31,10 +37,13 @@ bool SmellFinder::hasSmell(const CXTranslationUnit& translationUnit) const {
   return numberOfViolations();
 }
 
-int SmellFinder::numberOfViolations() const {
+int SmellFinder::numberOfViolations() const
+{
   return _violationSet->numberOfViolations();
 }
 
-const string SmellFinder::reportSmells(const Reporter& reporter) const {
+const string SmellFinder::reportSmells(const Reporter& reporter) const
+{
   return reporter.reportViolations(_violationSet->getViolations());
 }
+

@@ -3,7 +3,8 @@
 
 #include <sys/time.h>
 
-class Benchmark {
+class Benchmark
+{
 private:
   timeval consumeArguments_start;
   timeval consumeArguments_end;

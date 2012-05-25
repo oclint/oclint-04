@@ -5,7 +5,8 @@
 
 #include <clang-c/Index.h>
 
-namespace clang {
+namespace clang
+{
   class Decl;
   class Stmt;
   class Expr;
@@ -15,10 +16,11 @@ namespace clang {
 using namespace clang;
 using namespace std;
 
-class CursorHelper {
+class CursorHelper
+{
 private:
   static string itoa(int i);
-  
+
 public:
   static Decl* getDecl(CXCursor node);
   static Stmt* getStmt(CXCursor node);

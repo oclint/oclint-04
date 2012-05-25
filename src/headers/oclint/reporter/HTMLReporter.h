@@ -3,7 +3,8 @@
 
 #include "oclint/Reporter.h"
 
-class HTMLReporter : public Reporter {
+class HTMLReporter : public Reporter
+{
 public:
   virtual const string header() const;
   virtual const string reportDiagnostics(

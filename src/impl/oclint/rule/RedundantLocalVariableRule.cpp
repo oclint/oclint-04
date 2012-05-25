@@ -13,17 +13,22 @@ using namespace clang;
 
 RuleSet RedundantLocalVariableRule::rules(new RedundantLocalVariableRule());
 
-NamedDecl* RedundantLocalVariableRule::extractFromReturnStmt(Stmt *stmt) {
+NamedDecl* RedundantLocalVariableRule::extractFromReturnStmt(Stmt *stmt)
+{
   ReturnStmt *returnStmt = dyn_cast<ReturnStmt>(stmt);
-  if (returnStmt) {
+  if (returnStmt)
+  {
     Expr *returnValue = returnStmt->getRetValue();
-    if (returnValue) {
-      ImplicitCastExpr *implicitCastExpr = 
+    if (returnValue)
+    {
+      ImplicitCastExpr *implicitCastExpr =
         dyn_cast<ImplicitCastExpr>(returnValue);
-      if (implicitCastExpr) {
-        DeclRefExpr *returnExpr = 
+      if (implicitCastExpr)
+      {
+        DeclRefExpr *returnExpr =
           dyn_cast<DeclRefExpr>(implicitCastExpr->getSubExpr());
-        if (returnExpr) {
+        if (returnExpr)
+        {
           return returnExpr->getFoundDecl();
         }
       }
@@ -32,12 +37,15 @@ NamedDecl* RedundantLocalVariableRule::extractFromReturnStmt(Stmt *stmt) {
   return NULL;
 }
 
-NamedDecl* RedundantLocalVariableRule::extractFromDeclStmt(Stmt *stmt) {
+NamedDecl* RedundantLocalVariableRule::extractFromDeclStmt(Stmt *stmt)
+{
   CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(stmt);
-  if (compoundStmt && compoundStmt->size() >= 2) {
+  if (compoundStmt && compoundStmt->size() >= 2)
+  {
     Stmt *lastSecondStmt = (Stmt *)*(compoundStmt->body_end() - 2);
     DeclStmt *declStmt = dyn_cast<DeclStmt>(lastSecondStmt);
-    if (declStmt && declStmt->isSingleDecl()) {
+    if (declStmt && declStmt->isSingleDecl())
+    {
       return dyn_cast<NamedDecl>(declStmt->getSingleDecl());
     }
   }
@@ -45,20 +53,25 @@ NamedDecl* RedundantLocalVariableRule::extractFromDeclStmt(Stmt *stmt) {
 }
 
 void RedundantLocalVariableRule::apply(
-  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet)
+{
   Stmt *stmt = CursorHelper::getStmt(node);
   Stmt *parentStmt = CursorHelper::getStmt(parentNode);
-  if (stmt && parentStmt) {
+  if (stmt && parentStmt)
+  {
     NamedDecl *returnDeclRef = extractFromReturnStmt(stmt);
     NamedDecl *namedDecl = extractFromDeclStmt(parentStmt);
     if (returnDeclRef && namedDecl 
-      && returnDeclRef->getName().equals(namedDecl->getName())) {
+      && returnDeclRef->getName().equals(namedDecl->getName()))
+    {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }
   }
 }
 
-const string RedundantLocalVariableRule::name() const {
+const string RedundantLocalVariableRule::name() const
+{
   return "redundant local variable";
 }
+

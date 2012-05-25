@@ -15,7 +15,8 @@ class Benchmark;
 
 using namespace std;
 
-class Driver {
+class Driver
+{
 public:
   int main(int argc, char* argv[]);
 

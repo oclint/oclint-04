@@ -11,8 +11,10 @@ using namespace clang;
 
 RuleSet EmptyIfStatementRule::rules(new EmptyIfStatementRule());
 
-bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
-  if (stmt) {
+bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt)
+{
+  if (stmt)
+  {
     CompoundStmt *compoundStmt = dyn_cast<CompoundStmt>(stmt);
     return isa<NullStmt>(stmt) || (compoundStmt && compoundStmt->body_empty());
   }
@@ -20,18 +22,22 @@ bool EmptyIfStatementRule::isLexicalEmpty(Stmt *stmt) {
 }
 
 void EmptyIfStatementRule::apply(
-  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet)
+{
   Stmt *stmt = CursorHelper::getStmt(node);
-  if (stmt) {
+  if (stmt)
+  {
     IfStmt *ifStmt = dyn_cast<IfStmt>(stmt);
-    if (ifStmt && (isLexicalEmpty(ifStmt->getThen()) 
-      || isLexicalEmpty(ifStmt->getElse()))) {
+    if (ifStmt && (isLexicalEmpty(ifStmt->getThen())
+      || isLexicalEmpty(ifStmt->getElse())))
+    {
       Violation violation(node, this);
       violationSet.addViolation(violation);
     }
   }
 }
 
-const string EmptyIfStatementRule::name() const {
+const string EmptyIfStatementRule::name() const
+{
   return "empty if statement";
 }

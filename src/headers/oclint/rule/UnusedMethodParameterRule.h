@@ -3,17 +3,19 @@
 
 #include "oclint/Rule.h"
 
-namespace clang {
+namespace clang
+{
   class DeclContext;
   class ParmVarDecl;
 }
 
 using namespace clang;
 
-class UnusedMethodParameterRule : public Rule {
+class UnusedMethodParameterRule : public Rule
+{
 private:
   static RuleSet rules;
-  
+
   bool isFunctionDeclaration(DeclContext *context);
   bool isBlockDeclaration(DeclContext *context);
   bool isObjCMethodDeclaration(DeclContext *context);
@@ -22,7 +24,7 @@ private:
   bool isCppOverrideFunction(DeclContext *context);
   bool isExistingByContract(ParmVarDecl *decl);
   bool isExistingByContract(DeclContext *context);
-  
+
 public:
   virtual void apply(
     CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);

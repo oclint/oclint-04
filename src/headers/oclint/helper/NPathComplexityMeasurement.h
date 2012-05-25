@@ -3,7 +3,8 @@
 
 #include <clang-c/Index.h>
 
-namespace clang {
+namespace clang
+{
   class Stmt;
   class CompoundStmt;
   class IfStmt;
@@ -12,7 +13,7 @@ namespace clang {
   class ForStmt;
   class SwitchStmt;
   class ObjCForCollectionStmt;
-  
+
   class Expr;
   class ConditionalOperator;
   class BinaryOperator;
@@ -21,7 +22,8 @@ namespace clang {
 
 using namespace clang;
 
-class NPathComplexityMeasurement {
+class NPathComplexityMeasurement
+{
 private:
   static int nPath(Stmt *node);
   static int nPath(CompoundStmt *stmt);
@@ -31,12 +33,12 @@ private:
   static int nPath(ForStmt *stmt);
   static int nPath(SwitchStmt *stmt);
   static int nPath(ObjCForCollectionStmt *stmt);
-  
+
   static int nPath(Expr *node);
   static int nPath(ConditionalOperator *expr);
   static int nPath(BinaryOperator *expr);
   static int nPath(ParenExpr *expr);
-  
+
 public:
   static int getNPathOfCursor(CXCursor cursor);
 

@@ -3,16 +3,18 @@
 
 #include <clang-c/Index.h>
 
-namespace clang {
+namespace clang
+{
   class Stmt;
   class Expr;
 }
 
-class CyclomaticComplexityMeasurement {
+class CyclomaticComplexityMeasurement
+{
 private:
   static bool isDecisionPoint(clang::Stmt *stmt);
   static bool isDecisionPoint(clang::Expr *expr);
-  
+
 public:
   static int getCCNOfCursor(CXCursor node);
 };

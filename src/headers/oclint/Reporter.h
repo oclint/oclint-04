@@ -10,10 +10,13 @@ class Violation;
 
 using namespace std;
 
-class Reporter {
+class Reporter
+{
 public:
-  virtual ~Reporter() {}
-  
+  virtual ~Reporter()
+  {
+  }
+
   virtual const string header() const = 0;
   virtual const string reportDiagnostics(
     const vector<CXDiagnostic>& diagnostics) const = 0;

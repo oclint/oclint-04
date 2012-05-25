@@ -13,8 +13,10 @@ using namespace clang;
 
 #define DISPATH(STMT_TYPE) if (isa<STMT_TYPE>(node)) return nPath(dyn_cast<STMT_TYPE>(node))
 
-int NPathComplexityMeasurement::nPath(Stmt *node) {
-  if (node) {
+int NPathComplexityMeasurement::nPath(Stmt *node)
+{
+  if (node)
+  {
     DISPATH(CompoundStmt);
     DISPATH(IfStmt);
     DISPATH(WhileStmt);
@@ -26,35 +28,42 @@ int NPathComplexityMeasurement::nPath(Stmt *node) {
   return 1;
 }
 
-int NPathComplexityMeasurement::nPath(CompoundStmt *stmt) {
+int NPathComplexityMeasurement::nPath(CompoundStmt *stmt)
+{
   int npath = 1;
-  for (CompoundStmt::body_iterator body = stmt->body_begin(), 
-    bodyEnd = stmt->body_end(); 
-    body != bodyEnd; 
-    body++) {
+  for (CompoundStmt::body_iterator body = stmt->body_begin(),
+    bodyEnd = stmt->body_end();
+    body != bodyEnd;
+    body++)
+  {
     npath *= nPath(*body);
   }
   return npath;
 }
 
-int NPathComplexityMeasurement::nPath(IfStmt *stmt) {
+int NPathComplexityMeasurement::nPath(IfStmt *stmt)
+{
   int nPathElseStmt = 1;
   Stmt *elseStmt = stmt->getElse();
-  if (elseStmt) {
+  if (elseStmt)
+  {
     nPathElseStmt = nPath(elseStmt);
   }
   return nPath(stmt->getCond()) + nPath(stmt->getThen()) + nPathElseStmt;
 }
 
-int NPathComplexityMeasurement::nPath(WhileStmt *stmt) {
+int NPathComplexityMeasurement::nPath(WhileStmt *stmt)
+{
   return nPath(stmt->getCond()) + nPath(stmt->getBody()) + 1;
 }
 
-int NPathComplexityMeasurement::nPath(DoStmt *stmt) {
+int NPathComplexityMeasurement::nPath(DoStmt *stmt)
+{
   return nPath(stmt->getCond()) + nPath(stmt->getBody()) + 1;
 }
 
-int NPathComplexityMeasurement::nPath(ForStmt *stmt) {
+int NPathComplexityMeasurement::nPath(ForStmt *stmt)
+{
   // TODO: 
   // Base on Nejmeh's NPATH, the first expression is used to initialize a loop control variable,
   // But the first child node for For statment is a statement in Clang's AST.
@@ -78,11 +87,12 @@ int NPathComplexityMeasurement::nPath(ForStmt *stmt) {
   // As a conclusion, in my opinion, same logic in different formats should not reduce the complexity
   // However, here, I will follow Nejmeh's NPath
   
-  return nPath(stmt->getInit()) + nPath(stmt->getCond()) + nPath(stmt->getInc()) 
+  return nPath(stmt->getInit()) + nPath(stmt->getCond()) + nPath(stmt->getInc())
           + nPath(stmt->getBody()) + 1;
 }
 
-int NPathComplexityMeasurement::nPath(ObjCForCollectionStmt *stmt) {
+int NPathComplexityMeasurement::nPath(ObjCForCollectionStmt *stmt)
+{
   // If we convert a foreach loop to a simple for loop, it will looks like
   // for (int i = 0; i < [anArray count]; i++) {
   //   id it = [anArray objectAtIndex:i];
@@ -94,27 +104,33 @@ int NPathComplexityMeasurement::nPath(ObjCForCollectionStmt *stmt) {
   return nPath(stmt->getBody()) + 2;
 }
 
-int NPathComplexityMeasurement::nPath(SwitchStmt *stmt) {
+int NPathComplexityMeasurement::nPath(SwitchStmt *stmt)
+{
   int internalNPath = 0, nPathSwitchStmt = nPath(stmt->getCond());
   CompoundStmt *body = (CompoundStmt *)stmt->getBody();
-  for (CompoundStmt::body_iterator bodyStmt = body->body_begin(), 
-    bodyStmtEnd = body->body_end(); 
-    bodyStmt != bodyStmtEnd; 
-    bodyStmt++) {
-    if (isa<SwitchCase>(*bodyStmt)) {
+  for (CompoundStmt::body_iterator bodyStmt = body->body_begin(),
+    bodyStmtEnd = body->body_end();
+    bodyStmt != bodyStmtEnd;
+    bodyStmt++)
+  {
+    if (isa<SwitchCase>(*bodyStmt))
+    {
       SwitchCase *switchCase = dyn_cast<SwitchCase>(*bodyStmt);
       nPathSwitchStmt += internalNPath;
       internalNPath = nPath(switchCase->getSubStmt());
     }
-    else {
+    else
+    {
       internalNPath *= nPath(*bodyStmt);
     }
   }
   return nPathSwitchStmt + internalNPath;
 }
 
-int NPathComplexityMeasurement::nPath(Expr *node) {
-  if (node) {
+int NPathComplexityMeasurement::nPath(Expr *node)
+{
+  if (node)
+  {
     DISPATH(ConditionalOperator);
     DISPATH(BinaryOperator);
     DISPATH(ParenExpr);
@@ -122,49 +138,61 @@ int NPathComplexityMeasurement::nPath(Expr *node) {
   return 0;
 }
 
-int NPathComplexityMeasurement::nPath(ConditionalOperator *expr) {
+int NPathComplexityMeasurement::nPath(ConditionalOperator *expr)
+{
   return nPath(expr->getCond()) + nPath(expr->getTrueExpr())
     + nPath(expr->getFalseExpr()) + 2;
 }
 
-int NPathComplexityMeasurement::nPath(BinaryOperator *expr) {
-  if (expr->getOpcode() == BO_LAnd || expr->getOpcode() == BO_LOr) {
+int NPathComplexityMeasurement::nPath(BinaryOperator *expr)
+{
+  if (expr->getOpcode() == BO_LAnd || expr->getOpcode() == BO_LOr)
+  {
     return 1 + nPath(expr->getLHS()) + nPath(expr->getRHS());
   }
   return 0;
 }
 
-int NPathComplexityMeasurement::nPath(ParenExpr *expr) {
+int NPathComplexityMeasurement::nPath(ParenExpr *expr)
+{
   return nPath(expr->getSubExpr());
 }
 
-int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor) {
+int NPathComplexityMeasurement::getNPathOfCursor(CXCursor cursor)
+{
   CompoundStmt *compoundStmt = extractCompoundStmtFromCursor(cursor);
-  if (compoundStmt == NULL) {
+  if (compoundStmt == NULL)
+  {
     compoundStmt = extractCompoundStmtFromMethodDeclCursor(cursor);
   }
-  if (compoundStmt != NULL) {
+  if (compoundStmt != NULL)
+  {
     return nPath(compoundStmt);
   }
   return 1; // TODO: return 1 for now, will throw exceptions
 }
 
 CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromCursor(
-  CXCursor cursor) {
+  CXCursor cursor)
+{
   Stmt *stmt = CursorHelper::getStmt(cursor);
-  if (stmt && isa<CompoundStmt>(stmt)) {
+  if (stmt && isa<CompoundStmt>(stmt))
+  {
     return dyn_cast<CompoundStmt>(stmt);
   }
   return NULL;
 }
 
 CompoundStmt* NPathComplexityMeasurement::extractCompoundStmtFromMethodDeclCursor(
-  CXCursor cursor) {
+  CXCursor cursor)
+{
   Decl *decl = CursorHelper::getDecl(cursor);
-  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)) 
-    && decl->hasBody()) {
+  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))
+    && decl->hasBody())
+  {
     CompoundStmt *bodyStmt = dyn_cast<CompoundStmt>(decl->getBody());
-    if (bodyStmt) {
+    if (bodyStmt)
+    {
       return bodyStmt;
     }
   }

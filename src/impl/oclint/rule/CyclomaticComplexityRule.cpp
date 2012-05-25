@@ -26,26 +26,33 @@ using namespace clang;
 
 RuleSet CyclomaticComplexityRule::rules(new CyclomaticComplexityRule());
 
-int CyclomaticComplexityRule::maxAllowedCCN() {
+int CyclomaticComplexityRule::maxAllowedCCN()
+{
   string key = "CYCLOMATIC_COMPLEXITY";
-  return RuleConfiguration::hasKey(key) ? 
-    atoi(RuleConfiguration::valueForKey(key).c_str()) : DEFAULT_MAX_ALLOWED_CCN;
+  return RuleConfiguration::hasKey(key) ?
+    atoi(RuleConfiguration::valueForKey(key).c_str()) :
+    DEFAULT_MAX_ALLOWED_CCN;
 }
 
 void CyclomaticComplexityRule::apply(
-  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet) {
+  CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet)
+{
   Decl *decl = CursorHelper::getDecl(node);
-  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl))) {
+  if (decl && (isa<ObjCMethodDecl>(decl) || isa<FunctionDecl>(decl)))
+  {
     int ccn = CyclomaticComplexityMeasurement::getCCNOfCursor(node);
-    if (ccn > maxAllowedCCN()) {
-      string description = "Cyclomatic Complexity Number " 
-        + StringHelper::convertIntToString(ccn) + " exceeds limit of " 
+    if (ccn > maxAllowedCCN())
+    {
+      string description = "Cyclomatic Complexity Number "
+        + StringHelper::convertIntToString(ccn) + " exceeds limit of "
         + StringHelper::convertIntToString(maxAllowedCCN()) + ".";
       violationSet.addViolation(node, this, description);
     }
   }
 }
 
-const string CyclomaticComplexityRule::name() const {
+const string CyclomaticComplexityRule::name() const
+{
   return "high cyclomatic complexity";
 }
+

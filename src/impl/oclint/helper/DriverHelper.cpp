@@ -5,12 +5,15 @@
 #include <llvm/Support/Program.h>
 #include <llvm/Support/FileSystem.h>
 
-string getExecutablePath(char *argv) {
+string getExecutablePath(char *argv)
+{
   llvm::SmallString<128> installedPath(argv);
-  if (llvm::sys::path::filename(installedPath) == installedPath) {
+  if (llvm::sys::path::filename(installedPath) == installedPath)
+  {
     llvm::sys::Path intermediatePath = llvm::sys::Program::FindProgramByName(
       llvm::sys::path::filename(installedPath.str()));
-    if (!intermediatePath.empty()) {
+    if (!intermediatePath.empty())
+    {
       installedPath = intermediatePath.str();
     }
   }
@@ -19,17 +22,20 @@ string getExecutablePath(char *argv) {
   return string(installedPath.c_str());
 }
 
-char* safeCStr(string str) {
+char* safeCStr(string str)
+{
   char *argv = new char[str.size() + 1];
   strncpy(argv, str.c_str(), str.size());
   argv[str.size()] = '\0';
   return argv;
 }
 
-char** getArgv(vector<string> argVector, string input) {
+char** getArgv(vector<string> argVector, string input)
+{
   char** argv = new char*[argVector.size() + 1];
   unsigned i;
-  for (i = 0; i < argVector.size(); i++) {
+  for (i = 0; i < argVector.size(); i++)
+  {
     argv[i] = safeCStr(argVector[i]);
   }
   argv[i] = safeCStr(input);
