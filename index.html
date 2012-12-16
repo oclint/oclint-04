@@ -8,16 +8,16 @@
   <title>OCLint, a static source code analysis tool for Objective-C and related languages</title>
   <meta name="author" content="Longyi Qi">
 
-  
+
   <meta name="description" content="OCLint is a static code analysis tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential &hellip;">
-  
+
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
+
   <link rel="canonical" href="http://oclint.org/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
   <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
+
 </ul>
 <ul class="main-navigation">
   <li><a href="/">Home</a></li>
@@ -52,10 +52,10 @@
   <div id="main">
     <div id="content">
       <div class="index">
-  
+
   <article>
   <p>OCLint is a <a href="http://en.wikipedia.org/wiki/Static_program_analysis">static code analysis</a> tool for improving quality and reducing defects by inspecting Objective-C/C++/C code and looking for potential problems like:</p>
-  
+
   <ul>
     <li>Possible bugs - empty if/else/try/catch/finally statements</li>
     <li>Unused code - unused local variables and parameters</li>
@@ -63,24 +63,26 @@
     <li>Code smells - long method, long parameter list, redundant code</li>
     <li>&#8230;</li>
   </ul>
-  
+
   <p>Currently, it is a standalone tool that runs on Mac OS X 10.6+, and allows command line invocation to facilitate <a href="http://martinfowler.com/articles/continuousIntegration.html">continuous integration</a> and continuous inspection of the code while being developed.</p>
 
   <p>OCLint is far from finished, and under continuously improvement. OCLint can be safely deloyed to development environment, and we really appreciate it for your early adoption. We warmly welcome all kinds of feedbacks.</p>
 
-  <h3 style="color:blue">Status</h3>
+  <h3 style="color:blue">News</h3>
+  <p>[2011-12-16] The OCLint code repository has been moved to <a href="https://github.com/oclint">https://github.com/oclint</a>. I really recommend you checkout the code of the new version, build it and give it a try. Your feedback is sincerely appreciated. There are still a few things we want to polish before generating the production package. Meanwhile, the updated document and website are under development.</p>
+
   <p>[2011-11-09] Many people asked the status of this project as there is no update recently. First of all, thank you a lot for your interests and support of this project. Now, here is a clarification: we are working very hard on a big re-design of OCLint. The changes are big, like switching libClang to libTooling, a better way of traversing AST, writing custom rules becomes easier, and more - it's hard to mention all the changes in one sentence or two. Our goal is to release the new version by the end of the year, and of course, the new code will be open source, too. We have a few people testing the new version internally, and we are improving based on the feedback. Since I receive more emails ask if there is a chance to use the new version, we now provide a very early preview version for <a href="http://archives.longyiqi.com/projects/oclint/pre/oclint-0.6-mac-pre-121109.zip">Mac</a> and <a href="http://archives.longyiqi.com/projects/oclint/pre/oclint-0.6-ubuntu-pre-121109.tar.gz">Linux</a> (We have extracted a small ruleset to reduce the file size). However, we couldn't provide any document or help for this preview version, please understand we are working hard on releasing it in another month.</p>
-  
+
   <h3>Download</h3>
   <p><a class="downloadnow" href="https://github.com/downloads/longyiqi/oclint/oclint-0.4.2.pkg"><strong>Download Now!</strong><em>Version 0.4.2 for Mac OS X 10.6+</em></a></p>
-  
+
   <h3>Documentation</h3>
   <p>OCLint is easy to setup and configure, <a href="/docs">start here</a>. OCLint triggers violations based on rules, you can always click the <a href="/rules">link</a> in the navigation bar to get <a href="/rules">an overview of all rules</a>.</p>
-  
+
   <h3>Inspirations</h3>
   <p>We&#8217;re inspired by the wonderful static analysis tools like <a href="http://pmd.sourceforge.net/" target="_BLANK">P.M.D.</a> for Java and <a href="http://codenarc.sourceforge.net/" target="_BLANK">CodeNarc</a> for Groovy, as well as the smart code inspections performed by Jetbrains <a href="http://www.jetbrains.com/idea/" target="_BLANK">IntelliJ IDEA</a> and <a href="http://www.jetbrains.com/objc/" target="_BLANK">AppCode</a>.</p>
   </article>
-  
+
 </div>
 
     </div>
@@ -91,7 +93,7 @@
 </p>
 
 </footer>
-  
+
 
 
 
