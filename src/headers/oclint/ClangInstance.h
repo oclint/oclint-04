@@ -4,26 +4,28 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include <clang-c/Index.h>
 
 class Reporter;
 
-class ClangInstance {
+using namespace std;
+
+class ClangInstance
+{
 private:
   CXIndex _index;
   CXTranslationUnit _translationUnit;
-  
+
   ClangInstance(const ClangInstance&);
   ClangInstance& operator=(const ClangInstance&);
-  
-  const string reportDiagnostics(const vector<CXDiagnostic> diagnostics, const Reporter& reporter);
+
+  const string reportDiagnostics(
+    const vector<CXDiagnostic> diagnostics, const Reporter& reporter);
 
 public:
   ClangInstance();
   virtual ~ClangInstance();
-  
+
   void compileSourceFileToTranslationUnit(const char * const * argv, int argc);
   bool hasDiagnostics() const;
   const vector<CXDiagnostic> diagnostics() const;

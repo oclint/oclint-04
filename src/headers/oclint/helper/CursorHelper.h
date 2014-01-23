@@ -1,10 +1,12 @@
 #ifndef OCLINT_HELPER_CURSORHELPER_H
 #define OCLINT_HELPER_CURSORHELPER_H
 
-#include <clang-c/Index.h>
 #include <string>
 
-namespace clang {
+#include <clang-c/Index.h>
+
+namespace clang
+{
   class Decl;
   class Stmt;
   class Expr;
@@ -14,10 +16,11 @@ namespace clang {
 using namespace clang;
 using namespace std;
 
-class CursorHelper {
+class CursorHelper
+{
 private:
   static string itoa(int i);
-  
+
 public:
   static Decl* getDecl(CXCursor node);
   static Stmt* getStmt(CXCursor node);

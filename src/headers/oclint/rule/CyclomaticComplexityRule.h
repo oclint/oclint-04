@@ -3,14 +3,16 @@
 
 #include "oclint/Rule.h"
 
-class CyclomaticComplexityRule : public Rule {
+class CyclomaticComplexityRule : public Rule
+{
 private:
   static RuleSet rules;
-  
+
   int maxAllowedCCN();
-  
+
 public:
-  virtual void apply(CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
+  virtual void apply(
+    CXCursor& node, CXCursor& parentNode, ViolationSet& violationSet);
   virtual const string name() const;
 };
 

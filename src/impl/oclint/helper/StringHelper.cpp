@@ -4,7 +4,8 @@
 
 using namespace std;
 
-string StringHelper::convertIntToString(int number) {
+string StringHelper::convertIntToString(int number)
+{
   stringstream buffer;
   buffer << number;
   return buffer.str();

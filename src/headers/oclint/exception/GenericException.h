@@ -5,10 +5,11 @@
 
 using namespace std;
 
-class GenericException {
-public:    
+class GenericException
+{
+public:
   const string message;
-  
+
   GenericException(const string& exceptionMessage);
 };
 

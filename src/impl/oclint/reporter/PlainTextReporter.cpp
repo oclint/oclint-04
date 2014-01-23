@@ -1,24 +1,33 @@
+#include "oclint/reporter/PlainTextReporter.h"
+
 #include "oclint/Violation.h"
 #include "oclint/Rule.h"
-#include "oclint/reporter/PlainTextReporter.h"
 #include "oclint/helper/CursorHelper.h"
 #include "oclint/Version.h"
 
-const string PlainTextReporter::header() const {
+const string PlainTextReporter::header() const
+{
   return "OCLint Report:\n\n";
 }
 
-const string PlainTextReporter::footer() const {
+const string PlainTextReporter::footer() const
+{
   return "\n[OCLint (http://oclint.org) v" + oclint_version() + "]\n";
 }
 
-const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& diagnostics) const {
+const string PlainTextReporter::reportDiagnostics(
+  const vector<CXDiagnostic>& diagnostics) const
+{
   string formatedDiagnostics;
   unsigned displayOptions = CXDiagnostic_DisplaySourceLocation
     | CXDiagnostic_DisplayColumn | CXDiagnostic_DisplaySourceRanges
     | CXDiagnostic_DisplayOption;
-  for (int index = 0, numberOfDiagnostics = diagnostics.size(); index < numberOfDiagnostics; index++) {
-    CXString diagnostic = clang_formatDiagnostic(diagnostics.at(index), displayOptions);
+  for (int index = 0, numberOfDiagnostics = diagnostics.size();
+    index < numberOfDiagnostics;
+    index++)
+  {
+    CXString diagnostic =
+      clang_formatDiagnostic(diagnostics.at(index), displayOptions);
     formatedDiagnostics += clang_getCString(diagnostic);
     formatedDiagnostics += '\n';
     clang_disposeString(diagnostic);
@@ -26,16 +35,23 @@ const string PlainTextReporter::reportDiagnostics(const vector<CXDiagnostic>& di
   return formatedDiagnostics;
 }
 
-const string PlainTextReporter::reportViolations(const vector<Violation>& violations) const {
+const string PlainTextReporter::reportViolations(
+  const vector<Violation>& violations) const
+{
   string formatedViolations;
-  for (int index = 0, numberOfViolations = violations.size(); index < numberOfViolations; index++) {
+  for (int index = 0, numberOfViolations = violations.size();
+    index < numberOfViolations;
+    index++)
+  {
     Violation violation = violations.at(index);
     formatedViolations += cursorLocationToPlainText(violation.cursor);
     formatedViolations += ": oclint: ";
-    if (violation.description == "") {
+    if (violation.description == "")
+    {
       formatedViolations += violation.rule->name();
     }
-    else {
+    else
+    {
       formatedViolations += violation.description;
     }
     formatedViolations += '\n';
@@ -43,6 +59,10 @@ const string PlainTextReporter::reportViolations(const vector<Violation>& violat
   return formatedViolations;
 }
 
-const string PlainTextReporter::cursorLocationToPlainText(const CXCursor& cursor) const {
-  return CursorHelper::getFileName(cursor) + ":" + CursorHelper::getLineNumber(cursor) + ":" + CursorHelper::getColumnNumber(cursor);
+const string PlainTextReporter::cursorLocationToPlainText(
+  const CXCursor& cursor) const
+{
+  return CursorHelper::getFileName(cursor)
+    + ":" + CursorHelper::getLineNumber(cursor)
+    + ":" + CursorHelper::getColumnNumber(cursor);
 }

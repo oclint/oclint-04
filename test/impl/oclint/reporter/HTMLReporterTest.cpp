@@ -20,8 +20,9 @@ void HTMLReporterTest::tearDown() {
 }
 
 void HTMLReporterTest::testHeader() {
-  TS_ASSERT_EQUALS(_reporter->header(), "<html>\n<head>\n<title>OCLint Report</title>\n</head>\n<body>\n<h1>OCLint Report</h1>\n<ul>\n\
-    <table><tr><td>Rule Name</td><td>File Name</td><td>Line</td><td>Column</td><td>Description</td></tr>");
+  TS_ASSERT_EQUALS(_reporter->header(), "<html>\n<head>\n<title>OCLint Report</title>\n</head>\n<body>\n\
+    <h1>OCLint Report</h1>\n<ul>\n<table><tr><td>Rule Name</td>\
+    <td>File Name</td><td>Line</td><td>Column</td><td>Description</td></tr>");
 }
 
 void HTMLReporterTest::testFooter() {

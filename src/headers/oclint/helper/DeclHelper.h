@@ -3,14 +3,16 @@
 
 #include <clang-c/Index.h>
 
-namespace clang {
+namespace clang
+{
   class ObjCMethodDecl;
   class CXXMethodDecl;
 }
 
 using namespace clang;
 
-class DeclHelper {
+class DeclHelper
+{
 public:
   static bool isObjCMethodDeclaredInSuperClass(ObjCMethodDecl *decl);
   static bool isObjCMethodDeclaredInProtocol(ObjCMethodDecl *decl);

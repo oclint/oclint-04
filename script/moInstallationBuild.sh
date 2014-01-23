@@ -1,8 +1,9 @@
 #! /bin/bash
 
-MAJOR_VERSION=0.4.1
+MAJOR_VERSION=0.4.3
 AUTO_INCREASE_VERSION=`git log --oneline | wc -l | sed 's/ //g'`
-CURRENT_VERSION="oclint.$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
+CURRENT_VERSION="$MAJOR_VERSION.$AUTO_INCREASE_VERSION"
+OCLINT_CURRENT_VERSION="oclint.$CURRENT_VERSION"
 
 SUCCESS=0
 INSTALLATION_PATH=$1
@@ -30,9 +31,15 @@ fi
 if [ $SUCCESS -eq 0 ]; then
   mkdir -p lib/oclint/clang
   cp ../llvm/lib/liblibclang.3.1.dylib lib/oclint/clang/
-  mkdir -p "$INSTALLATION_PATH/$CURRENT_VERSION"
-  cp -r bin "$INSTALLATION_PATH/$CURRENT_VERSION/bin"
-  cp -r lib "$INSTALLATION_PATH/$CURRENT_VERSION/lib"
+  cp -r ../llvm/lib/clang/3.1/include lib/oclint/clang/
+  mkdir -p "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION"
+  cp -r bin "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION/bin"
+  cp -r lib "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION/lib"
+  mkdir -p resources
+  head -n 28 ../../LICENSE | tail -n 24 > resources/License.txt
+  /Developer/usr/bin/packagemaker --title "OCLint" --version $CURRENT_VERSION --filter "\.DS_Store" --root-volume-only --domain system --verbose --no-relocate -l /usr --id org.oclint.pkg --root "$INSTALLATION_PATH/$OCLINT_CURRENT_VERSION" --resources ./resources --out "$INSTALLATION_PATH/oclint-$CURRENT_VERSION.pkg"
+  cd "$INSTALLATION_PATH"
+  zip -r "oclint-$MAJOR_VERSION.pkg.zip" "oclint-$CURRENT_VERSION.pkg"
 fi
 cd $CWD
 exit $SUCCESS

@@ -5,6 +5,7 @@ target_link_libraries(oclint
   OCLintException
   OCLintReporter
   OCLintHelper
+  OCLintDriver
   ${OCLINT_COMMON_LINK_LIB}
   dl
   )
